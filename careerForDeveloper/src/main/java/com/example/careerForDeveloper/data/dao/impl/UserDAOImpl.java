@@ -22,4 +22,11 @@ public class UserDAOImpl implements UserDAO {
 
         return savedUser;
     }
+
+    @Override
+    public User selectUser(String email){
+        User findUser = userRepository.findByEmail(email);
+
+        return findUser;
+    }
 }
