@@ -25,10 +25,11 @@ public enum BaseResponseStatus {
     USERS_USERS_FAILED_NICK(false, 2007, "닉네임 글자 수를 확인해주세요."),
     USERS_USERS_FAILED_PWD(false, 2008, "비밀번호 글자 수를 확인해주세요."),
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
-    USERS_FAILED_USER_ID(false, 2011, "없는 유저 아이디 값입니다."),
+    USERS_FAILED_GET_USER_INFO(false, 2011, "유저 정보 확인에 실패했습니다."),
     USERS_FAILED_POST_ID(false, 2060, "해당 포스트를 작성한 유저가 아닙니다."),
     USERS_DUPLICATED_ID(false, 2061, "중복된 아이디입니다."),
     USERS_DUPLICATED_NICK(false, 2062, "중복된 닉네임입니다."),
+    USERS_DELETE_FAIL(false, 2063, "회원 탈퇴 실패하였습니다."),
 
 
     // posts

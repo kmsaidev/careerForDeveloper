@@ -3,20 +3,18 @@ package com.example.careerForDeveloper.service.impl;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.UserDAO;
+import com.example.careerForDeveloper.data.dto.DeleteUserDto;
 import com.example.careerForDeveloper.data.dto.LoginDto;
 import com.example.careerForDeveloper.data.dto.UserDto;
 import com.example.careerForDeveloper.data.dto.UserResponseDto;
 import com.example.careerForDeveloper.data.entity.User;
-import com.example.careerForDeveloper.data.repository.UserRepository;
 import com.example.careerForDeveloper.service.UserService;
 import com.example.careerForDeveloper.util.JwtService;
 import com.example.careerForDeveloper.util.SHA256;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto login(LoginDto loginDto) throws BaseException {
-        User findUser = userDAO.selectUser(loginDto.getEmail());
+        User findUser = userDAO.selectUserByEmail(loginDto.getEmail());
         String encryptPwd;
         UserResponseDto userResponseDto = new UserResponseDto();
         if(findUser == null)
@@ -72,5 +70,27 @@ public class UserServiceImpl implements UserService {
             }
         }
         return userResponseDto;
+    }
+
+    @Override
+    public void deleteUser(DeleteUserDto deleteUserDto) throws BaseException{
+        User user;
+        String encryptPwd;
+        long userId = deleteUserDto.getUserId();
+        try {
+            user = userDAO.selectUserById(userId);
+            try {
+                encryptPwd = SHA256.encrypt(deleteUserDto.getPwd());
+            } catch (Exception e) {
+                throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
+            }
+        } catch(BaseException exception){
+            throw new BaseException(BaseResponseStatus.USERS_DELETE_FAIL);
+        }
+        if (encryptPwd.equals(user.getPwd())){
+            userDAO.deleteUser(userId);
+        } else{
+            throw new BaseException(BaseResponseStatus.USERS_DELETE_FAIL);
+        }
     }
 }

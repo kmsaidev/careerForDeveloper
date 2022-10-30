@@ -7,8 +7,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDto {
-    private String email;
-    private String nickname;
-    private String pwd;
+public class DeleteUserDto {
+    long userId;
+    String pwd;
+
+    public DeleteUserDto(String pwd){
+        this.pwd = pwd;
+    }
 }

@@ -1,9 +1,14 @@
 package com.example.careerForDeveloper.data.dao;
 
+import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.data.entity.User;
 
 public interface UserDAO {
     User createUser(User user);
 
-    User selectUser(String email);
+    User selectUserByEmail(String email);
+
+    User selectUserById(long userId) throws BaseException;
+
+    void deleteUser(long userId) throws BaseException;
 }
