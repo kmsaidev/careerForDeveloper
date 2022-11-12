@@ -28,6 +28,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User updateUserRefreshToken(long userId, String refreshToken) throws BaseException{
+        User findUser = selectUserById(userId);
+        findUser.setRefreshToken(refreshToken);
+        User updatedUser = userRepository.save(findUser);
+
+        return updatedUser;
+    }
+
+    @Override
     public User selectUserByEmail(String email){
         User findUser = userRepository.findByEmail(email);
 

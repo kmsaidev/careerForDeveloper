@@ -94,7 +94,8 @@ public enum BaseResponseStatus {
 
 
     // 5000 : 필요시 만들어서 쓰세요
-    LOGIN_TIME_OUT_ERROR(false, 5001, "로그인 시간이 만료되었습니다.");
+    LOGIN_TIME_OUT_ERROR(false, 5001, "로그인 시간이 만료되었습니다."),
+    ACCESS_TOKEN_REISSUE_FAIL(false, 5002, "토큰 재발급에 실패하였습니다.");
     // 6000 : 필요시 만들어서 쓰세요
 
 
