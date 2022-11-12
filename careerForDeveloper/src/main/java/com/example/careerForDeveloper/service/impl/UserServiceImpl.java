@@ -35,7 +35,11 @@ public class UserServiceImpl implements UserService {
             throw new BaseException(BaseResponseStatus.USERS_USERS_FAILED_PWD);
         user.setEmail(userDto.getEmail());
         user.setNickname(userDto.getNickname());
-        pwd = new SHA256().encrypt(pwd);
+        try {
+            pwd = new SHA256().encrypt(pwd);
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
+        }
         user.setPwd(pwd);
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setStatus("ACTIVE");
