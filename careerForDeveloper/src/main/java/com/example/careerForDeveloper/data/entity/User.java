@@ -47,6 +47,9 @@ public class User {
     @Column(length = 200)
     private String introduce;
 
+    @Column(length = 200)
+    private String refreshToken;
+
     @Builder
     public User(String email, String pwd, String nickname, Timestamp createdAt){
         this.email = email;

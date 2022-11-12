@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
         String accessToken = jwtService.createAccessToken(savedUserId);
         String refreshToken = jwtService.createRefreshToken(savedUserId);
 
+        userDAO.updateUserRefreshToken(savedUserId, refreshToken);
         return new UserResponseDto(accessToken, refreshToken);
     }
 
@@ -79,6 +80,7 @@ public class UserServiceImpl implements UserService {
                 String refreshToken = jwtService.createRefreshToken(userId);
                 userResponseDto.setAccessToken(accessToken);
                 userResponseDto.setRefreshToken(refreshToken);
+                userDAO.updateUserRefreshToken(userId, refreshToken);
             } else{
                 throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);
             }

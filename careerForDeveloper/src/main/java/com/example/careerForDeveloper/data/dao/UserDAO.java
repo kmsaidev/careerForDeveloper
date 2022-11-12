@@ -6,6 +6,8 @@ import com.example.careerForDeveloper.data.entity.User;
 public interface UserDAO {
     User createUser(User user);
 
+    User updateUserRefreshToken(long userId, String refreshToken) throws BaseException;
+
     User selectUserByEmail(String email);
 
     User selectUserById(long userId) throws BaseException;
