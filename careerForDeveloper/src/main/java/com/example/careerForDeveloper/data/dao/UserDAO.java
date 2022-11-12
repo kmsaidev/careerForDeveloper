@@ -11,4 +11,8 @@ public interface UserDAO {
     User selectUserById(long userId) throws BaseException;
 
     void deleteUser(long userId) throws BaseException;
+
+    boolean existsByEmail(String email);
+
+    boolean existsByNickname(String nickname);
 }

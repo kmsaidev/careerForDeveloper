@@ -55,4 +55,14 @@ public class UserDAOImpl implements UserDAO {
             throw new BaseException(BaseResponseStatus.USERS_DELETE_FAIL);
         }
     }
+
+    @Override
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByNickname(String nickname){
+        return userRepository.existsByNickname(nickname);
+    }
 }

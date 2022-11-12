@@ -31,10 +31,17 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto saveUser(UserDto userDto) throws BaseException{
         User user = new User();
         String pwd = userDto.getPwd();
+        String email = userDto.getEmail();
+        String nickname = userDto.getNickname();
         if(pwd.length() < 8 || pwd.length() > 20)
             throw new BaseException(BaseResponseStatus.USERS_USERS_FAILED_PWD);
-        user.setEmail(userDto.getEmail());
-        user.setNickname(userDto.getNickname());
+        else if(userDAO.existsByEmail(email))
+            throw new BaseException(BaseResponseStatus.USERS_DUPLICATED_EMAIL);
+        else if(userDAO.existsByNickname(nickname))
+            throw new BaseException(BaseResponseStatus.USERS_DUPLICATED_NICKNAME);
+
+        user.setEmail(email);
+        user.setNickname(nickname);
         try {
             pwd = new SHA256().encrypt(pwd);
         } catch (Exception e) {
