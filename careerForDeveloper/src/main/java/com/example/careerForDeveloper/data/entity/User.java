@@ -32,7 +32,7 @@ public class User {
     @Column(length = 20, nullable = false)
     private String nickname;
 
-    private Byte[] profileImage;
+    private String profileImageLoc;
 
     @OneToOne
     @JoinColumn(name = "profile_id")

@@ -2,14 +2,12 @@ package com.example.careerForDeveloper.controller;
 
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
-import com.example.careerForDeveloper.data.dto.DeleteUserDto;
-import com.example.careerForDeveloper.data.dto.LoginDto;
-import com.example.careerForDeveloper.data.dto.UserDto;
-import com.example.careerForDeveloper.data.dto.UserResponseDto;
+import com.example.careerForDeveloper.data.dto.*;
 import com.example.careerForDeveloper.service.UserService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/users")
@@ -53,6 +51,19 @@ public class UserController {
             deleteUserDto.setUserId(userIdByJwt);
             userService.deleteUser(deleteUserDto);
             return new BaseResponse<>("성공적으로 삭제되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PutMapping("")
+    public BaseResponse<String> updateUser(@RequestPart UpdateUserDto updateUserDto,
+                                           @RequestPart MultipartFile profileImage) throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updateUserDto.setUserId(userIdByJwt);
+            userService.updateUser(updateUserDto, profileImage);
+            return new BaseResponse<>("성공적으로 수정되었습니다.");
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

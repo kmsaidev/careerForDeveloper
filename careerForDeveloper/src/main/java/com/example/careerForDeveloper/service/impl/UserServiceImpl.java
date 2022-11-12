@@ -3,17 +3,18 @@ package com.example.careerForDeveloper.service.impl;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.UserDAO;
-import com.example.careerForDeveloper.data.dto.DeleteUserDto;
-import com.example.careerForDeveloper.data.dto.LoginDto;
-import com.example.careerForDeveloper.data.dto.UserDto;
-import com.example.careerForDeveloper.data.dto.UserResponseDto;
+import com.example.careerForDeveloper.data.dto.*;
 import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.service.UserService;
 import com.example.careerForDeveloper.util.JwtService;
 import com.example.careerForDeveloper.util.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 
 @Service
@@ -108,5 +109,26 @@ public class UserServiceImpl implements UserService {
         } else{
             throw new BaseException(BaseResponseStatus.USERS_DELETE_FAIL);
         }
+    }
+    public void updateUser(UpdateUserDto updateUserDto, MultipartFile profileImage) throws BaseException{
+        String pwd = updateUserDto.getPwd();
+        String encryptPwd;
+        long userId = updateUserDto.getUserId();
+        if(pwd.length() < 8 || pwd.length() > 20)
+            throw new BaseException(BaseResponseStatus.USERS_USERS_FAILED_PWD);
+        try {
+            encryptPwd = SHA256.encrypt(pwd);
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
+        }
+        String fileName = profileImage.getOriginalFilename();
+        String path = "C:/spring/image/";
+        Path imagePath = Paths.get(path + fileName);
+        try{
+            Files.write(imagePath, profileImage.getBytes());
+        } catch (Exception e){
+            throw new BaseException(BaseResponseStatus.USERS_FAILED_STORE_PROFILE_IMAGE);
+        }
+        userDAO.updateUser(userId, path + fileName, updateUserDto.getNickname(), encryptPwd);
     }
 }
