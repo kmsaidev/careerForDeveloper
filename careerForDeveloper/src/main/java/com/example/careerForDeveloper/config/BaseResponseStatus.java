@@ -31,6 +31,8 @@ public enum BaseResponseStatus {
     USERS_DUPLICATED_NICKNAME(false, 2062, "중복된 닉네임입니다."),
     USERS_DELETE_FAIL(false, 2063, "회원 탈퇴 실패하였습니다."),
     USERS_FAILED_EMAIL_CERTIFICATION(false, 2064, "이메일 인증 실패하였습니다."),
+    USERS_FAILED_STORE_PROFILE_IMAGE(false, 2065, "프로필 이미지 저장 실패하였습니다."),
+
 
 
     // posts
