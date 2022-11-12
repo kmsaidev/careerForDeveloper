@@ -28,11 +28,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto saveUser(UserDto userDto){
+    public UserResponseDto saveUser(UserDto userDto) throws BaseException{
         User user = new User();
+        String pwd = userDto.getPwd();
+        if(pwd.length() < 8 || pwd.length() > 20)
+            throw new BaseException(BaseResponseStatus.USERS_USERS_FAILED_PWD);
         user.setEmail(userDto.getEmail());
-        user.setNickname(userDto.getEmail());
-        String pwd = new SHA256().encrypt(userDto.getPwd());
+        user.setNickname(userDto.getNickname());
+        pwd = new SHA256().encrypt(pwd);
         user.setPwd(pwd);
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         user.setStatus("ACTIVE");
