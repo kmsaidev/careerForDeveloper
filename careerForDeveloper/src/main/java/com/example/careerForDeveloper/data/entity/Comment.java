@@ -21,11 +21,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 

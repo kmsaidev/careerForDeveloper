@@ -2,10 +2,9 @@ package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
 import com.example.careerForDeveloper.data.dto.PostDto;
+import com.example.careerForDeveloper.data.dto.AllPostResponseDto;
 import com.example.careerForDeveloper.data.dto.PostResponseDto;
-import com.example.careerForDeveloper.data.dto.UserResponseDto;
 import com.example.careerForDeveloper.service.PostService;
-import com.example.careerForDeveloper.service.UserService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +39,23 @@ public class PostController {
     }
 
     @GetMapping("")
-    public BaseResponse<List<PostResponseDto>> getAllPosts() throws BaseException{
+    public BaseResponse<List<AllPostResponseDto>> getAllPosts() throws BaseException{
         try {
-            List<PostResponseDto> postList = postService.getAllPosts();
+            List<AllPostResponseDto> postList = postService.getAllPosts();
             return new BaseResponse<>(postList);
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @GetMapping("/post")
+    public BaseResponse<PostResponseDto> getPost(@RequestParam long postId) throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            PostResponseDto postResponseDto = postService.getPost(postId, userIdByJwt);
+
+            postResponseDto.setMyPost(postResponseDto.getUserId() == userIdByJwt);
+            return new BaseResponse<>(postResponseDto);
         } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
