@@ -7,5 +7,6 @@ import com.example.careerForDeveloper.data.entity.Post;
 import java.util.List;
 
 public interface CommentAnswerDAO {
+    CommentAnswer createCommentAnswer(CommentAnswer commentAnswer);
     List<CommentAnswer> selectAllCommentAnswerByComment(Comment comment);
 }

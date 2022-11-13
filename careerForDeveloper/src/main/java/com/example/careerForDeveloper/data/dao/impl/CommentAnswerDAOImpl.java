@@ -20,6 +20,10 @@ public class CommentAnswerDAOImpl implements CommentAnswerDAO {
     }
 
     @Override
+    public CommentAnswer createCommentAnswer(CommentAnswer commentAnswer){
+        return commentAnswerRepository.save(commentAnswer);
+    }
+    @Override
     public List<CommentAnswer> selectAllCommentAnswerByComment(Comment comment){
         return commentAnswerRepository.getAllByComment(comment);
     }

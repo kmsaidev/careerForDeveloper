@@ -136,4 +136,17 @@ public class PostServiceImpl implements PostService {
         Comment savedComment = commentDAO.createComment(comment);
         return savedComment.getCommentId();
     }
+
+    @Override
+    public long saveCommentAnswer(CommentAnswerDto commentAnswerDto) throws BaseException{
+        CommentAnswer commentAnswer = new CommentAnswer();
+        commentAnswer.setContents(commentAnswerDto.getContents());
+        commentAnswer.setUser(userDAO.selectUserById(commentAnswerDto.getUserId()));
+        commentAnswer.setComment(commentDAO.selectCommentById(commentAnswerDto.getCommentId()));
+        commentAnswer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        commentAnswer.setStatus("ACTIVE");
+
+        CommentAnswer savedCommentAnswer = commentAnswerDAO.createCommentAnswer(commentAnswer);
+        return savedCommentAnswer.getCommentAnswerId();
+    }
 }

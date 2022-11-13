@@ -22,9 +22,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User createUser(User user){
-        User savedUser = userRepository.save(user);
-
-        return savedUser;
+        return userRepository.save(user);
     }
 
     @Override
@@ -38,9 +36,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User selectUserByEmail(String email){
-        User findUser = userRepository.findByEmail(email);
-
-        return findUser;
+        return userRepository.findByEmail(email);
     }
 
     @Override
