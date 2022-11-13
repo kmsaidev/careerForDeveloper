@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CommentAnswerDto {
+public class CommentAnswerResponseDto {
     String profileImageLoc;
     String nickname;
     String contents;
