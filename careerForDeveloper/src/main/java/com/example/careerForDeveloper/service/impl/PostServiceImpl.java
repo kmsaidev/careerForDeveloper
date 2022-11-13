@@ -42,6 +42,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    @Override
     public long savePost(PostDto postDto, MultipartFile attachedFile) throws BaseException {
         Post post = new Post();
         post.setTitle(postDto.getTitle());
@@ -65,6 +66,7 @@ public class PostServiceImpl implements PostService {
         return savedPost.getPostId();
     }
 
+    @Override
     public List<AllPostResponseDto> getAllPosts() throws BaseException{
         List<AllPostResponseDto> result = new ArrayList<>();
         List<Post> postList = postDAO.selectAllPost();
@@ -83,8 +85,9 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
+    @Override
     public PostResponseDto getPost(long postId, long userId) throws BaseException{
-        Post post = postDAO.selectPost(postId);
+        Post post = postDAO.selectPostById(postId);
         List<Comment> commentList = commentDAO.selectAllCommentByPost(post);
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         PostResponseDto result = new PostResponseDto();
@@ -99,14 +102,14 @@ public class PostServiceImpl implements PostService {
         long commentCount = 0;
         for(Comment comment : commentList){
             List<CommentAnswer> list = commentAnswerDAO.selectAllCommentAnswerByComment(comment);
-            List<CommentAnswerDto> commentAnswerList = new ArrayList<>();
+            List<CommentAnswerResponseDto> commentAnswerList = new ArrayList<>();
             for(CommentAnswer commentAnswer : list){
-                CommentAnswerDto commentAnswerDto = new CommentAnswerDto();
-                commentAnswerDto.setContents(commentAnswer.getContents());
-                commentAnswerDto.setNickname(commentAnswer.getUser().getNickname());
-                commentAnswerDto.setProfileImageLoc(commentAnswer.getUser().getProfileImageLoc());
-                commentAnswerDto.setMyCommentAnswer(commentAnswer.getUser().getUserId() == userId);
-                commentAnswerList.add(commentAnswerDto);
+                CommentAnswerResponseDto commentAnswerResponseDto = new CommentAnswerResponseDto();
+                commentAnswerResponseDto.setContents(commentAnswer.getContents());
+                commentAnswerResponseDto.setNickname(commentAnswer.getUser().getNickname());
+                commentAnswerResponseDto.setProfileImageLoc(commentAnswer.getUser().getProfileImageLoc());
+                commentAnswerResponseDto.setMyCommentAnswer(commentAnswer.getUser().getUserId() == userId);
+                commentAnswerList.add(commentAnswerResponseDto);
             }
             String contents = comment.getContents();
             String nickname = comment.getUser().getNickname();
@@ -119,5 +122,18 @@ public class PostServiceImpl implements PostService {
         result.setCommentList(commentResponseDtoList);
         result.setCommentCount(commentCount);
         return result;
+    }
+
+    @Override
+    public long saveComment(CommentDto commentDto) throws BaseException{
+        Comment comment = new Comment();
+        comment.setContents(commentDto.getContents());
+        comment.setUser(userDAO.selectUserById(commentDto.getUserId()));
+        comment.setPost(postDAO.selectPostById(commentDto.getPostId()));
+        comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        comment.setStatus("ACTIVE");
+
+        Comment savedComment = commentDAO.createComment(comment);
+        return savedComment.getCommentId();
     }
 }

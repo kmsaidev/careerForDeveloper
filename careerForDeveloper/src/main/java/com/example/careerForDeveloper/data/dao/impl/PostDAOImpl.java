@@ -35,7 +35,7 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public Post selectPost(long postId) throws BaseException{
+    public Post selectPostById(long postId) throws BaseException{
         Optional<Post> selectedPost = postRepository.findById(postId);
 
         if(selectedPost.isPresent()) {

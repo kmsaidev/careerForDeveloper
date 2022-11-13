@@ -1,6 +1,7 @@
 package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
+import com.example.careerForDeveloper.data.dto.CommentDto;
 import com.example.careerForDeveloper.data.dto.PostDto;
 import com.example.careerForDeveloper.data.dto.AllPostResponseDto;
 import com.example.careerForDeveloper.data.dto.PostResponseDto;
@@ -57,6 +58,19 @@ public class PostController {
             postResponseDto.setMyPost(postResponseDto.getUserId() == userIdByJwt);
             return new BaseResponse<>(postResponseDto);
         } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PostMapping("/comment")
+    public BaseResponse<Long> createComment(@RequestBody CommentDto commentDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+
+            commentDto.setUserId(userIdByJwt);
+            long commentId = postService.saveComment(commentDto);
+            return new BaseResponse<>(commentId);
+        } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }

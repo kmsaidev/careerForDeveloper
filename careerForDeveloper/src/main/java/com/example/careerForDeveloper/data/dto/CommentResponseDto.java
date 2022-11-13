@@ -1,7 +1,5 @@
 package com.example.careerForDeveloper.data.dto;
 
-import com.example.careerForDeveloper.data.entity.Comment;
-import com.example.careerForDeveloper.data.entity.CommentAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +16,5 @@ public class CommentResponseDto {
     String nickname;
     String contents;
     boolean isMyComment;
-    List<CommentAnswerDto> commentAnswerList;
+    List<CommentAnswerResponseDto> commentAnswerList;
 }
