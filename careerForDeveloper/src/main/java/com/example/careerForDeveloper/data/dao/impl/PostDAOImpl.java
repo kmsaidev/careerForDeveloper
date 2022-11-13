@@ -8,6 +8,8 @@ import com.example.careerForDeveloper.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PostDAOImpl implements PostDAO {
     private final PostRepository postRepository;
@@ -22,5 +24,10 @@ public class PostDAOImpl implements PostDAO {
         Post savedPost = postRepository.save(post);
 
         return savedPost;
+    }
+
+    @Override
+    public List<Post> findAllPost(){
+        return postRepository.findAll();
     }
 }
