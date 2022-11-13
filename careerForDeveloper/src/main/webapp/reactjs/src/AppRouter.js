@@ -7,16 +7,16 @@ import {
 
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-// import App from "./components/App";
+import App from "./components/App";
 
 class AppRouter extends React.Component {
     render() {
         return (
             <Router>
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<App />} />
+                    <Route path="/login" element={<Login />}/>
                     <Route path="/signup" element={<Signup />} />
-                    {/*<Route path="/login" component={<Login />} />*/}
                 </Routes>
             </Router>
         );

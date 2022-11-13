@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 function Signup() {
 
@@ -9,7 +10,15 @@ function Signup() {
 
     const SignupFunc = (e) => {
         e.preventDefault();
-        return alert("회원가입");
+        axios.post("/users",{
+                email: id,
+                pwd: password,
+                nickname: nickname
+            }
+        )
+            .then((res) => {
+                console.log(res);
+            });
     };
 
     return (
