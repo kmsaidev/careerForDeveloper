@@ -1,10 +1,7 @@
 package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
-import com.example.careerForDeveloper.data.dto.CommentDto;
-import com.example.careerForDeveloper.data.dto.PostDto;
-import com.example.careerForDeveloper.data.dto.AllPostResponseDto;
-import com.example.careerForDeveloper.data.dto.PostResponseDto;
+import com.example.careerForDeveloper.data.dto.*;
 import com.example.careerForDeveloper.service.PostService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +67,19 @@ public class PostController {
             commentDto.setUserId(userIdByJwt);
             long commentId = postService.saveComment(commentDto);
             return new BaseResponse<>(commentId);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PostMapping("/comment-answer")
+    public BaseResponse<Long> createCommentAnswer(@RequestBody CommentAnswerDto commentAnswerDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+
+            commentAnswerDto.setUserId(userIdByJwt);
+            long commentAnswerId = postService.saveCommentAnswer(commentAnswerDto);
+            return new BaseResponse<>(commentAnswerId);
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

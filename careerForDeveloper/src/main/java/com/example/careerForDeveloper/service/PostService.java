@@ -1,10 +1,7 @@
 package com.example.careerForDeveloper.service;
 
 import com.example.careerForDeveloper.config.BaseException;
-import com.example.careerForDeveloper.data.dto.CommentDto;
-import com.example.careerForDeveloper.data.dto.PostDto;
-import com.example.careerForDeveloper.data.dto.AllPostResponseDto;
-import com.example.careerForDeveloper.data.dto.PostResponseDto;
+import com.example.careerForDeveloper.data.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -16,4 +13,5 @@ public interface PostService {
     PostResponseDto getPost(long postId, long userId) throws BaseException;
 
     long saveComment(CommentDto commentDto) throws BaseException;
+    long saveCommentAnswer(CommentAnswerDto commentAnswerDto) throws BaseException;
 }

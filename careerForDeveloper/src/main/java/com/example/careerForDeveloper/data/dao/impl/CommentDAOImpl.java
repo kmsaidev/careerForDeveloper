@@ -24,9 +24,7 @@ public class CommentDAOImpl implements CommentDAO {
 
     @Override
     public Comment createComment(Comment comment){
-        Comment savedComment = commentRepository.save(comment);
-
-        return savedComment;
+        return commentRepository.save(comment);
     }
     @Override
     public long countCommentByPost(Post post){
@@ -36,5 +34,17 @@ public class CommentDAOImpl implements CommentDAO {
     @Override
     public List<Comment> selectAllCommentByPost(Post post){
         return commentRepository.getAllByPost(post);
+    }
+
+    @Override
+    public Comment selectCommentById(long commentId) throws BaseException{
+        Optional<Comment> selectedComment = commentRepository.findById(commentId);
+
+        if(selectedComment.isPresent()) {
+            Comment comment = selectedComment.get();
+            return comment;
+        } else {
+            throw new BaseException(BaseResponseStatus.COMMENT_FAILED_GET_COMMENT_INFO);
+        }
     }
 }
