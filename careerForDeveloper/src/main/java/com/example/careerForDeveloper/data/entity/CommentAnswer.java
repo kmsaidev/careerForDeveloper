@@ -15,24 +15,22 @@ import java.sql.Timestamp;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "post")
-public class Post {
+@Table(name = "comment_answer")
+public class CommentAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long postId;
+    private long commentAnswerId;
 
-    @Column(length = 100, nullable = false)
-    private String title;
-
-    @Column(length = 500)
-    private String fileLoc;
-
-    @Column(length = 5000, nullable = false)
-    private String contents;
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(length = 5000, nullable = false)
+    private String contents;
 
     @Column(nullable = false)
     private Timestamp createdAt;

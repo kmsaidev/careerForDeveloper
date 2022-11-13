@@ -1,28 +1,22 @@
 package com.example.careerForDeveloper.data.dto;
 
 import com.example.careerForDeveloper.data.entity.Comment;
+import com.example.careerForDeveloper.data.entity.CommentAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class PostResponseDto {
-    long postId;
-    String title;
-    String contents;
-    long userId;
-    String nickname;
+public class CommentResponseDto {
     String profileImageLoc;
-    Timestamp createdAt;
-    List<CommentResponseDto> commentList;
-    boolean isMyPost;
-    long commentCount;
+    String nickname;
+    String contents;
+    boolean isMyComment;
+    List<CommentAnswerDto> commentAnswerList;
 }

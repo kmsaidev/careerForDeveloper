@@ -1,5 +1,7 @@
 package com.example.careerForDeveloper.data.dao.impl;
 
+import com.example.careerForDeveloper.config.BaseException;
+import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.PostDAO;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.User;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PostDAOImpl implements PostDAO {
@@ -27,7 +30,19 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public List<Post> findAllPost(){
+    public List<Post> selectAllPost(){
         return postRepository.findAll();
+    }
+
+    @Override
+    public Post selectPost(long postId) throws BaseException{
+        Optional<Post> selectedPost = postRepository.findById(postId);
+
+        if(selectedPost.isPresent()) {
+            Post post = selectedPost.get();
+            return post;
+        } else {
+            throw new BaseException(BaseResponseStatus.POSTS_EMPTY_POST_ID);
+        }
     }
 }

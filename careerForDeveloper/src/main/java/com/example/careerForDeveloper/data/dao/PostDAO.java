@@ -1,11 +1,14 @@
 package com.example.careerForDeveloper.data.dao;
 
+import com.example.careerForDeveloper.config.BaseException;
+import com.example.careerForDeveloper.data.entity.Comment;
 import com.example.careerForDeveloper.data.entity.Post;
-import com.example.careerForDeveloper.data.entity.User;
 
 import java.util.List;
 
 public interface PostDAO {
     Post createPost(Post post);
-    List<Post> findAllPost();
+    List<Post> selectAllPost();
+
+    Post selectPost(long postId) throws BaseException;
 }
