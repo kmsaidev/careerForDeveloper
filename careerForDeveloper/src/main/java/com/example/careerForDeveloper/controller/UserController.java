@@ -35,6 +35,7 @@ public class UserController {
     @PostMapping("/login")
     public BaseResponse<UserResponseDto> login(@RequestBody LoginDto loginDto) throws BaseException{
         try {
+            System.out.println(loginDto.getEmail() + " " + loginDto.getPwd());
             UserResponseDto userResponseDto = userService.login(loginDto);
 
             return new BaseResponse<>(userResponseDto);

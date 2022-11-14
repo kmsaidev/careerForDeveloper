@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import axios from "axios";
 // import { useDispatch } from "react-redux";
 
 function Login() {
@@ -16,7 +17,17 @@ function Login() {
             return alert("Password를 입력하세요.");
         }
         else {
-            return alert("ID = " + id);
+            axios({
+                method: "post",
+                url: "/users/login",
+                data: {
+                    email: id,
+                    pwd: password,
+                },
+            })
+                .then((res) => {
+                    console.log(res);
+                });
         }
         // else {
         //     let body = {

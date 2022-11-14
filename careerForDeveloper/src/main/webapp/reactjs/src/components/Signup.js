@@ -1,24 +1,88 @@
 import React from "react";
+import axios from "axios";
+import EmailValidation from "./EmailValidation";
+import '../App.css';
+import {useNavigate} from "react-router-dom";
 
 function Signup() {
 
-    const [id, setId] = React.useState("");
+    const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordChk, setPasswordChk] = React.useState("");
     const [nickname, setNickname] = React.useState("");
+    const [show, setShow] = React.useState(false);
+    const navigate = useNavigate();
+
+    const isEmail = (email) => {
+        const emailRegex =
+            /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+        return emailRegex.test(email);
+    };
+
+    const sendEmail = (e) => {
+      e.preventDefault();
+      if (!email) {
+          return alert("이메일을 입력해주세요");
+      }
+        axios.get("/auth/email", {
+            params: {
+                email: email
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                if (res.data.isSuccess) {
+                    alert("이메일을 전송했습니다.");
+                    setShow(true);
+                }
+                else {
+                    alert("이메일은 전송하지 못했습니다. \n다시 시도해주세요.");
+                }
+            });
+    };
+
+
 
     const SignupFunc = (e) => {
         e.preventDefault();
-        return alert("회원가입");
+        if (!email || !password || !passwordChk || !nickname) {
+            return alert("모든 항목을 입력해주세요");
+        }
+        else if (!isEmail(email)) {
+            return alert("ID가 이메일 형식이 아닙니다.");
+        }
+        else if (password != passwordChk) {
+            return alert("비밀번호와 비밀번호 확인이 다릅니다.");
+        }
+
+        axios.post("/users",{
+                email: email,
+                pwd: password,
+                nickname: nickname
+            }
+        )
+            .then((res) => {
+                console.log(res);
+                if (res.data.isSuccess) {
+                    alert("회원가입 되었습니다!")
+                    navigate("/login");
+                }
+                else {
+                    alert(res.data.message)
+                }
+            });
     };
 
     return (
         <>
             <h1>Sign up</h1>
             <form onSubmit={SignupFunc}>
-                <label htmlFor="id">ID : </label>
-                <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} />
+                <label htmlFor="email">ID : </label>
+                <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <button onClick={sendEmail}>인증번호 전송</button>
                 <br />
+                {show && <EmailValidation />}
                 <label htmlFor="nickname">nickname : </label>
                 <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
                 <br />
