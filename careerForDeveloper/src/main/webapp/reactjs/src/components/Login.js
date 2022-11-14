@@ -1,14 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
-// import { useDispatch } from "react-redux";
+import { login } from "../auth/auth";
 
 function Login() {
-    // const dispatch = useDispatch();
     const [id, setId] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const navigate = useNavigate();
 
-    const LoginFunc = (e) => {
+    const isEmail = (email) => {
+        const emailRegex =
+            /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+        return emailRegex.test(email);
+    };
+
+    const LoginFunc = async (e) => {
         e.preventDefault();
         if (!id) {
             return alert("ID를 입력하세요.");
@@ -16,18 +23,26 @@ function Login() {
         else if (!password) {
             return alert("Password를 입력하세요.");
         }
+        else if (!isEmail(id)) {
+            return alert("ID가 이메일이 아닙니다.");
+        }
         else {
-            axios({
-                method: "post",
-                url: "/users/login",
-                data: {
-                    email: id,
-                    pwd: password,
-                },
-            })
-                .then((res) => {
-                    console.log(res);
-                });
+            const { tokens } = await login({id, password});
+
+            console.log(tokens);
+            // axios.post("/users/login", {
+            //     email: id,
+            //     pwd: password,
+            // })
+            //     .then((res) => {
+            //         console.log(res);
+            //         if (res.data.isSuccess) {
+            //             axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.result.accessToken;
+            //             navigate("/")
+            //         } else {
+            //             alert(res.data.message);
+            //         }
+            //     });
         }
         // else {
         //     let body = {
