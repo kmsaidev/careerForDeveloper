@@ -34,7 +34,4 @@ public class CommentAnswer {
 
     @Column(nullable = false)
     private Timestamp createdAt;
-
-    @Column(length = 20, nullable = false)
-    private String status;
 }

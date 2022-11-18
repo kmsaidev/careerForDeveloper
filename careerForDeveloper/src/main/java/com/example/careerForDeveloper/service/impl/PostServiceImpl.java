@@ -60,7 +60,6 @@ public class PostServiceImpl implements PostService {
             post.setFileLoc(path + fileName);
         }
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        post.setStatus("ACTIVE");
 
         Post savedPost = postDAO.createPost(post);
         return savedPost.getPostId();
@@ -156,7 +155,6 @@ public class PostServiceImpl implements PostService {
         comment.setUser(userDAO.selectUserById(commentDto.getUserId()));
         comment.setPost(postDAO.selectPostById(commentDto.getPostId()));
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        comment.setStatus("ACTIVE");
 
         Comment savedComment = commentDAO.createComment(comment);
         return savedComment.getCommentId();
@@ -180,7 +178,6 @@ public class PostServiceImpl implements PostService {
         commentAnswer.setUser(userDAO.selectUserById(commentAnswerDto.getUserId()));
         commentAnswer.setComment(commentDAO.selectCommentById(commentAnswerDto.getCommentId()));
         commentAnswer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        commentAnswer.setStatus("ACTIVE");
 
         CommentAnswer savedCommentAnswer = commentAnswerDAO.createCommentAnswer(commentAnswer);
         return savedCommentAnswer.getCommentAnswerId();
