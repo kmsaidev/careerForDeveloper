@@ -58,7 +58,7 @@ public class AuthController {
         if(certifiedCode.equals(code)){
             return new BaseResponse<>("이메일 인증 성공");
         } else{
-            throw new BaseException(BaseResponseStatus.USERS_FAILED_EMAIL_CERTIFICATION);
+            return new BaseResponse<>(BaseResponseStatus.USERS_FAILED_EMAIL_CERTIFICATION);
         }
     }
 
