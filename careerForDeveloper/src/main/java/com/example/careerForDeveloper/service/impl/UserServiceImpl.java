@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
         }
         user.setPwd(pwd);
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        user.setStatus("ACTIVE");
 
         User savedUser = userDAO.createUser(user);
 

@@ -41,9 +41,6 @@ public class User {
     @Column(nullable = false)
     private Timestamp createdAt;
 
-    @Column(length = 20, nullable = false)
-    private String status;
-
     @Column(length = 200)
     private String introduce;
 
