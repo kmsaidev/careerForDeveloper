@@ -36,6 +36,20 @@ public class PostController {
         }
     }
 
+    @PutMapping("")
+    public BaseResponse<Long> updatePost(@RequestPart UpdatePostDto updatePostDto,
+                                         @RequestPart MultipartFile attachedFile){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updatePostDto.setUserId(userIdByJwt);
+
+            long postId = postService.updatePost(updatePostDto, attachedFile);
+            return new BaseResponse<>(postId);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @GetMapping("")
     public BaseResponse<List<AllPostResponseDto>> getAllPosts() throws BaseException{
         try {
@@ -72,6 +86,19 @@ public class PostController {
         }
     }
 
+    @PutMapping("/comment")
+    public BaseResponse<Long> updateComment(@RequestBody UpdateCommentDto updateCommentDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updateCommentDto.setUserId(userIdByJwt);
+
+            long commentId = postService.updateComment(updateCommentDto);
+            return new BaseResponse<>(commentId);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @PostMapping("/comment-answer")
     public BaseResponse<Long> createCommentAnswer(@RequestBody CommentAnswerDto commentAnswerDto){
         try{
@@ -84,4 +111,18 @@ public class PostController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @PutMapping("/comment-answer")
+    public BaseResponse<Long> updateCommentAnswer(@RequestBody UpdateCommentAnswerDto updateCommentAnswerDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updateCommentAnswerDto.setUserId(userIdByJwt);
+
+            long commentAnswerId = postService.updateCommentAnswer(updateCommentAnswerDto);
+            return new BaseResponse<>(commentAnswerId);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

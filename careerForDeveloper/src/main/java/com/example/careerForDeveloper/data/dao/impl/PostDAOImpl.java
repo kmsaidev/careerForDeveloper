@@ -3,6 +3,7 @@ package com.example.careerForDeveloper.data.dao.impl;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.PostDAO;
+import com.example.careerForDeveloper.data.entity.Comment;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.data.repository.PostRepository;
@@ -27,6 +28,10 @@ public class PostDAOImpl implements PostDAO {
         Post savedPost = postRepository.save(post);
 
         return savedPost;
+    }
+    @Override
+    public void updatePost(Post post){
+        postRepository.save(post);
     }
 
     @Override
