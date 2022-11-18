@@ -26,6 +26,12 @@ public class CommentDAOImpl implements CommentDAO {
     public Comment createComment(Comment comment){
         return commentRepository.save(comment);
     }
+
+    @Override
+    public void updateComment(Comment comment){
+        commentRepository.save(comment);
+    }
+
     @Override
     public long countCommentByPost(Post post){
         return commentRepository.countByPost(post);

@@ -67,6 +67,31 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public long updatePost(UpdatePostDto updatePostDto, MultipartFile attachedFile) throws BaseException{
+        Post post = postDAO.selectPostById(updatePostDto.getPostId());
+        if(updatePostDto.getUserId() != post.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        post.setTitle(updatePostDto.getTitle());
+        post.setContents(updatePostDto.getContents());
+        String fileName = attachedFile.getOriginalFilename();
+        String path = "C:/spring/attachedFiles/";
+        Path filePath = Paths.get(path + fileName);
+        if(!attachedFile.isEmpty()){
+            try{
+                Files.write(filePath, attachedFile.getBytes());
+            } catch (Exception e){
+                throw new BaseException(BaseResponseStatus.POST_FAILED_STORE_ATTACHED_FILE);
+            }
+            post.setFileLoc(path + fileName);
+        } else{
+            post.setFileLoc(null);
+        }
+        postDAO.updatePost(post);
+        return post.getPostId();
+    }
+
+    @Override
     public List<AllPostResponseDto> getAllPosts() throws BaseException{
         List<AllPostResponseDto> result = new ArrayList<>();
         List<Post> postList = postDAO.selectAllPost();
@@ -138,6 +163,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public long updateComment(UpdateCommentDto updateCommentDto) throws BaseException{
+        Comment comment = commentDAO.selectCommentById(updateCommentDto.getCommentId());
+        if(updateCommentDto.getUserId() != comment.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        comment.setContents(updateCommentDto.getContents());
+        commentDAO.updateComment(comment);
+        return comment.getCommentId();
+    }
+
+    @Override
     public long saveCommentAnswer(CommentAnswerDto commentAnswerDto) throws BaseException{
         CommentAnswer commentAnswer = new CommentAnswer();
         commentAnswer.setContents(commentAnswerDto.getContents());
@@ -148,5 +184,17 @@ public class PostServiceImpl implements PostService {
 
         CommentAnswer savedCommentAnswer = commentAnswerDAO.createCommentAnswer(commentAnswer);
         return savedCommentAnswer.getCommentAnswerId();
+    }
+
+    @Override
+    public long updateCommentAnswer(UpdateCommentAnswerDto updateCommentAnswerDto) throws BaseException{
+        CommentAnswer commentAnswer =
+                commentAnswerDAO.selectCommentAnswerById(updateCommentAnswerDto.getCommentAnswerId());
+        if(updateCommentAnswerDto.getUserId() != commentAnswer.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        commentAnswer.setContents(updateCommentAnswerDto.getContents());
+        commentAnswerDAO.updateCommentAnswer(commentAnswer);
+        return commentAnswer.getCommentAnswerId();
     }
 }

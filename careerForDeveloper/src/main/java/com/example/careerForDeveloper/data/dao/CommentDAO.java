@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CommentDAO {
     Comment createComment(Comment comment);
+
+    void updateComment(Comment comment);
     long countCommentByPost(Post post);
     List<Comment> selectAllCommentByPost(Post post);
 
