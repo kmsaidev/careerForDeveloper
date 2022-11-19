@@ -33,6 +33,10 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     @Override
+    public void deleteComment(Comment comment){
+        commentRepository.delete(comment);
+    }
+    @Override
     public long countCommentByPost(Post post){
         return commentRepository.countByPost(post);
     }

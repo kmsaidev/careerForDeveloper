@@ -31,6 +31,11 @@ public class CommentAnswerDAOImpl implements CommentAnswerDAO {
     public void updateCommentAnswer(CommentAnswer commentAnswer){
         commentAnswerRepository.save(commentAnswer);
     }
+
+    @Override
+    public void deleteCommentAnswer(CommentAnswer commentAnswer){
+        commentAnswerRepository.delete(commentAnswer);
+    }
     @Override
     public List<CommentAnswer> selectAllCommentAnswerByComment(Comment comment){
         return commentAnswerRepository.getAllByComment(comment);
