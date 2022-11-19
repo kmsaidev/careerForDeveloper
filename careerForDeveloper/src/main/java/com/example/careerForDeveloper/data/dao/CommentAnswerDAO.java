@@ -10,6 +10,7 @@ import java.util.List;
 public interface CommentAnswerDAO {
     CommentAnswer createCommentAnswer(CommentAnswer commentAnswer);
     void updateCommentAnswer(CommentAnswer commentAnswer);
+    void deleteCommentAnswer(CommentAnswer commentAnswer);
     List<CommentAnswer> selectAllCommentAnswerByComment(Comment comment);
     CommentAnswer selectCommentAnswerById(long commentAnswerId) throws BaseException;
 }

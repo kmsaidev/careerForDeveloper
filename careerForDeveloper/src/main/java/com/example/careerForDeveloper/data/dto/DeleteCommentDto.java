@@ -1,17 +1,17 @@
 package com.example.careerForDeveloper.data.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateCommentDto {
+@NoArgsConstructor
+public class DeleteCommentDto {
     long userId;
     long commentId;
-    String contents;
 
-    public UpdateCommentDto(long commentId, String contents){
+    public DeleteCommentDto(long commentId){
         this.commentId = commentId;
-        this.contents = contents;
     }
 }

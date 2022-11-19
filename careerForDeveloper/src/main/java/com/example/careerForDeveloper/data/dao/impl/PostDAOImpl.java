@@ -35,6 +35,11 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
+    public void deletePost(Post post){
+        postRepository.delete(post);
+    }
+
+    @Override
     public List<Post> selectAllPost(){
         return postRepository.findAll();
     }

@@ -10,12 +10,16 @@ import java.util.List;
 public interface PostService {
     long savePost(PostDto postDto, MultipartFile attachedFile) throws BaseException;
     long updatePost(UpdatePostDto updatePostDto, MultipartFile attachedFile) throws BaseException;
+
+    void deletePost(DeletePostDto deletePostDto) throws BaseException;
     List<AllPostResponseDto> getAllPosts() throws BaseException;
 
     PostResponseDto getPost(long postId, long userId) throws BaseException;
 
     long saveComment(CommentDto commentDto) throws BaseException;
     long updateComment(UpdateCommentDto updateCommentDto) throws BaseException;
+    void deleteComment(DeleteCommentDto deleteCommentDto) throws BaseException;
     long saveCommentAnswer(CommentAnswerDto commentAnswerDto) throws BaseException;
     long updateCommentAnswer(UpdateCommentAnswerDto updateCommentAnswerDto) throws BaseException;
+    void deleteCommentAnswer(DeleteCommentAnswerDto deleteCommentAnswerDto) throws BaseException;
 }

@@ -91,6 +91,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public void deletePost(DeletePostDto deletePostDto) throws BaseException{
+        Post post = postDAO.selectPostById(deletePostDto.getPostId());
+        List<Comment> commentList = commentDAO.selectAllCommentByPost(post);
+        if(deletePostDto.getUserId() != post.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        for(Comment comment : commentList){
+            List<CommentAnswer> commentAnswerList = commentAnswerDAO.selectAllCommentAnswerByComment(comment);
+            for(CommentAnswer commentAnswer : commentAnswerList)
+                commentAnswerDAO.deleteCommentAnswer(commentAnswer);
+            commentDAO.deleteComment(comment);
+        }
+        postDAO.deletePost(post);
+    }
+
+    @Override
     public List<AllPostResponseDto> getAllPosts() throws BaseException{
         List<AllPostResponseDto> result = new ArrayList<>();
         List<Post> postList = postDAO.selectAllPost();
@@ -172,6 +188,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public void deleteComment(DeleteCommentDto deleteCommentDto) throws BaseException{
+        Comment comment = commentDAO.selectCommentById(deleteCommentDto.getCommentId());
+        if(deleteCommentDto.getUserId() != comment.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        List<CommentAnswer> commentAnswerList = commentAnswerDAO.selectAllCommentAnswerByComment(comment);
+        for(CommentAnswer commentAnswer : commentAnswerList)
+            commentAnswerDAO.deleteCommentAnswer(commentAnswer);
+        commentDAO.deleteComment(comment);
+    }
+
+    @Override
     public long saveCommentAnswer(CommentAnswerDto commentAnswerDto) throws BaseException{
         CommentAnswer commentAnswer = new CommentAnswer();
         commentAnswer.setContents(commentAnswerDto.getContents());
@@ -193,5 +221,15 @@ public class PostServiceImpl implements PostService {
         commentAnswer.setContents(updateCommentAnswerDto.getContents());
         commentAnswerDAO.updateCommentAnswer(commentAnswer);
         return commentAnswer.getCommentAnswerId();
+    }
+
+    @Override
+    public void deleteCommentAnswer(DeleteCommentAnswerDto deleteCommentAnswerDto) throws BaseException{
+        CommentAnswer commentAnswer =
+                commentAnswerDAO.selectCommentAnswerById(deleteCommentAnswerDto.getCommentAnswerId());
+        if(deleteCommentAnswerDto.getUserId() != commentAnswer.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        commentAnswerDAO.deleteCommentAnswer(commentAnswer);
     }
 }

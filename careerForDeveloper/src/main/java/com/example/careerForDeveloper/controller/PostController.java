@@ -50,6 +50,19 @@ public class PostController {
         }
     }
 
+    @DeleteMapping("")
+    public BaseResponse<String> deletePost(@RequestBody DeletePostDto deletePostDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            deletePostDto.setUserId(userIdByJwt);
+
+            postService.deletePost(deletePostDto);
+            return new BaseResponse<>("성공적으로 삭제되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @GetMapping("")
     public BaseResponse<List<AllPostResponseDto>> getAllPosts() throws BaseException{
         try {
@@ -99,6 +112,19 @@ public class PostController {
         }
     }
 
+    @DeleteMapping("/comment")
+    public BaseResponse<String> deleteComment(@RequestBody DeleteCommentDto deleteCommentDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            deleteCommentDto.setUserId(userIdByJwt);
+
+            postService.deleteComment(deleteCommentDto);
+            return new BaseResponse<>("성공적으로 삭제되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @PostMapping("/comment-answer")
     public BaseResponse<Long> createCommentAnswer(@RequestBody CommentAnswerDto commentAnswerDto){
         try{
@@ -125,4 +151,16 @@ public class PostController {
         }
     }
 
+    @DeleteMapping("/comment-answer")
+    public BaseResponse<String> deleteCommentAnswer(@RequestBody DeleteCommentAnswerDto deleteCommentAnswerDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            deleteCommentAnswerDto.setUserId(userIdByJwt);
+
+            postService.deleteCommentAnswer(deleteCommentAnswerDto);
+            return new BaseResponse<>("성공적으로 삭제되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

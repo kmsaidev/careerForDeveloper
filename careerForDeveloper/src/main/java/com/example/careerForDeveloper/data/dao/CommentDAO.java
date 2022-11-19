@@ -10,6 +10,7 @@ public interface CommentDAO {
     Comment createComment(Comment comment);
 
     void updateComment(Comment comment);
+    void deleteComment(Comment comment);
     long countCommentByPost(Post post);
     List<Comment> selectAllCommentByPost(Post post);
 
