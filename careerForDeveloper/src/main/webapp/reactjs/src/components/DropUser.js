@@ -1,16 +1,20 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 function DropUser() {
     const [pwd, setPwd] = React.useState("");
     const navigate = useNavigate();
+    const token = useSelector(state => state.authToken);
 
     const dropUser = (e) => {
+        console.log(token);
         if (!pwd) {
             return alert("비밀번호를 입력하세요");
         }
         const res = confirm("정말 탈퇴하시겠습니까?");
+
         if (res) {
             axios.delete("/users", {
                 data: {

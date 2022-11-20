@@ -11,6 +11,7 @@ function Signup() {
     const [passwordChk, setPasswordChk] = React.useState("");
     const [nickname, setNickname] = React.useState("");
     const [show, setShow] = React.useState(false);
+    const [certified, setCertified] = React.useState("");
     const navigate = useNavigate();
 
     const isEmail = (email) => {
@@ -33,6 +34,7 @@ function Signup() {
             .then((res) => {
                 console.log(res);
                 if (res.data.isSuccess) {
+                    setCertified(res.data.result);
                     alert("이메일을 전송했습니다.");
                     setShow(true);
                 }
@@ -82,7 +84,7 @@ function Signup() {
                 <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <button onClick={sendEmail}>인증번호 전송</button>
                 <br />
-                {show && <EmailValidation />}
+                {show && <EmailValidation certified={certified}/>}
                 <label htmlFor="nickname">nickname : </label>
                 <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
                 <br />
