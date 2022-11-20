@@ -10,7 +10,24 @@ function Update() {
     const formData = new FormData();
 
     const getImgData = (data) => {
-        formData.append('profileimage', data);
+        formData.append('profileImage', data);
+        console.log("get Image Data!")
+    }
+
+    const handlingDataForm = async dataURI => {
+        const byteString = atob(dataURI.split(",")[1]);
+
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ia], {
+            type: "image/jpeg"
+        });
+        const file = new File([blob], "image.jpg");
+
+        formData.append("profileImage", file);
     }
 
     const UpdateFunc = (e) => {
@@ -56,7 +73,7 @@ function Update() {
             <label htmlFor="passwordChk">PASSWORD 확인 : </label>
             <input type="password" value={pwdchk} onChange={(e) => setPwdchk((e.target.value))}/>
             <br/>
-            <FileUpload getImageData={getImgData}/>
+            <FileUpload sendImgUrl={handlingDataForm}/>
             <br />
             <button onClick={UpdateFunc}>회원 정보 수정</button>
             <br/>
