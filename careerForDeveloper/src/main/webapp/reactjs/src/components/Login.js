@@ -1,12 +1,23 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
-// import { useDispatch } from "react-redux";
+import { setRefreshToken } from "../utils/Cookie";
+import { SET_TOKEN } from "../Store/Auth";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
-    // const dispatch = useDispatch();
     const [id, setId] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.authToken);
+
+    const isEmail = (email) => {
+        const emailRegex =
+            /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+        return emailRegex.test(email);
+    };
 
     const LoginFunc = (e) => {
         e.preventDefault();
@@ -16,33 +27,27 @@ function Login() {
         else if (!password) {
             return alert("Password를 입력하세요.");
         }
+        else if (!isEmail(id)) {
+            return alert("ID가 이메일이 아닙니다.");
+        }
         else {
-            axios({
-                method: "post",
-                url: "/users/login",
-                data: {
-                    email: id,
-                    pwd: password,
-                },
+            axios.post("/users/login", {
+                email: id,
+                pwd: password,
             })
                 .then((res) => {
                     console.log(res);
+                    if (res.data.isSuccess) {
+                        axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
+                        setRefreshToken(res.data.result.refreshToken);
+                        dispatch(SET_TOKEN(res.data.result.accessToken));
+                        console.log(token);
+                        return navigate("/");
+                    } else {
+                        alert(res.data.message);
+                    }
                 });
         }
-        // else {
-        //     let body = {
-        //         id,
-        //         password
-        //     };
-        //
-        //     axios.post("Endpoint", body)
-        //         .then((res) => {
-        //             console.log(res.data);
-        //             if (res.data.code === 200) {
-        //
-        //             }
-        //         })
-        // }
     };
     return (
         <>

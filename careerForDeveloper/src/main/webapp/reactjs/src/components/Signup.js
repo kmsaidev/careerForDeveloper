@@ -11,6 +11,8 @@ function Signup() {
     const [passwordChk, setPasswordChk] = React.useState("");
     const [nickname, setNickname] = React.useState("");
     const [show, setShow] = React.useState(false);
+    const [certified, setCertified] = React.useState("");
+    const [auth, setAuth] = React.useState(false);
     const navigate = useNavigate();
 
     const isEmail = (email) => {
@@ -19,6 +21,13 @@ function Signup() {
 
         return emailRegex.test(email);
     };
+
+    const getEmailAuth = (auth) => {
+        setAuth(auth);
+        if (auth) {
+            setShow(false);
+        }
+    }
 
     const sendEmail = (e) => {
       e.preventDefault();
@@ -33,6 +42,7 @@ function Signup() {
             .then((res) => {
                 console.log(res);
                 if (res.data.isSuccess) {
+                    setCertified(res.data.result);
                     alert("이메일을 전송했습니다.");
                     setShow(true);
                 }
@@ -51,6 +61,9 @@ function Signup() {
         }
         else if (!isEmail(email)) {
             return alert("ID가 이메일 형식이 아닙니다.");
+        }
+        else if (!auth) {
+            return alert("이메일 인증을 완료해주세요.");
         }
         else if (password != passwordChk) {
             return alert("비밀번호와 비밀번호 확인이 다릅니다.");
@@ -82,7 +95,7 @@ function Signup() {
                 <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <button onClick={sendEmail}>인증번호 전송</button>
                 <br />
-                {show && <EmailValidation />}
+                {show && <EmailValidation certified={certified} sendEmailAuth={getEmailAuth}/>}
                 <label htmlFor="nickname">nickname : </label>
                 <input type="text" id="nickname" value={nickname} onChange={(e) => setNickname(e.target.value)} />
                 <br />
