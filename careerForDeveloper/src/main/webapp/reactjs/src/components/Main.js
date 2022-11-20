@@ -11,6 +11,7 @@ function Main() {
             <div>
                 <h1>HOME</h1>
                 <Link to="/logout"> 로그아웃 </Link>
+                <Link to="/update"> 회원정보수정 </Link>
                 <Link to="/delete"> 회원탈퇴 </Link>
                 <Link to="/posts"> 글목록 </Link>
             </div>

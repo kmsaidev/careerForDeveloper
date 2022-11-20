@@ -8,12 +8,10 @@ function FileUpload(props) {
     const onChangeImage = () => {
         const reader = new FileReader();
         const file = imgRef.current.files[0];
-        console.log(file);
-
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImageUrl(reader.result);
-            console.log("이미지주소", reader.result);
+            props.sendImgUrl(reader.result);
         };
     };
 
