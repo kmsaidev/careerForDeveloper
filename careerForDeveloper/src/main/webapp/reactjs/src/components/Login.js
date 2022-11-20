@@ -41,7 +41,6 @@ function Login() {
                         axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
                         setRefreshToken(res.data.result.refreshToken);
                         dispatch(SET_TOKEN(res.data.result.accessToken));
-                        console.log(token);
                         return navigate("/");
                     } else {
                         alert(res.data.message);

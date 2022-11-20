@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import axios from "axios";
@@ -11,13 +11,15 @@ import App from './components/App';
 // axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
-ReactDOM.render(
-    <CookiesProvider>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </CookiesProvider>, document.getElementById('root')
-);
+const container =
+    document.getElementById("root");
+const root = createRoot(container);
+root.render(<CookiesProvider>
+    <Provider store={store}>
+        <App />
+    </Provider>
+</CookiesProvider>);
+
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(

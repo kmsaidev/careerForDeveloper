@@ -13,7 +13,7 @@ export const setRefreshToken = (refreshToken) => {
     });
 };
 
-export const getCookieToke = () => {
+export const getCookieToken = () => {
     return cookies.get('refresh_token');
 };
 
