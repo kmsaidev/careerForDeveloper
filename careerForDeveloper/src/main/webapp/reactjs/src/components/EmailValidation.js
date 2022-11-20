@@ -23,6 +23,7 @@ function EmailValidation(props) {
                 console.log(res);
                 if (res.data.isSuccess) {
                     alert("인증에 성공하였습니다.");
+                    props.sendEmailAuth(true);
                 } else {
                     alert("인증번호가 다릅니다.");
                 }
