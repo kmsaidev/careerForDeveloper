@@ -1,6 +1,7 @@
 import '../App.css';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./Login";
+import Logout from "./Logout";
 import Signup from "./Signup";
 import DropUser from "./DropUser";
 import Main from "./Main";
@@ -14,6 +15,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Main/>}/>
               <Route path="/login" element={<Login/>}/>
+              <Route path="/logout" element={<Logout />}/>
               <Route path="/signup" element={<Signup/>}/>
               <Route path="/delete" element={<DropUser/>}/>
               <Route path="/update" element={<Update/>}/>

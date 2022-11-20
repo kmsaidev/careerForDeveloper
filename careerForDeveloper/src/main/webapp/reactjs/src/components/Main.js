@@ -1,9 +1,20 @@
+import {useSelector} from "react-redux";
+import { Link } from 'react-router-dom';
+
 function Main() {
 
+    const token = useSelector(state => state.authToken);
+    console.log(token)
+
     return(
-        <div>
-            Home
-        </div>
+        <>
+            <div>
+                <h1>HOME</h1>
+                <Link to="/logout"> 로그아웃 </Link>
+                <Link to="/delete"> 회원탈퇴 </Link>
+                <Link to="/posts"> 글목록 </Link>
+            </div>
+        </>
     );
 }
 
