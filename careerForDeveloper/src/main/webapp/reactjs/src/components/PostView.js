@@ -29,6 +29,9 @@ function GetComment(postId) {
                 <CommonTableColumn>{1}</CommonTableColumn>
                 <CommonTableColumn>{comment.nickname}</CommonTableColumn>
                 <CommonTableColumn>{comment.contents}</CommonTableColumn>
+                <CommonTableColumn>
+                    {comment.myComment && <Link to={`/comments/delete/${1}`}>삭제</Link>}
+                </CommonTableColumn>
             </CommonTableRow>
         ));
     return comments;

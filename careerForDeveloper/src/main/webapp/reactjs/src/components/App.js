@@ -11,6 +11,7 @@ import PostView from "./PostView";
 import React from "react";
 import NewPost from "./NewPost";
 import DeletePost from "./DeletePost";
+import DeleteComment from "./DeleteComment";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/posts/:postId" element={<PostView />}/>
               <Route path="/posts/new" element={<NewPost />}/>
               <Route path="/posts/delete/:postId" element={<DeletePost />}/>
+              <Route path="/comments/delete/:commentId" element={<DeleteComment />}/>
           </Routes>
       </Router>
   );
