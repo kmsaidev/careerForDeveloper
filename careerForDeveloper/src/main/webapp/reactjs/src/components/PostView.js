@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
 import CommonTable from "./table/CommonTable";
+import NewComment from "./NewComment";
 
 function GetComment(postId) {
     const [commentList, setCommentList] = useState({});
@@ -102,6 +103,7 @@ function PostView() {
                 {comments}
             </CommonTable>
         </div>
+        <NewComment postId={postId}/>
         </>);
 }
 
