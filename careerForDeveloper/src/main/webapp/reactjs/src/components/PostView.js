@@ -1,11 +1,10 @@
 import './PostView.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 function GetData(postId) {
     const [data, setData] = useState({});
-    const [comment, setComment] = useState({});
 
     useEffect(() => {
         axios.get("/posts/post", {
@@ -18,7 +17,6 @@ function GetData(postId) {
             }
             else {
                 setData(res.data.result);
-                setComment(res.data.result.commentList);
             }
         })
     }, [])
@@ -26,6 +24,7 @@ function GetData(postId) {
     const item = (
         <>
             <h2 align="center">게시글 상세정보</h2>
+            {data.myPost && <Link to={`/posts/delete/${data.postId}`}>삭제</Link>}
             <div className="voc-view-wrapper">
                 <div className="voc-view-row">
                     <label>게시글 번호</label>
