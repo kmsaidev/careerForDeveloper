@@ -7,7 +7,9 @@ import DropUser from "./DropUser";
 import Main from "./Main";
 import Update from "./Update";
 import Posts from "./Posts";
+import PostView from "./PostView";
 import React from "react";
+import NewPost from "./NewPost";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
               <Route path="/delete" element={<DropUser/>}/>
               <Route path="/update" element={<Update/>}/>
               <Route path="/posts" element={<Posts />}/>
+              <Route path="/posts/:postId" element={<PostView />}/>
+              <Route path="/posts/new" element={<NewPost />}/>
           </Routes>
       </Router>
   );

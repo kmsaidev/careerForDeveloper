@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
 import react from "react";
+import { Link } from 'react-router-dom';
 import CommonTable from "./table/CommonTable";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
+import PostHeader from "./PostHeader";
 
 function GetData() {
     const [data, setData] = react.useState("");
@@ -19,7 +21,11 @@ function GetData() {
     const item = (Object.values(data)).map((item) => (
         <CommonTableRow key={1}>
             <CommonTableColumn>{1}</CommonTableColumn>
-            <CommonTableColumn>{item.title}</CommonTableColumn>
+            <CommonTableColumn>
+                <Link to={`/posts/${1}`}>
+                    {item.title}
+                </Link>
+            </CommonTableColumn>
             <CommonTableColumn>{item.nickname}</CommonTableColumn>
             <CommonTableColumn>{item.commentCount}</CommonTableColumn>
         </CommonTableRow>
@@ -33,10 +39,10 @@ function Posts() {
 
     return (
         <>
-        <h1>posts</h1>
-        <CommonTable headersName={['글번호', '글제목', '작성자', '댓글수']}>
-            {item}
-        </CommonTable>
+            <PostHeader></PostHeader>
+            <CommonTable headersName={['글번호', '글제목', '작성자', '댓글수']}>
+                {item}
+            </CommonTable>
         </>
     );
 }
