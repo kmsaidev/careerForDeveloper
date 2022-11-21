@@ -33,6 +33,9 @@ function GetComment(postId) {
                 <CommonTableColumn>
                     {comment.myComment && <Link to={`/comments/delete/${1}`}>삭제</Link>}
                 </CommonTableColumn>
+                <CommonTableColumn>
+                    {comment.myComment && <Link to={`/comments/update/${4}`}>삭제</Link>}
+                </CommonTableColumn>
             </CommonTableRow>
         ));
     return comments;
