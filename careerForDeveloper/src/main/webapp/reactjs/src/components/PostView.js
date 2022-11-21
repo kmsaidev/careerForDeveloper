@@ -1,7 +1,38 @@
 import './PostView.css';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
+import CommonTableColumn from "./table/CommonTableColumn";
+import CommonTableRow from "./table/CommonTableRow";
+import CommonTable from "./table/CommonTable";
+
+function GetComment(postId) {
+    const [commentList, setCommentList] = useState({});
+
+    useEffect(() => {
+        axios.get("/posts/post", {
+            params: {
+                postId: postId
+            }
+        }).then((res) => {
+            if (!res.data.isSuccess) {
+                alert(res.data.message)
+            }
+            else {
+                setCommentList(res.data.result.commentList);
+            }
+        })
+    }, [])
+
+    const comments = (Object.values(commentList)).map((comment) => (
+            <CommonTableRow key={1}>
+                <CommonTableColumn>{1}</CommonTableColumn>
+                <CommonTableColumn>{comment.nickname}</CommonTableColumn>
+                <CommonTableColumn>{comment.contents}</CommonTableColumn>
+            </CommonTableRow>
+        ));
+    return comments;
+}
 
 function GetData(postId) {
     const [data, setData] = useState({});
@@ -16,6 +47,7 @@ function GetData(postId) {
                 alert(res.data.message)
             }
             else {
+                console.log(res.data.result.commentList);
                 setData(res.data.result);
             }
         })
@@ -47,6 +79,7 @@ function GetData(postId) {
                     </div>
                 </div>
             </div>
+
         </>)
 
     return item;
@@ -55,10 +88,16 @@ function GetData(postId) {
 function PostView() {
     const {postId} = useParams();
     const item = GetData(postId);
+    const comments = GetComment(postId);
 
     return (<>
         <div>
             {item}
+        </div>
+        <div className="voc-view-row">
+            <CommonTable headersName={['댓글번호', '작성자', '댓글내용']}>
+                {comments}
+            </CommonTable>
         </div>
         </>);
 }
