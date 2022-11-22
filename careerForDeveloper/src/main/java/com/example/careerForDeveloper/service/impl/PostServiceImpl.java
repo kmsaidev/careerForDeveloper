@@ -145,17 +145,19 @@ public class PostServiceImpl implements PostService {
             List<CommentAnswerResponseDto> commentAnswerList = new ArrayList<>();
             for(CommentAnswer commentAnswer : list){
                 CommentAnswerResponseDto commentAnswerResponseDto = new CommentAnswerResponseDto();
+                commentAnswerResponseDto.setCommentAnswerId(commentAnswer.getCommentAnswerId());
                 commentAnswerResponseDto.setContents(commentAnswer.getContents());
                 commentAnswerResponseDto.setNickname(commentAnswer.getUser().getNickname());
                 commentAnswerResponseDto.setProfileImageLoc(commentAnswer.getUser().getProfileImageLoc());
                 commentAnswerResponseDto.setMyCommentAnswer(commentAnswer.getUser().getUserId() == userId);
                 commentAnswerList.add(commentAnswerResponseDto);
             }
+            long commentId = comment.getCommentId();
             String contents = comment.getContents();
             String nickname = comment.getUser().getNickname();
             String profileImageLoc = comment.getUser().getProfileImageLoc();
             boolean isMyComment = comment.getUser().getUserId() == userId;
-            commentResponseDtoList.add(new CommentResponseDto(profileImageLoc, nickname, contents,
+            commentResponseDtoList.add(new CommentResponseDto(commentId, profileImageLoc, nickname, contents,
                     isMyComment, commentAnswerList));
             commentCount++;
         }

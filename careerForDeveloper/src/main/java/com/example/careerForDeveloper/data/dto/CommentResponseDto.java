@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CommentResponseDto {
+    long commentId;
     String profileImageLoc;
     String nickname;
     String contents;

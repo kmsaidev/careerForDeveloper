@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentAnswerResponseDto {
+    long commentAnswerId;
     String profileImageLoc;
     String nickname;
     String contents;
