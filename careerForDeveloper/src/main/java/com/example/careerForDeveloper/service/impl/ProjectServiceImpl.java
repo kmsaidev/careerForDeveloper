@@ -108,6 +108,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectResponseDto result = new ProjectResponseDto();
         result.setUserId(project.getUser().getUserId());
         result.setNickname(project.getUser().getNickname());
+        result.setProfileImageLoc(project.getUser().getProfileImageLoc());
         result.setIntroduce(project.getUser().getIntroduce());
         result.setProjectId(project.getProjectId());
         result.setTitle(project.getTitle());
