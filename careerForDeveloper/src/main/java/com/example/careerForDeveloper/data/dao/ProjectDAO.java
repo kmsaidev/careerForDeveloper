@@ -7,5 +7,6 @@ import com.example.careerForDeveloper.data.entity.Project;
 
 public interface ProjectDAO {
     Project createProject(Project project);
+    void updateProject(Project project);
     Project selectProjectById(long projectId) throws BaseException;
 }

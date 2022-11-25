@@ -1,11 +1,14 @@
 package com.example.careerForDeveloper.service.impl;
 
 import com.example.careerForDeveloper.config.BaseException;
+import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.CategoryDAO;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dao.UserDAO;
 import com.example.careerForDeveloper.data.dto.ProjectDto;
 import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
+import com.example.careerForDeveloper.data.dto.UpdateProjectDto;
+import com.example.careerForDeveloper.data.entity.Comment;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
@@ -13,6 +16,7 @@ import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Service
@@ -47,6 +51,23 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project savedProject = projectDAO.createProject(project);
         return savedProject.getProjectId();
+    }
+
+    @Override
+    public long updateProject(UpdateProjectDto updateProjectDto) throws BaseException{
+        Project project= projectDAO.selectProjectById(updateProjectDto.getProjectId());
+        if(updateProjectDto.getUserId() != project.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        project.setTitle(updateProjectDto.getTitle());
+        project.setContents(updateProjectDto.getContents());
+        project.setCategory(categoryDAO.selectCategoryById(updateProjectDto.getCategoryId()));
+        project.setLimitedMember(updateProjectDto.getLimitedMember());
+        project.setTechName(updateProjectDto.getTechName());
+        project.setStartDate(updateProjectDto.getStartDate());
+        project.setEndDate(updateProjectDto.getEndDate());
+        projectDAO.updateProject(project);
+        return project.getProjectId();
     }
 
     @Override

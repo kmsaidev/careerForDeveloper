@@ -2,10 +2,7 @@ package com.example.careerForDeveloper.controller;
 
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
-import com.example.careerForDeveloper.data.dto.PostDto;
-import com.example.careerForDeveloper.data.dto.PostResponseDto;
-import com.example.careerForDeveloper.data.dto.ProjectDto;
-import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
+import com.example.careerForDeveloper.data.dto.*;
 import com.example.careerForDeveloper.service.PostService;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.util.JwtService;
@@ -32,6 +29,19 @@ public class ProjectController {
 
             projectDto.setUserId(userIdByJwt);
             long projectId = projectService.saveProject(projectDto);
+            return new BaseResponse<>(projectId);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PutMapping("")
+    public BaseResponse<Long> updateProject(@RequestBody UpdateProjectDto updateProjectDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updateProjectDto.setUserId(userIdByJwt);
+
+            long projectId = projectService.updateProject(updateProjectDto);
             return new BaseResponse<>(projectId);
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
