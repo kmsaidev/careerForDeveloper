@@ -58,6 +58,10 @@ public enum BaseResponseStatus {
     //comment
     COMMENT_FAILED_GET_COMMENT_INFO(false, 2050, "댓글 정보를 가져오는 데 실패했습니다."),
     COMMENT_ANSWER_FAILED_GET_COMMENT_ANSWER_INFO(false, 2051, "대댓글 정보를 가져오는 데 실패했습니다."),
+    //category
+    CATEGORY_FAILED_GET_CATEGORY_INFO(false, 2070, "카테고리 정보를 가져오는 데 실패했습니다."),
+    //project
+
 
     /**
      * 3000 : Response 오류
