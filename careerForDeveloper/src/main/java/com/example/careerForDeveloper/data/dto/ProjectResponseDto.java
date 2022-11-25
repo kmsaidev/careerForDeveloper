@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class ProjectResponseDto {
     long userId;
     String nickname;
+    String profileImageLoc;
     String introduce;
 
     long projectId;
