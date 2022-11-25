@@ -61,6 +61,7 @@ public enum BaseResponseStatus {
     //category
     CATEGORY_FAILED_GET_CATEGORY_INFO(false, 2070, "카테고리 정보를 가져오는 데 실패했습니다."),
     //project
+    PROJECT_FAILED_GET_PROJECT_INFO(false, 2080, "프로젝트 정보를 가져오는 데 실패했습니다."),
 
 
     /**
