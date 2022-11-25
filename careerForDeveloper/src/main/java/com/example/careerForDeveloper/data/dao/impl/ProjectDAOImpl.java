@@ -35,6 +35,11 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
+    public void deleteProject(Project project){
+        projectRepository.delete(project);
+    }
+
+    @Override
     public Project selectProjectById(long projectId) throws BaseException{
         Optional<Project> selectedProject = projectRepository.findById(projectId);
 

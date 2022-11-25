@@ -5,18 +5,16 @@ import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.CategoryDAO;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dao.UserDAO;
+import com.example.careerForDeveloper.data.dto.DeleteProjectDto;
 import com.example.careerForDeveloper.data.dto.ProjectDto;
 import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
 import com.example.careerForDeveloper.data.dto.UpdateProjectDto;
-import com.example.careerForDeveloper.data.entity.Comment;
-import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Service
@@ -68,6 +66,15 @@ public class ProjectServiceImpl implements ProjectService {
         project.setEndDate(updateProjectDto.getEndDate());
         projectDAO.updateProject(project);
         return project.getProjectId();
+    }
+
+    @Override
+    public void deleteProject(DeleteProjectDto deleteProjectDto) throws BaseException{
+        Project project = projectDAO.selectProjectById(deleteProjectDto.getProjectId());
+        if(deleteProjectDto.getUserId() != project.getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        projectDAO.deleteProject(project);
     }
 
     @Override

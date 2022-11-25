@@ -48,6 +48,19 @@ public class ProjectController {
         }
     }
 
+    @DeleteMapping("")
+    public BaseResponse<String> deleteProject(@RequestBody DeleteProjectDto deleteProjectDto){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            deleteProjectDto.setUserId(userIdByJwt);
+
+            projectService.deleteProject(deleteProjectDto);
+            return new BaseResponse<>("성공적으로 삭제되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @GetMapping("/project")
     public BaseResponse<ProjectResponseDto> getProject(@RequestParam long projectId) throws BaseException{
         try{
