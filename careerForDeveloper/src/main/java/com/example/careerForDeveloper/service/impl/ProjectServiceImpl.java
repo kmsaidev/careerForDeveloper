@@ -5,6 +5,7 @@ import com.example.careerForDeveloper.data.dao.CategoryDAO;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dao.UserDAO;
 import com.example.careerForDeveloper.data.dto.ProjectDto;
+import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
@@ -46,5 +47,27 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project savedProject = projectDAO.createProject(project);
         return savedProject.getProjectId();
+    }
+
+    @Override
+    public ProjectResponseDto getProject(long projectId) throws BaseException{
+        Project project = projectDAO.selectProjectById(projectId);
+
+        ProjectResponseDto result = new ProjectResponseDto();
+        result.setUserId(project.getUser().getUserId());
+        result.setNickname(project.getUser().getNickname());
+        result.setIntroduce(project.getUser().getIntroduce());
+        result.setProjectId(project.getProjectId());
+        result.setTitle(project.getTitle());
+        result.setCategoryId(project.getCategory().getCategoryId());
+        result.setLimitedMember(project.getLimitedMember());
+        result.setPartMember(project.getPartMember());
+        result.setTechName(project.getTechName());
+        result.setStartDate(project.getStartDate());
+        result.setEndDate(project.getEndDate());
+        result.setContents(project.getContents());
+        result.setCreatedAt(project.getCreatedAt());
+
+        return result;
     }
 }

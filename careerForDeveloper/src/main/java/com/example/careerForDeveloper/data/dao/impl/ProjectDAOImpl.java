@@ -1,5 +1,7 @@
 package com.example.careerForDeveloper.data.dao.impl;
 
+import com.example.careerForDeveloper.config.BaseException;
+import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dto.ProjectDto;
 import com.example.careerForDeveloper.data.entity.Post;
@@ -8,6 +10,8 @@ import com.example.careerForDeveloper.data.repository.PostRepository;
 import com.example.careerForDeveloper.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class ProjectDAOImpl implements ProjectDAO {
@@ -23,5 +27,17 @@ public class ProjectDAOImpl implements ProjectDAO {
         Project savedProject = projectRepository.save(project);
 
         return savedProject;
+    }
+
+    @Override
+    public Project selectProjectById(long projectId) throws BaseException{
+        Optional<Project> selectedProject = projectRepository.findById(projectId);
+
+        if(selectedProject.isPresent()) {
+            Project project = selectedProject.get();
+            return project;
+        } else {
+            throw new BaseException(BaseResponseStatus.PROJECT_FAILED_GET_PROJECT_INFO);
+        }
     }
 }
