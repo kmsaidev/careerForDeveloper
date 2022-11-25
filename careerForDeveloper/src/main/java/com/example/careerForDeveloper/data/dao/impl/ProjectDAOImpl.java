@@ -30,6 +30,11 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     @Override
+    public void updateProject(Project project){
+        projectRepository.save(project);
+    }
+
+    @Override
     public Project selectProjectById(long projectId) throws BaseException{
         Optional<Project> selectedProject = projectRepository.findById(projectId);
 
