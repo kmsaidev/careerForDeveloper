@@ -5,10 +5,9 @@ import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.CategoryDAO;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dao.UserDAO;
-import com.example.careerForDeveloper.data.dto.DeleteProjectDto;
-import com.example.careerForDeveloper.data.dto.ProjectDto;
-import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
-import com.example.careerForDeveloper.data.dto.UpdateProjectDto;
+import com.example.careerForDeveloper.data.dto.*;
+import com.example.careerForDeveloper.data.entity.Category;
+import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.util.JwtService;
@@ -16,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -75,6 +76,29 @@ public class ProjectServiceImpl implements ProjectService {
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
 
         projectDAO.deleteProject(project);
+    }
+
+    @Override
+    public List<ProjectByCategoryResponseDto> getProjectsByCategory(long categoryId) throws BaseException{
+        List<ProjectByCategoryResponseDto> result = new ArrayList<>();
+        Category category = categoryDAO.selectCategoryById(categoryId);
+        List<Project> projectList = projectDAO.selectProjectsByCategory(category);
+
+        for(Project project : projectList){
+            ProjectByCategoryResponseDto projectDto = new ProjectByCategoryResponseDto();
+            projectDto.setUserId(project.getUser().getUserId());
+            projectDto.setNickname(project.getUser().getNickname());
+            projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
+            projectDto.setProjectId(project.getProjectId());
+            projectDto.setCategoryId(project.getCategory().getCategoryId());
+            projectDto.setTitle(project.getTitle());
+            projectDto.setContents(project.getContents());
+            projectDto.setCreatedAt(project.getCreatedAt());
+            projectDto.setLimitedMember(project.getLimitedMember());
+            projectDto.setPartMember(project.getPartMember());
+            result.add(projectDto);
+        }
+        return result;
     }
 
     @Override

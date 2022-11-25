@@ -4,6 +4,7 @@ import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
 import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dto.ProjectDto;
+import com.example.careerForDeveloper.data.entity.Category;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.data.repository.PostRepository;
@@ -11,6 +12,7 @@ import com.example.careerForDeveloper.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -37,6 +39,11 @@ public class ProjectDAOImpl implements ProjectDAO {
     @Override
     public void deleteProject(Project project){
         projectRepository.delete(project);
+    }
+
+    @Override
+    public List<Project> selectProjectsByCategory(Category category){
+        return projectRepository.findAllByCategory(category);
     }
 
     @Override
