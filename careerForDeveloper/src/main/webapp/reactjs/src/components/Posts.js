@@ -19,10 +19,10 @@ function GetData() {
     }, []);
 
     const item = (Object.values(data)).map((item) => (
-        <CommonTableRow key={2}>
-            <CommonTableColumn>{2}</CommonTableColumn>
+        <CommonTableRow key={item.postId}>
+            <CommonTableColumn>{item.postId}</CommonTableColumn>
             <CommonTableColumn>
-                <Link to={`/posts/${2}`}>
+                <Link to={`/posts/${item.postId}`}>
                     {item.title}
                 </Link>
             </CommonTableColumn>
