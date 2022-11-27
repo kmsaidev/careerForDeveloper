@@ -7,6 +7,27 @@ import CommonTableRow from "./table/CommonTableRow";
 import CommonTable from "./table/CommonTable";
 import NewComment from "./NewComment";
 
+function GetReplies(repliesList) {
+    if (!repliesList) {
+        console.log("대댓글이 없습니다.");
+        return (<></>);
+    }
+    const replies = (Object.values(repliesList)).map((comment) => (
+        <CommonTableRow key={1}>
+            <CommonTableColumn>{1}</CommonTableColumn>
+            <CommonTableColumn>{comment.nickname}</CommonTableColumn>
+            <CommonTableColumn>{comment.contents}</CommonTableColumn>
+            {/*<CommonTableColumn>*/}
+            {/*    {comment.myComment && <Link to={`/comments/delete/${1}`}>삭제</Link>}*/}
+            {/*</CommonTableColumn>*/}
+            {/*<CommonTableColumn>*/}
+            {/*    {comment.myComment && <Link to={`/comments/update/${4}`}>수정</Link>}*/}
+            {/*</CommonTableColumn>*/}
+        </CommonTableRow>
+    ));
+    return replies;
+}
+
 function GetComment(postId) {
     const [commentList, setCommentList] = useState({});
 
@@ -25,17 +46,20 @@ function GetComment(postId) {
         })
     }, [])
 
+    const replies = GetReplies(commentList.commentAnswerList);
+
     const comments = (Object.values(commentList)).map((comment) => (
             <CommonTableRow key={1}>
                 <CommonTableColumn>{1}</CommonTableColumn>
                 <CommonTableColumn>{comment.nickname}</CommonTableColumn>
                 <CommonTableColumn>{comment.contents}</CommonTableColumn>
                 <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/delete/${1}`}>삭제</Link>}
+                    {comment.myComment && <Link to={`/comments/delete/${4}`}>삭제</Link>}
                 </CommonTableColumn>
                 <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/update/${4}`}>삭제</Link>}
+                    {comment.myComment && <Link to={`/comments/update/${4}`}>수정</Link>}
                 </CommonTableColumn>
+                {replies}
             </CommonTableRow>
         ));
     return comments;
