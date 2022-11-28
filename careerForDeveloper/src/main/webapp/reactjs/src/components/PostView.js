@@ -8,25 +8,31 @@ import CommonTable from "./table/CommonTable";
 import NewComment from "./NewComment";
 import NewReply from "./NewReply";
 import UpdateComment from "./UpdateComment";
+import UpdateReply from "./UpdateReply";
 
-function GetReplies(repliesList) {
+function GetReplies(repliesList, setSelectedReply, selectedReply) {
+
     if (!repliesList) {
         console.log("대댓글이 없습니다.");
         return (<></>);
     }
     const replies = (Object.values(repliesList)).map((comment) => (
-        <CommonTableRow key={comment.commentAnswerId}>
-            <CommonTableColumn>L</CommonTableColumn>
-            <CommonTableColumn>{comment.nickname}</CommonTableColumn>
-            <CommonTableColumn>{comment.contents}</CommonTableColumn>
-            <CommonTableColumn>
-                {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}>삭제</Link>}
-            </CommonTableColumn>
-            {/*<CommonTableColumn>*/}
-            {/*    {comment.myComment && <Link to={`/comments/update/${4}`}>수정</Link>}*/}
-            {/*</CommonTableColumn>*/}
-        </CommonTableRow>
-    ));
+        <>
+            <CommonTableRow key={comment.commentAnswerId}>
+                <CommonTableColumn>L</CommonTableColumn>
+                <CommonTableColumn>{comment.nickname}</CommonTableColumn>
+                <CommonTableColumn>{comment.contents}</CommonTableColumn>
+                <CommonTableColumn>
+                    {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}>삭제</Link>}
+                </CommonTableColumn>
+                <CommonTableColumn>
+                    <button className="voc-view-go-list-btn" onClick={() => setSelectedReply(comment.commentAnswerId)}>수정</button>
+                </CommonTableColumn>
+            </CommonTableRow>
+            {selectedReply === comment.commentAnswerId && <label>댓글 수정 폼</label> }
+            {selectedReply === comment.commentAnswerId && <UpdateReply commentAnswerId={comment.commentAnswerId} contents={comment.contents} />}
+        </>
+        ));
     return replies;
 }
 
@@ -34,6 +40,7 @@ function GetComment(postId) {
     const [commentList, setCommentList] = useState({});
     const [selectedCommReply, setSelectedCommReply] = useState('');
     const [selectedCommUpdate, setSelectedCommUpdate] = useState('');
+    const [selectedReply, setSelectedReply] = useState('');
 
     useEffect(() => {
         axios.get("/posts/post", {
@@ -66,7 +73,7 @@ function GetComment(postId) {
                     <button className="voc-view-go-list-btn" onClick={() => setSelectedCommReply(comment.commentId)}>답글</button>
                 </CommonTableColumn>
             </CommonTableRow>
-            {GetReplies(comment.commentAnswerList)}
+            {GetReplies(comment.commentAnswerList, setSelectedReply, selectedReply)}
             {selectedCommReply === comment.commentId && <NewReply commentId={comment.commentId}/>}
             {selectedCommUpdate === comment.commentId && <label>댓글 수정 폼</label> }
             {selectedCommUpdate === comment.commentId && <UpdateComment commentId={comment.commentId} contents={comment.contents} />}
