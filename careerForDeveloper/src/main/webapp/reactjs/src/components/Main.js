@@ -15,6 +15,7 @@ function Main() {
                 <Link to="/delete"> 회원탈퇴 </Link>
                 <Link to="/posts"> 글목록 </Link>
                 <Link to="/projects/new"> 새 프로젝트 </Link>
+                <Link to={`/projects/${1}`}>프로젝트 상세보기</Link>
             </div>
         </>
     );
