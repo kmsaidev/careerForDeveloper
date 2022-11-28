@@ -16,6 +16,8 @@ import UpdateComment from "./UpdateComment";
 import UpdatePost from "./UpdatePost";
 import DeleteReply from "./DeleteReply";
 import NewProject from "./NewProject";
+import ProjectView from "./ProjectView";
+import DeleteProject from "./DeleteProject";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
               <Route path="/posts/:postId/update" element={<UpdatePost />}/>
               <Route path="/reply/delete/:commentAnswerId" element={<DeleteReply />}/>
               <Route path="/projects/new" element={<NewProject />}/>
+              <Route path="/projects/:projectId" element={<ProjectView />}/>
+              <Route path="/projects/delete/:projectId" element={<DeleteProject />}/>
           </Routes>
       </Router>
   );
