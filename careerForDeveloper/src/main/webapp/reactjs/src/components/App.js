@@ -14,6 +14,7 @@ import DeletePost from "./DeletePost";
 import DeleteComment from "./DeleteComment";
 import UpdateComment from "./UpdateComment";
 import UpdatePost from "./UpdatePost";
+import DeleteReply from "./DeleteReply";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
               <Route path="/comments/delete/:commentId" element={<DeleteComment />}/>
               <Route path="/comments/update/:commentId" element={<UpdateComment />}/>
               <Route path="/posts/:postId/update" element={<UpdatePost />}/>
+              <Route path="/reply/delete/:commentAnswerId" element={<DeleteReply />}/>
           </Routes>
       </Router>
   );

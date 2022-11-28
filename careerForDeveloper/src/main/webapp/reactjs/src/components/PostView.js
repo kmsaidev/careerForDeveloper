@@ -6,6 +6,7 @@ import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
 import CommonTable from "./table/CommonTable";
 import NewComment from "./NewComment";
+import NewReply from "./NewReply";
 
 function GetReplies(repliesList) {
     if (!repliesList) {
@@ -13,13 +14,13 @@ function GetReplies(repliesList) {
         return (<></>);
     }
     const replies = (Object.values(repliesList)).map((comment) => (
-        <CommonTableRow key={1}>
-            <CommonTableColumn>{1}</CommonTableColumn>
+        <CommonTableRow key={comment.commentAnswerId}>
+            <CommonTableColumn>L</CommonTableColumn>
             <CommonTableColumn>{comment.nickname}</CommonTableColumn>
             <CommonTableColumn>{comment.contents}</CommonTableColumn>
-            {/*<CommonTableColumn>*/}
-            {/*    {comment.myComment && <Link to={`/comments/delete/${1}`}>삭제</Link>}*/}
-            {/*</CommonTableColumn>*/}
+            <CommonTableColumn>
+                {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}>삭제</Link>}
+            </CommonTableColumn>
             {/*<CommonTableColumn>*/}
             {/*    {comment.myComment && <Link to={`/comments/update/${4}`}>수정</Link>}*/}
             {/*</CommonTableColumn>*/}
@@ -30,6 +31,7 @@ function GetReplies(repliesList) {
 
 function GetComment(postId) {
     const [commentList, setCommentList] = useState({});
+    const [isShow, setIsShow] = useState(false);
 
     useEffect(() => {
         axios.get("/posts/post", {
@@ -46,22 +48,24 @@ function GetComment(postId) {
         })
     }, [])
 
-    const replies = GetReplies(commentList.commentAnswerList);
-
     const comments = (Object.values(commentList)).map((comment) => (
-            <CommonTableRow key={1}>
-                <CommonTableColumn>{1}</CommonTableColumn>
+        <>
+            <CommonTableRow key={comment.commentId}>
+                <CommonTableColumn>{comment.commentId}</CommonTableColumn>
                 <CommonTableColumn>{comment.nickname}</CommonTableColumn>
                 <CommonTableColumn>{comment.contents}</CommonTableColumn>
                 <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/delete/${4}`}>삭제</Link>}
+                    {comment.myComment && <Link to={`/comments/delete/${comment.commentId}`}>삭제</Link>}
                 </CommonTableColumn>
                 <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/update/${4}`}>수정</Link>}
+                    {comment.myComment && <Link to={`/comments/update/${comment.commentId}`}>수정</Link>}
                 </CommonTableColumn>
-                {replies}
+                <button className="voc-view-go-list-btn" onClick={() => setIsShow(true)}>답글</button>
             </CommonTableRow>
-        ));
+            {GetReplies(comment.commentAnswerList)}
+            {isShow && <NewReply commentId={comment.commentId}/>}
+        </>
+    ));
     return comments;
 }
 
@@ -88,6 +92,7 @@ function GetData(postId) {
         <>
             <h2 align="center">게시글 상세정보</h2>
             {data.myPost && <Link to={`/posts/delete/${data.postId}`}>삭제</Link>}
+            {data.myPost && <Link to={`/posts/${data.postId}/update`}>수정</Link>}
             <div className="voc-view-wrapper">
                 <div className="voc-view-row">
                     <label>게시글 번호</label>
