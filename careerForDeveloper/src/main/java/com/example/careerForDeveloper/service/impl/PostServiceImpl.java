@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
         post.setContents(postDto.getContents());
         post.setUser(userDAO.selectUserById(postDto.getUserId()));
         String fileName = attachedFile.getOriginalFilename();
-        String path = "C:/spring/attachedFiles/";
+        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
         Path filePath = Paths.get(path + fileName);
         if(!attachedFile.isEmpty()){
             try{
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
         post.setTitle(updatePostDto.getTitle());
         post.setContents(updatePostDto.getContents());
         String fileName = attachedFile.getOriginalFilename();
-        String path = "C:/spring/attachedFiles/";
+        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
         Path filePath = Paths.get(path + fileName);
         if(!attachedFile.isEmpty()){
             try{

@@ -7,6 +7,7 @@ import CommonTableRow from "./table/CommonTableRow";
 import CommonTable from "./table/CommonTable";
 import NewComment from "./NewComment";
 import NewReply from "./NewReply";
+import UpdateComment from "./UpdateComment";
 
 function GetReplies(repliesList) {
     if (!repliesList) {
@@ -31,7 +32,8 @@ function GetReplies(repliesList) {
 
 function GetComment(postId) {
     const [commentList, setCommentList] = useState({});
-    const [isShow, setIsShow] = useState(false);
+    const [selectedCommReply, setSelectedCommReply] = useState('');
+    const [selectedCommUpdate, setSelectedCommUpdate] = useState('');
 
     useEffect(() => {
         axios.get("/posts/post", {
@@ -58,12 +60,16 @@ function GetComment(postId) {
                     {comment.myComment && <Link to={`/comments/delete/${comment.commentId}`}>삭제</Link>}
                 </CommonTableColumn>
                 <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/update/${comment.commentId}`}>수정</Link>}
+                    {comment.myComment && <button className="voc-view-go-list-btn" onClick={() => setSelectedCommUpdate(comment.commentId)}>수정</button>}
                 </CommonTableColumn>
-                <button className="voc-view-go-list-btn" onClick={() => setIsShow(true)}>답글</button>
+                <CommonTableColumn>
+                    <button className="voc-view-go-list-btn" onClick={() => setSelectedCommReply(comment.commentId)}>답글</button>
+                </CommonTableColumn>
             </CommonTableRow>
             {GetReplies(comment.commentAnswerList)}
-            {isShow && <NewReply commentId={comment.commentId}/>}
+            {selectedCommReply === comment.commentId && <NewReply commentId={comment.commentId}/>}
+            {selectedCommUpdate === comment.commentId && <label>댓글 수정 폼</label> }
+            {selectedCommUpdate === comment.commentId && <UpdateComment commentId={comment.commentId} contents={comment.contents} />}
         </>
     ));
     return comments;

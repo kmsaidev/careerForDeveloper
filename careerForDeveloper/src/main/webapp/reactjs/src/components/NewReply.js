@@ -13,7 +13,6 @@ const HandleCommentSubmit = async({body}) => {
                 alert("답글이 작성되었습니다!");
             }
         });
-
 }
 
 function NewReply(props) {
