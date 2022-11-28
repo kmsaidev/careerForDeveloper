@@ -15,6 +15,7 @@ import DeleteComment from "./DeleteComment";
 import UpdateComment from "./UpdateComment";
 import UpdatePost from "./UpdatePost";
 import DeleteReply from "./DeleteReply";
+import NewProject from "./NewProject";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route path="/comments/update/:commentId" element={<UpdateComment />}/>
               <Route path="/posts/:postId/update" element={<UpdatePost />}/>
               <Route path="/reply/delete/:commentAnswerId" element={<DeleteReply />}/>
+              <Route path="/projects/new" element={<NewProject />}/>
           </Routes>
       </Router>
   );
