@@ -4,7 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import './NewPost.css';
 
 const HandleCommentUpdate = async({body, navigate}) => {
-    axios.put('/posts/comment', body)
+    axios.put('/posts/comment-answer', body)
         .then((res) => {
             console.log(res)
             if (!res.data.isSuccess) {
@@ -16,12 +16,12 @@ const HandleCommentUpdate = async({body, navigate}) => {
         });
 }
 
-function UpdateComment(props) {
+function UpdateReply(props) {
     const [contents, setContents] = useState(props.contents);
     const navigate = useNavigate();
 
     const body = {
-        commentId: props.commentId,
+        commentAnswerId: props.commentAnswerId,
         contents: contents
     };
     return (
@@ -34,4 +34,4 @@ function UpdateComment(props) {
     )
 }
 
-export default UpdateComment
+export default UpdateReply
