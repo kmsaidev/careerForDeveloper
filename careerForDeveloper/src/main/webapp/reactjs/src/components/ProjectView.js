@@ -27,7 +27,7 @@ function GetData(projectId) {
         <>
             <h2 align="center">프로젝트 상세정보</h2>
             {data.myProject && <Link to={`/projects/delete/${data.projectId}`}>삭제</Link>}
-            {/*{data.myPost && <Link to={`/posts/${data.postId}/update`}>수정</Link>}*/}
+            {data.myProject && <Link to={`/projects/update/${data.projectId}`}>수정</Link>}
             <div className="voc-view-wrapper">
                 <div className="voc-view-row">
                     <label>작성자</label>
