@@ -37,6 +37,7 @@ public class ProjectUserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     @GetMapping("")
     public BaseResponse<ProjectUserResponseDto> getProjectUser(@RequestParam long projectId){
         try{
@@ -71,6 +72,19 @@ public class ProjectUserController {
 
             return new BaseResponse<>(result);
         } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PutMapping("/request")
+    public BaseResponse<String> updateRequest(@RequestParam long requestId){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+
+            projectUserService.updateRequest(requestId, userIdByJwt, "REFUSE");
+
+            return new BaseResponse<>("요청 거절 처리되었습니다.");
+        } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
