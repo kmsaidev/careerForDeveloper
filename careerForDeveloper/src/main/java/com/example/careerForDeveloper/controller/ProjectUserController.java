@@ -10,8 +10,6 @@ import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/project-users")
 public class ProjectUserController {
@@ -56,6 +54,19 @@ public class ProjectUserController {
             long userIdByJwt = jwtService.getUserId();
 
             AllRequestResponseDto result = projectUserService.getRequest(projectId, userIdByJwt);
+
+            return new BaseResponse<>(result);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @GetMapping("/profile")
+    public BaseResponse<ProfileResponseDto> getRequestProfile(@RequestParam long requestId){
+        try {
+            long userIdByJwt = jwtService.getUserId();
+
+            ProfileResponseDto result = projectUserService.getRequestProfile(requestId);
 
             return new BaseResponse<>(result);
         } catch (BaseException exception){

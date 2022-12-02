@@ -2,16 +2,9 @@ package com.example.careerForDeveloper.service.impl;
 
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
-import com.example.careerForDeveloper.data.dao.ProjectDAO;
-import com.example.careerForDeveloper.data.dao.RequestDAO;
-import com.example.careerForDeveloper.data.dao.UserDAO;
-import com.example.careerForDeveloper.data.dto.AllRequestResponseDto;
-import com.example.careerForDeveloper.data.dto.ProjectUserDto;
-import com.example.careerForDeveloper.data.dto.ProjectUserResponseDto;
-import com.example.careerForDeveloper.data.dto.RequestResponseDto;
-import com.example.careerForDeveloper.data.entity.Project;
-import com.example.careerForDeveloper.data.entity.Request;
-import com.example.careerForDeveloper.data.entity.User;
+import com.example.careerForDeveloper.data.dao.*;
+import com.example.careerForDeveloper.data.dto.*;
+import com.example.careerForDeveloper.data.entity.*;
 import com.example.careerForDeveloper.service.ProjectUserService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +16,22 @@ import java.util.List;
 
 @Service
 public class ProjectUserServiceImpl implements ProjectUserService {
+    private final ProjectUserDAO projectUserDAO;
     private final ProjectDAO projectDAO;
     private final UserDAO userDAO;
     private final RequestDAO requestDAO;
+    private final WebsiteDAO websiteDAO;
     private final JwtService jwtService;
 
     @Autowired
-    public ProjectUserServiceImpl(ProjectDAO projectDAO, UserDAO userDAO, RequestDAO requestDAO, JwtService jwtService){
+    public ProjectUserServiceImpl(ProjectUserDAO projectUserDAO, ProjectDAO projectDAO,
+                                  UserDAO userDAO, RequestDAO requestDAO,
+                                  WebsiteDAO websiteDAO, JwtService jwtService){
+        this.projectUserDAO = projectUserDAO;
         this.projectDAO = projectDAO;
         this.userDAO = userDAO;
         this.requestDAO = requestDAO;
+        this.websiteDAO = websiteDAO;
         this.jwtService = jwtService;
     }
 
@@ -96,6 +95,56 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             requestResponse.add(new RequestResponseDto(requestId, requestUserId, nickname, profileImageLoc, tech));
         }
         AllRequestResponseDto result = new AllRequestResponseDto(requestResponse, count);
+        return result;
+    }
+
+    @Override
+    public ProfileResponseDto getRequestProfile(long requestId) throws BaseException{
+        Request request = requestDAO.selectRequestById(requestId);
+        User user = userDAO.selectUserById(request.getUser().getUserId());
+        List<Project> myProject = projectDAO.selectProjectsByUser(user);
+        List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
+
+        List<ProfileProjectDto> myProjectList = new ArrayList<>();
+        List<ProfileProjectDto> partProjectList = new ArrayList<>();
+        for(Project project : myProject){
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            myProjectList.add(dto);
+        }
+        for(ProjectUser projectUser : partProject){
+            long projectId = projectUser.getProject().getProjectId();
+            Project project = projectDAO.selectProjectById(projectId);
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            partProjectList.add(dto);
+        }
+
+        List<Website> list = websiteDAO.selectWebsitesByUser(user);
+        List<WebsiteDto> websiteList = new ArrayList<>();
+        for(Website website : list){
+            websiteList.add(new WebsiteDto(website.getWebsiteName(), website.getWebsite()));
+        }
+
+        Profile profile = user.getProfile();
+        String tech, availableTime;
+        if(profile == null){
+            tech = null;
+            availableTime = null;
+        } else{
+            tech = profile.getTech();
+            availableTime = profile.getAvailableTime();
+        }
+
+        ProfileResponseDto result = new ProfileResponseDto(myProjectList, partProjectList,
+                websiteList, tech, availableTime, request.getContents());
+
         return result;
     }
 }

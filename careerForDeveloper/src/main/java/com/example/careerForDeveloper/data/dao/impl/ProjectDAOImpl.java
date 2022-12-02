@@ -7,6 +7,7 @@ import com.example.careerForDeveloper.data.dto.ProjectDto;
 import com.example.careerForDeveloper.data.entity.Category;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
+import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.data.repository.PostRepository;
 import com.example.careerForDeveloper.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,10 @@ public class ProjectDAOImpl implements ProjectDAO {
         } else {
             throw new BaseException(BaseResponseStatus.PROJECT_FAILED_GET_PROJECT_INFO);
         }
+    }
+
+    @Override
+    public List<Project> selectProjectsByUser(User user){
+        return projectRepository.findAllByUser(user);
     }
 }
