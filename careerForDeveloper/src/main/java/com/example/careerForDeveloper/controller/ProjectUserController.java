@@ -51,13 +51,13 @@ public class ProjectUserController {
     }
 
     @GetMapping("/request")
-    public BaseResponse<List<AllRequestResponseDto>> getRequest(@RequestParam long projectId){
+    public BaseResponse<AllRequestResponseDto> getRequest(@RequestParam long projectId){
         try {
             long userIdByJwt = jwtService.getUserId();
 
-            List<AllRequestResponseDto> requestList = projectUserService.getRequest(projectId, userIdByJwt);
+            AllRequestResponseDto result = projectUserService.getRequest(projectId, userIdByJwt);
 
-            return new BaseResponse<>(requestList);
+            return new BaseResponse<>(result);
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
