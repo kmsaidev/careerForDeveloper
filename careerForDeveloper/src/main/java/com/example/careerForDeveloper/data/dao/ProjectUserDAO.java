@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ProjectUserDAO {
     List<ProjectUser> selectPUByUser(User user);
+    ProjectUser createProjectUser(ProjectUser projectUser);
 }

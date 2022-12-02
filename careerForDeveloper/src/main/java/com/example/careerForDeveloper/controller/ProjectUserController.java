@@ -3,7 +3,6 @@ package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
 import com.example.careerForDeveloper.data.dto.*;
-import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.service.ProjectUserService;
 import com.example.careerForDeveloper.util.JwtService;
@@ -24,10 +23,25 @@ public class ProjectUserController {
         this.projectService = projectService;
         this.jwtService = jwtService;
     }
+
+    @PostMapping("")
+    public BaseResponse<Long> createProjectUser(@RequestParam long requestId){
+        try{
+            long userIdByJwt = jwtService.getUserId();
+
+            long projectUserId =
+                    projectUserService.createProjectUser(requestId, userIdByJwt);
+
+            return new BaseResponse<>(projectUserId);
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
     @GetMapping("")
     public BaseResponse<ProjectUserResponseDto> getProjectUser(@RequestParam long projectId){
         try{
             long userIdByJwt = jwtService.getUserId();
+
             ProjectUserResponseDto projectUserResponseDto =
                     projectUserService.getProjectUser(projectId, userIdByJwt);
 
