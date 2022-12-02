@@ -5,6 +5,7 @@ import com.example.careerForDeveloper.data.dto.ProjectDto;
 import com.example.careerForDeveloper.data.entity.Category;
 import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
+import com.example.careerForDeveloper.data.entity.User;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface ProjectDAO {
 
     List<Project> selectProjectsByCategory(Category category);
     Project selectProjectById(long projectId) throws BaseException;
+    List<Project> selectProjectsByUser(User user);
 }
