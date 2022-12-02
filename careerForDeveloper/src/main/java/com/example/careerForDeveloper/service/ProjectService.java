@@ -9,6 +9,7 @@ public interface ProjectService {
     long createProject(ProjectDto projectDto) throws BaseException;
     long updateProject(UpdateProjectDto updateProjectDto) throws BaseException;
     void deleteProject(DeleteProjectDto deleteProjectDto) throws BaseException;
-    List<ProjectByCategoryResponseDto> getProjectsByCategory(long categoryId) throws BaseException;
+    List<AllProjectResponseDto> getAllProject() throws BaseException;
+    List<AllProjectResponseDto> getProjectsByCategory(long categoryId) throws BaseException;
     ProjectResponseDto getProject(long projectId) throws BaseException;
 }
