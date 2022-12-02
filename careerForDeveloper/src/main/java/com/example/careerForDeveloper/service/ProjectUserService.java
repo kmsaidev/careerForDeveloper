@@ -13,4 +13,6 @@ public interface ProjectUserService {
     AllRequestResponseDto getRequest(long projectId, long userId) throws BaseException;
 
     ProfileResponseDto getRequestProfile(long requestId) throws BaseException;
+
+    void updateRequest(long requestId, long userId, String value) throws BaseException;
 }
