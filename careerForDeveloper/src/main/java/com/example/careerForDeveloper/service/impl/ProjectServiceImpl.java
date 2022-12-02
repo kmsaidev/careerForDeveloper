@@ -7,7 +7,6 @@ import com.example.careerForDeveloper.data.dao.ProjectDAO;
 import com.example.careerForDeveloper.data.dao.UserDAO;
 import com.example.careerForDeveloper.data.dto.*;
 import com.example.careerForDeveloper.data.entity.Category;
-import com.example.careerForDeveloper.data.entity.Post;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.util.JwtService;
@@ -79,13 +78,34 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectByCategoryResponseDto> getProjectsByCategory(long categoryId) throws BaseException{
-        List<ProjectByCategoryResponseDto> result = new ArrayList<>();
+    public List<AllProjectResponseDto> getAllProject() throws BaseException{
+        List<AllProjectResponseDto> result = new ArrayList<>();
+        List<Project> projectList = projectDAO.selectAllProject();
+
+        for(Project project : projectList){
+            AllProjectResponseDto projectDto = new AllProjectResponseDto();
+            projectDto.setUserId(project.getUser().getUserId());
+            projectDto.setNickname(project.getUser().getNickname());
+            projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
+            projectDto.setProjectId(project.getProjectId());
+            projectDto.setCategoryId(project.getCategory().getCategoryId());
+            projectDto.setTitle(project.getTitle());
+            projectDto.setContents(project.getContents());
+            projectDto.setCreatedAt(project.getCreatedAt());
+            projectDto.setLimitedMember(project.getLimitedMember());
+            projectDto.setPartMember(project.getPartMember());
+            result.add(projectDto);
+        }
+        return result;
+    }
+    @Override
+    public List<AllProjectResponseDto> getProjectsByCategory(long categoryId) throws BaseException{
+        List<AllProjectResponseDto> result = new ArrayList<>();
         Category category = categoryDAO.selectCategoryById(categoryId);
         List<Project> projectList = projectDAO.selectProjectsByCategory(category);
 
         for(Project project : projectList){
-            ProjectByCategoryResponseDto projectDto = new ProjectByCategoryResponseDto();
+            AllProjectResponseDto projectDto = new AllProjectResponseDto();
             projectDto.setUserId(project.getUser().getUserId());
             projectDto.setNickname(project.getUser().getNickname());
             projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());

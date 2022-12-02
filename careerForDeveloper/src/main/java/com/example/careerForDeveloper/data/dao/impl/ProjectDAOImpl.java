@@ -63,4 +63,9 @@ public class ProjectDAOImpl implements ProjectDAO {
     public List<Project> selectProjectsByUser(User user){
         return projectRepository.findAllByUser(user);
     }
+
+    @Override
+    public List<Project> selectAllProject(){
+        return projectRepository.findAll();
+    }
 }
