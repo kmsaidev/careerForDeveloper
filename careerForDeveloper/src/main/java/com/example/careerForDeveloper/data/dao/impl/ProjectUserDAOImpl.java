@@ -20,6 +20,10 @@ public class ProjectUserDAOImpl implements ProjectUserDAO {
     }
 
     @Override
+    public ProjectUser createProjectUser(ProjectUser projectUser){
+        return projectUserRepository.save(projectUser);
+    }
+    @Override
     public List<ProjectUser> selectPUByUser(User user){
         return projectUserRepository.findAllByUser(user);
     }

@@ -34,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public long saveProject(ProjectDto projectDto) throws BaseException{
+    public long createProject(ProjectDto projectDto) throws BaseException{
         Project project = new Project();
         project.setTitle(projectDto.getTitle());
         project.setUser(userDAO.selectUserById(projectDto.getUserId()));

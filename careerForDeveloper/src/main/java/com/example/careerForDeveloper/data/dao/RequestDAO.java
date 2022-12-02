@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RequestDAO {
     Request createRequest(Request request);
+    void updateRequest(Request request);
     List<Request> selectRequestsByProject(Project project);
     Request selectRequestById(long requestId) throws BaseException;
 }
