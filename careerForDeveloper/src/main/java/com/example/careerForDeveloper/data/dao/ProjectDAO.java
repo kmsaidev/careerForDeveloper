@@ -17,4 +17,5 @@ public interface ProjectDAO {
     List<Project> selectProjectsByCategory(Category category);
     Project selectProjectById(long projectId) throws BaseException;
     List<Project> selectProjectsByUser(User user);
+    List<Project> selectAllProject();
 }

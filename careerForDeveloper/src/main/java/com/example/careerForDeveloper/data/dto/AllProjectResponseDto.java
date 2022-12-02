@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProjectByCategoryResponseDto {
+public class AllProjectResponseDto {
     long userId;
     String nickname;
     String profileImageLoc;

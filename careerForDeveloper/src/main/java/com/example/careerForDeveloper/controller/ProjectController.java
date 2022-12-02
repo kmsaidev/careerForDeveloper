@@ -61,11 +61,21 @@ public class ProjectController {
         }
     }
 
+    @GetMapping("")
+    public BaseResponse<List<AllProjectResponseDto>> getAllProject(){
+        try {
+            List<AllProjectResponseDto> projectList = projectService.getAllProject();
+            return new BaseResponse<>(projectList);
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     @GetMapping("/category")
-    public BaseResponse<List<ProjectByCategoryResponseDto>> getProjectsByCategory
+    public BaseResponse<List<AllProjectResponseDto>> getProjectsByCategory
             (@RequestParam long categoryId){
         try {
-            List<ProjectByCategoryResponseDto> projectList = projectService.getProjectsByCategory(categoryId);
+            List<AllProjectResponseDto> projectList = projectService.getProjectsByCategory(categoryId);
             return new BaseResponse<>(projectList);
         } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
