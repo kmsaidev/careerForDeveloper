@@ -3,15 +3,13 @@ package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
 import com.example.careerForDeveloper.data.dto.ProjectResponseDto;
+import com.example.careerForDeveloper.data.dto.ProjectUserDto;
 import com.example.careerForDeveloper.data.dto.ProjectUserResponseDto;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.service.ProjectUserService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/project-users")
@@ -35,6 +33,17 @@ public class ProjectUserController {
                     projectUserService.getProjectUser(projectId, userIdByJwt);
 
             return new BaseResponse<>(projectUserResponseDto);
+        } catch(BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @PostMapping("/request")
+    public BaseResponse<Long> createRequest(@RequestBody ProjectUserDto projectUserDto){
+        try{
+            long requestId = projectUserService.saveRequest(projectUserDto);
+
+            return new BaseResponse<>(requestId);
         } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
