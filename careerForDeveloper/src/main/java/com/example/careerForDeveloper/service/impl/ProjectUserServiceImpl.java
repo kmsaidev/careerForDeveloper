@@ -43,9 +43,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         ProjectUser pu = new ProjectUser();
         pu.setProject(request.getProject());
         pu.setUser(request.getUser());
-        request.setStatus("APPROVE");
 
-        requestDAO.updateRequest(request);
+        updateRequest(requestId, userId, "APPROVE");
         ProjectUser savedPu = projectUserDAO.createProjectUser(pu);
 
         return savedPu.getProjectUserId();
@@ -163,5 +162,16 @@ public class ProjectUserServiceImpl implements ProjectUserService {
                 websiteList, tech, availableTime, request.getContents());
 
         return result;
+    }
+
+    @Override
+    public void updateRequest(long requestId, long userId, String value) throws BaseException{
+        Request request = requestDAO.selectRequestById(requestId);
+        if(userId != request.getProject().getUser().getUserId())
+            throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+
+        request.setStatus(value);
+
+        requestDAO.updateRequest(request);
     }
 }
