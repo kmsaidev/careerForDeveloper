@@ -96,6 +96,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         List<RequestResponseDto> requestResponse = new ArrayList<>();
         int count = 0;
         for(Request request : requestList){
+            if(request.getStatus().equals("APPROVE") || request.getStatus().equals("REFUSE"))
+                continue;
             long requestId = request.getRequestId();
             User user = request.getUser();
             long requestUserId = user.getUserId();
