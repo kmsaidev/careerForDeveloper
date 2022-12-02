@@ -29,6 +29,11 @@ public class RequestDAOImpl implements RequestDAO {
     }
 
     @Override
+    public void updateRequest(Request request){
+        requestRepository.save(request);
+    }
+
+    @Override
     public List<Request> selectRequestsByProject(Project project){
         return requestRepository.findAllByProject(project);
     }

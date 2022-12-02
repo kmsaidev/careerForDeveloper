@@ -3,12 +3,10 @@ package com.example.careerForDeveloper.controller;
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponse;
 import com.example.careerForDeveloper.data.dto.*;
-import com.example.careerForDeveloper.service.PostService;
 import com.example.careerForDeveloper.service.ProjectService;
 import com.example.careerForDeveloper.util.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class ProjectController {
             long userIdByJwt = jwtService.getUserId();
 
             projectDto.setUserId(userIdByJwt);
-            long projectId = projectService.saveProject(projectDto);
+            long projectId = projectService.createProject(projectDto);
             return new BaseResponse<>(projectId);
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
