@@ -8,6 +8,7 @@ import com.example.careerForDeveloper.data.dao.UserDAO;
 import com.example.careerForDeveloper.data.dto.AllRequestResponseDto;
 import com.example.careerForDeveloper.data.dto.ProjectUserDto;
 import com.example.careerForDeveloper.data.dto.ProjectUserResponseDto;
+import com.example.careerForDeveloper.data.dto.RequestResponseDto;
 import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.data.entity.Request;
 import com.example.careerForDeveloper.data.entity.User;
@@ -72,13 +73,14 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     @Override
-    public List<AllRequestResponseDto> getRequest(long projectId, long userId) throws BaseException{
+    public AllRequestResponseDto getRequest(long projectId, long userId) throws BaseException{
         Project project = projectDAO.selectProjectById(projectId);
         if(userId != project.getUser().getUserId())
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
 
         List<Request> requestList = requestDAO.selectRequestsByProject(project);
-        List<AllRequestResponseDto> result = new ArrayList<>();
+        List<RequestResponseDto> requestResponse = new ArrayList<>();
+        int count = 0;
         for(Request request : requestList){
             long requestId = request.getRequestId();
             User user = request.getUser();
@@ -90,8 +92,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
                 tech = null;
             else
                 tech = user.getProfile().getTech();
-            result.add(new AllRequestResponseDto(requestId, requestUserId, nickname, profileImageLoc, tech));
+            count++;
+            requestResponse.add(new RequestResponseDto(requestId, requestUserId, nickname, profileImageLoc, tech));
         }
+        AllRequestResponseDto result = new AllRequestResponseDto(requestResponse, count);
         return result;
     }
 }
