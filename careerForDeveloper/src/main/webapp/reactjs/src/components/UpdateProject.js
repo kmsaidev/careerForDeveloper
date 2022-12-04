@@ -6,9 +6,8 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 
 const HandleQuestionSubmit = async({body}) => {
-    console.log(body.categoryId);
-    axios.put('/projects', body
-    )
+    console.log(body);
+    axios.put('/projects', body)
         .then((res) => {
             console.log(res);
             if (!res.data.isSuccess) {
@@ -79,7 +78,7 @@ function UpdateProject() {
             <div className="voc-view-row">
                 <label>카테고리</label>
                 <Select
-                    onChange={(e) => setCategoryId(e.value)}
+                    onChange={(e) => setCategoryId(e.target.value)}
                     placeholder="카테고리를 선택하세요."
                     options={cateOp}
                     selected={categoryId}
@@ -88,7 +87,7 @@ function UpdateProject() {
             <div className="voc-view-row">
                 <label>인원 수</label>
                 <Select
-                    onChange={(e) => setLimitedMember(e.value)}
+                    onChange={(e) => setLimitedMember(e.target.value)}
                     placeholder="인원 수를 선택하세요."
                     options={memberOp}
                 />
