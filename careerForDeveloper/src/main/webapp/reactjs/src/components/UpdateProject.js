@@ -47,7 +47,7 @@ function UpdateProject() {
                 setContents(res.data.result.contents);
             }
         })
-    })
+    }, [])
 
     const body = {
         projectId: projectId,
@@ -67,7 +67,8 @@ function UpdateProject() {
         op.label = (i + 1) + '명';
 
         memberOp.push(op);
-    }
+    };
+
     return (<>
         <h2 align="center">프로젝트 작성</h2>
         <div className="voc-view-wrapper">
@@ -78,7 +79,7 @@ function UpdateProject() {
             <div className="voc-view-row">
                 <label>카테고리</label>
                 <Select
-                    onChange={(e) => setCategoryId(e.target.value)}
+                    onChange={(e) => setCategoryId(e.value)}
                     placeholder="카테고리를 선택하세요."
                     options={cateOp}
                     selected={categoryId}
@@ -87,7 +88,7 @@ function UpdateProject() {
             <div className="voc-view-row">
                 <label>인원 수</label>
                 <Select
-                    onChange={(e) => setLimitedMember(e.target.value)}
+                    onChange={(e) => setLimitedMember(e.value)}
                     placeholder="인원 수를 선택하세요."
                     options={memberOp}
                 />
