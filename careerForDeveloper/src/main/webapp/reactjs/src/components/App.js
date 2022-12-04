@@ -15,6 +15,11 @@ import DeleteComment from "./DeleteComment";
 import UpdateComment from "./UpdateComment";
 import UpdatePost from "./UpdatePost";
 import DeleteReply from "./DeleteReply";
+import NewProject from "./NewProject";
+import ProjectView from "./ProjectView";
+import DeleteProject from "./DeleteProject";
+import UpdateProject from "./UpdateProject";
+import Projects from "./Projects";
 
 function App() {
   return (
@@ -34,6 +39,11 @@ function App() {
               <Route path="/comments/update/:commentId" element={<UpdateComment />}/>
               <Route path="/posts/:postId/update" element={<UpdatePost />}/>
               <Route path="/reply/delete/:commentAnswerId" element={<DeleteReply />}/>
+              <Route path="/projects/new" element={<NewProject />}/>
+              <Route path="/projects/:projectId" element={<ProjectView />}/>
+              <Route path="/projects/delete/:projectId" element={<DeleteProject />}/>
+              <Route path="/projects/update/:projectId" element={<UpdateProject />}/>
+              <Route path="/projects/category/:categoryId" element={<Projects />}/>
           </Routes>
       </Router>
   );
