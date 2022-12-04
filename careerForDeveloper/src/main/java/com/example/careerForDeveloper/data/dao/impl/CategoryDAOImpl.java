@@ -10,6 +10,7 @@ import com.example.careerForDeveloper.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -31,5 +32,10 @@ public class CategoryDAOImpl implements CategoryDAO {
         } else {
             throw new BaseException(BaseResponseStatus.CATEGORY_FAILED_GET_CATEGORY_INFO);
         }
+    }
+
+    @Override
+    public List<Category> selectAllCategory(){
+        return categoryRepository.findAll();
     }
 }
