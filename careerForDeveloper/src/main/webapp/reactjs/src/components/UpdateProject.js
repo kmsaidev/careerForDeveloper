@@ -6,9 +6,8 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 
 const HandleQuestionSubmit = async({body}) => {
-    console.log(body.categoryId);
-    axios.put('/projects', body
-    )
+    console.log(body);
+    axios.put('/projects', body)
         .then((res) => {
             console.log(res);
             if (!res.data.isSuccess) {
@@ -48,7 +47,7 @@ function UpdateProject() {
                 setContents(res.data.result.contents);
             }
         })
-    })
+    }, [])
 
     const body = {
         projectId: projectId,
@@ -68,7 +67,8 @@ function UpdateProject() {
         op.label = (i + 1) + '명';
 
         memberOp.push(op);
-    }
+    };
+
     return (<>
         <h2 align="center">프로젝트 작성</h2>
         <div className="voc-view-wrapper">
