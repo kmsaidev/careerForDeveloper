@@ -15,7 +15,11 @@ function GetRequests(requestList) {
     const requests = (Object.values(requestList)).map((request) => (
        <>
            <CommonTableRow key={request.requestId}>
-               <CommonTableColumn>{request.nickname}</CommonTableColumn>
+               <CommonTableColumn>
+                   <Link to={`/request/view/${request.requestId}`}>
+                       {request.nickname}
+                   </Link>
+               </CommonTableColumn>
                <CommonTableColumn>{request.tech}</CommonTableColumn>
            </CommonTableRow>
        </>
