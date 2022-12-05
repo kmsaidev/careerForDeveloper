@@ -26,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         for(Category category : categoryList){
             CategoryDto dto = new CategoryDto();
-            dto.setCategoryId(category.getCategoryId());
-            dto.setCategoryName(category.getTitle());
+            dto.setValue(category.getCategoryId());
+            dto.setLabel(category.getTitle());
             result.add(dto);
         }
         return result;
