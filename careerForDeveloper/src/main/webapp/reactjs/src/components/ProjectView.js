@@ -63,6 +63,9 @@ function GetData(projectId) {
                     <label>내용</label>
                     <label>{ data.contents }</label>
                 </div>
+                <Link to={`/projects/request/${projectId}`}>
+                    <button className="voc-view-go-list-btn">참여신청</button>
+                </Link>
             </div>
 
         </>)
