@@ -10,6 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryDto {
-    long categoryId;
-    String categoryName;
+    long value;
+    String label;
 }
