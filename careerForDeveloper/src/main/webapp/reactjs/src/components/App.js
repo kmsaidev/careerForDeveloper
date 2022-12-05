@@ -21,6 +21,7 @@ import DeleteProject from "./DeleteProject";
 import UpdateProject from "./UpdateProject";
 import Projects from "./Projects";
 import ProjectRequest from "../ProjectRequest";
+import ProjectRequestView from "./ProjectRequestView";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
               <Route path="/projects/update/:projectId" element={<UpdateProject />}/>
               <Route path="/projects/category/:categoryId" element={<Projects />}/>
               <Route path="/projects/request/:projectId" element={<ProjectRequest />}/>
+              <Route path="/projects/request/view/:projectId" element={<ProjectRequestView />}/>
           </Routes>
       </Router>
   );

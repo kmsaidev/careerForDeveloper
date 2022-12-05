@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
-import CommonTable from "./table/CommonTable";
-import NewComment from "./NewComment";
 
 function GetData(projectId) {
     const [data, setData] = useState({});
@@ -28,6 +26,7 @@ function GetData(projectId) {
             <h2 align="center">프로젝트 상세정보</h2>
             {data.myProject && <Link to={`/projects/delete/${data.projectId}`}>삭제</Link>}
             {data.myProject && <Link to={`/projects/update/${data.projectId}`}>수정</Link>}
+            {data.myProject && <Link to={`/projects/request/view/${data.projectId}`}>지원현황조회</Link>}
             <div className="voc-view-wrapper">
                 <div className="voc-view-row">
                     <label>작성자</label>
