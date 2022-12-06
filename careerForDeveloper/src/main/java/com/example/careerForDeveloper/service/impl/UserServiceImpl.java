@@ -181,18 +181,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileResponseDto getProfile(long userId) throws BaseException{
         User user = userDAO.selectUserById(userId);
-        List<Project> myProject = projectDAO.selectProjectsByUser(user);
         List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
-
-        List<ProfileProjectDto> myProjectList = new ArrayList<>();
-        for(Project project : myProject){
-            ProfileProjectDto dto = new ProfileProjectDto();
-            dto.setProjectId(project.getProjectId());
-            dto.setTitle(project.getTitle());
-            dto.setCategoryId(project.getCategory().getCategoryId());
-            dto.setStatus(project.getStatus());
-            myProjectList.add(dto);
-        }
 
         List<ProfileProjectDto> partProjectList = new ArrayList<>();
         for(ProjectUser projectUser : partProject){
@@ -221,7 +210,7 @@ public class UserServiceImpl implements UserService {
             tech = profile.getTech();
             availableTime = profile.getAvailableTime();
         }
-        ProfileResponseDto result = new ProfileResponseDto(myProjectList, partProjectList, websiteList,
+        ProfileResponseDto result = new ProfileResponseDto(partProjectList, websiteList,
                 tech, availableTime);
 
         return result;
