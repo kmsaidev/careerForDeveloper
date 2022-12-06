@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -116,6 +118,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<AllProjectResponseDto> result = new ArrayList<>();
         Category category = categoryDAO.selectCategoryById(categoryId);
         List<Project> projectList = projectDAO.selectProjectsByCategory(category);
+        Collections.sort(projectList);
 
         for(Project project : projectList){
             if(project.getStatus().equals("ACTIVE")) {

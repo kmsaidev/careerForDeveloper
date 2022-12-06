@@ -9,6 +9,7 @@ import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.data.repository.PostRepository;
 import com.example.careerForDeveloper.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public List<Post> selectAllPost(){
-        return postRepository.findAll();
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC, "postId"));
     }
 
     @Override
