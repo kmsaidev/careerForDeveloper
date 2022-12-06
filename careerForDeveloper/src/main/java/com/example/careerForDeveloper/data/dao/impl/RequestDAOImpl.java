@@ -49,4 +49,9 @@ public class RequestDAOImpl implements RequestDAO {
             throw new BaseException(BaseResponseStatus.REQUEST_FAILED_GET_REQUEST_INFO);
         }
     }
+
+    @Override
+    public boolean existsByProjectAndUser(Project project, User user, String status){
+        return requestRepository.existsByProjectAndUserAndStatus(project, user, status);
+    }
 }
