@@ -2,9 +2,9 @@ package com.example.careerForDeveloper.service.impl;
 
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.config.BaseResponseStatus;
-import com.example.careerForDeveloper.data.dao.UserDAO;
+import com.example.careerForDeveloper.data.dao.*;
 import com.example.careerForDeveloper.data.dto.*;
-import com.example.careerForDeveloper.data.entity.User;
+import com.example.careerForDeveloper.data.entity.*;
 import com.example.careerForDeveloper.service.UserService;
 import com.example.careerForDeveloper.util.JwtService;
 import com.example.careerForDeveloper.util.SHA256;
@@ -16,15 +16,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
+    private final ProfileDAO profileDAO;
+    private final WebsiteDAO websiteDAO;
+    private final ProjectDAO projectDAO;
+    private final ProjectUserDAO projectUserDAO;
     private final JwtService jwtService;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, JwtService jwtService){
+    public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, WebsiteDAO websiteDAO, ProjectDAO projectDAO,
+                           ProjectUserDAO projectUserDAO, JwtService jwtService){
         this.userDAO = userDAO;
+        this.profileDAO = profileDAO;
+        this.websiteDAO = websiteDAO;
+        this.projectDAO = projectDAO;
+        this.projectUserDAO = projectUserDAO;
         this.jwtService = jwtService;
     }
 
@@ -128,6 +139,91 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e){
             throw new BaseException(BaseResponseStatus.USERS_FAILED_STORE_PROFILE_IMAGE);
         }
-        userDAO.updateUser(userId, path + fileName, updateUserDto.getNickname(), encryptPwd);
+
+        User findUser = userDAO.selectUserById(userId);
+        findUser.setProfileImageLoc(path + fileName);
+        findUser.setNickname(updateUserDto.getNickname());
+        findUser.setPwd(encryptPwd);
+        userDAO.updateUser(findUser);
+    }
+
+    @Override
+    public void updateProfile(UpdateProfileDto updateProfileDto) throws BaseException{
+        List<WebsiteDto> websiteList = updateProfileDto.getWebsiteList();
+        User user = userDAO.selectUserById(updateProfileDto.getUserId());
+        Profile profile = user.getProfile();
+        boolean isFirst = false;
+        if(profile == null) {
+            profile = new Profile();
+            isFirst = true;
+        }
+        profile.setTech(updateProfileDto.getTech());
+        profile.setAvailableTime(updateProfileDto.getAvailableTime());
+        if(websiteList != null){
+            for(WebsiteDto websiteDto : websiteList){
+                Website website = websiteDAO.selectWebsiteByWebsiteName(websiteDto.getWebsiteName(), user);
+                if(website == null) {
+                    website = new Website();
+                    website.setWebsiteName(websiteDto.getWebsiteName());
+                }
+                website.setUser(user);
+                website.setWebsite(websiteDto.getWebsite());
+                websiteDAO.createWebsite(website);
+            }
+        }
+        Profile savedProfile = profileDAO.updateProfile(profile);
+        if(isFirst) {
+            user.setProfile(savedProfile);
+            userDAO.updateUser(user);
+        }
+    }
+
+    @Override
+    public ProfileResponseDto getProfile(long userId) throws BaseException{
+        User user = userDAO.selectUserById(userId);
+        List<Project> myProject = projectDAO.selectProjectsByUser(user);
+        List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
+
+        List<ProfileProjectDto> myProjectList = new ArrayList<>();
+        for(Project project : myProject){
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            myProjectList.add(dto);
+        }
+
+        List<ProfileProjectDto> partProjectList = new ArrayList<>();
+        for(ProjectUser projectUser : partProject){
+            long projectId = projectUser.getProject().getProjectId();
+            Project project = projectDAO.selectProjectById(projectId);
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            partProjectList.add(dto);
+        }
+
+        List<Website> list = websiteDAO.selectWebsitesByUser(user);
+        List<WebsiteDto> websiteList = new ArrayList<>();
+        for(Website website : list){
+            websiteList.add(new WebsiteDto(website.getWebsiteName(), website.getWebsite()));
+        }
+
+        Profile profile = user.getProfile();
+        String tech, availableTime;
+        if(profile == null){
+            tech = null;
+            availableTime = null;
+        } else{
+            tech = profile.getTech();
+            availableTime = profile.getAvailableTime();
+        }
+        ProfileResponseDto result = new ProfileResponseDto(myProjectList, partProjectList, websiteList,
+                tech, availableTime);
+
+        return result;
     }
 }

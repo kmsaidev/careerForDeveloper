@@ -24,4 +24,14 @@ public class WebsiteDAOImpl implements WebsiteDAO {
     public List<Website> selectWebsitesByUser(User user){
         return websiteRepository.findAllByUser(user);
     }
+
+    @Override
+    public Website createWebsite(Website website){
+        return websiteRepository.save(website);
+    }
+
+    @Override
+    public Website selectWebsiteByWebsiteName(String name, User user){
+        return websiteRepository.findByWebsiteNameAndUser(name, user);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.careerForDeveloper.service;
 
 import com.example.careerForDeveloper.config.BaseException;
 import com.example.careerForDeveloper.data.dto.*;
+import org.hibernate.sql.Update;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
@@ -11,4 +12,8 @@ public interface UserService {
     void deleteUser(DeleteUserDto deleteUserDto) throws BaseException;
 
     void updateUser(UpdateUserDto updateUserDto, MultipartFile profileImage) throws BaseException;
+
+    void updateProfile(UpdateProfileDto updateProfileDto) throws BaseException;
+
+    ProfileResponseDto getProfile(long userId) throws BaseException;
 }

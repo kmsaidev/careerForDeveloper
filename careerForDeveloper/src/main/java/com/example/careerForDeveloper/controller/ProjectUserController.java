@@ -90,11 +90,11 @@ public class ProjectUserController {
     }
 
     @GetMapping("/profile")
-    public BaseResponse<ProfileResponseDto> getRequestProfile(@RequestParam long requestId){
+    public BaseResponse<RequestProfileResponseDto> getRequestProfile(@RequestParam long requestId){
         try {
             long userIdByJwt = jwtService.getUserId();
 
-            ProfileResponseDto result = projectUserService.getRequestProfile(requestId);
+            RequestProfileResponseDto result = projectUserService.getRequestProfile(requestId);
 
             return new BaseResponse<>(result);
         } catch (BaseException exception){

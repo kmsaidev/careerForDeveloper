@@ -133,7 +133,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     @Override
-    public ProfileResponseDto getRequestProfile(long requestId) throws BaseException{
+    public RequestProfileResponseDto getRequestProfile(long requestId) throws BaseException{
         Request request = requestDAO.selectRequestById(requestId);
         User user = userDAO.selectUserById(request.getUser().getUserId());
         List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
@@ -166,7 +166,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             availableTime = profile.getAvailableTime();
         }
 
-        ProfileResponseDto result = new ProfileResponseDto(partProjectList, websiteList,
+        RequestProfileResponseDto result = new RequestProfileResponseDto(partProjectList, websiteList,
                 tech, availableTime, request.getContents());
 
         return result;
