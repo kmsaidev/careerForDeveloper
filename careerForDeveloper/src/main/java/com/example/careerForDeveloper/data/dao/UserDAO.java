@@ -18,5 +18,5 @@ public interface UserDAO {
 
     boolean existsByNickname(String nickname);
 
-    void updateUser(long userId, String profileImageLoc, String nickname, String pwd) throws BaseException;
+    void updateUser(User user) throws BaseException;
 }

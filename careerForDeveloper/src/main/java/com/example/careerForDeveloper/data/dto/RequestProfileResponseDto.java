@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProfileResponseDto {
-    List<ProfileProjectDto> myProjectList;
+public class RequestProfileResponseDto {
     List<ProfileProjectDto> partProjectList;
     List<WebsiteDto> websites;
     String tech;
     String availableTime;
+    String contents;
 }

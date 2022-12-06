@@ -69,4 +69,28 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @PutMapping("/profile")
+    public BaseResponse<String> updateProfile(@RequestBody UpdateProfileDto updateProfileDto) throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            updateProfileDto.setUserId(userIdByJwt);
+            userService.updateProfile(updateProfileDto);
+            return new BaseResponse<>("성공적으로 수정되었습니다.");
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @GetMapping("/profile")
+    public BaseResponse<ProfileResponseDto> getProfile() throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            ProfileResponseDto profileResponseDto =
+                    userService.getProfile(userIdByJwt);
+            return new BaseResponse<>(profileResponseDto);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

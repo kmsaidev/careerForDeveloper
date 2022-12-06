@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface WebsiteDAO {
     List<Website> selectWebsitesByUser(User user);
+
+    Website createWebsite(Website website);
+    Website selectWebsiteByWebsiteName(String name, User user);
 }

@@ -72,11 +72,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(long userId, String profileImageLoc, String nickname, String pwd) throws BaseException{
-        User findUser = selectUserById(userId);
-        findUser.setProfileImageLoc(profileImageLoc);
-        findUser.setNickname(nickname);
-        findUser.setPwd(pwd);
-        User updateUser = userRepository.save(findUser);
+    public void updateUser(User user) throws BaseException{
+        userRepository.save(user);
     }
 }
