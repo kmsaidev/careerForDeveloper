@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ProfileResponseDto {
-    List<ProfileProjectDto> myProjectList;
     List<ProfileProjectDto> partProjectList;
     List<WebsiteDto> websites;
     String tech;
