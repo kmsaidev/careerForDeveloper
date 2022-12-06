@@ -62,8 +62,11 @@ public enum BaseResponseStatus {
     CATEGORY_FAILED_GET_CATEGORY_INFO(false, 2070, "카테고리 정보를 가져오는 데 실패했습니다."),
     //project
     PROJECT_FAILED_GET_PROJECT_INFO(false, 2080, "프로젝트 정보를 가져오는 데 실패했습니다."),
+    PROJECT_FULL_MEMBER(false, 2081, "프로젝트 인원이 다 찼습니다."),
     //request
     REQUEST_FAILED_GET_REQUEST_INFO(false, 2090, "신청서 정보를 가져오는 데 실패했습니다."),
+    REQUEST_ALREADY_REQUEST(false, 2091, "이미 참여 신청한 프로젝트입니다."),
+
 
     /**
      * 3000 : Response 오류

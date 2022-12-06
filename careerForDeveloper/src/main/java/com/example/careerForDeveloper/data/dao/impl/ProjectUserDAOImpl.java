@@ -1,6 +1,7 @@
 package com.example.careerForDeveloper.data.dao.impl;
 
 import com.example.careerForDeveloper.data.dao.ProjectUserDAO;
+import com.example.careerForDeveloper.data.entity.Project;
 import com.example.careerForDeveloper.data.entity.ProjectUser;
 import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.data.repository.ProjectRepository;
@@ -26,5 +27,9 @@ public class ProjectUserDAOImpl implements ProjectUserDAO {
     @Override
     public List<ProjectUser> selectPUByUser(User user){
         return projectUserRepository.findAllByUser(user);
+    }
+    @Override
+    public boolean existsByProjectAndUser(Project project, User user){
+        return projectUserRepository.existsByProjectAndUser(project, user);
     }
 }

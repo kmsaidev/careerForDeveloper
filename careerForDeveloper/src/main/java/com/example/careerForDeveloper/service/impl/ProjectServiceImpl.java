@@ -94,18 +94,20 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> projectList = projectDAO.selectAllProject();
 
         for(Project project : projectList){
-            AllProjectResponseDto projectDto = new AllProjectResponseDto();
-            projectDto.setUserId(project.getUser().getUserId());
-            projectDto.setNickname(project.getUser().getNickname());
-            projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
-            projectDto.setProjectId(project.getProjectId());
-            projectDto.setCategoryId(project.getCategory().getCategoryId());
-            projectDto.setTitle(project.getTitle());
-            projectDto.setContents(project.getContents());
-            projectDto.setCreatedAt(project.getCreatedAt());
-            projectDto.setLimitedMember(project.getLimitedMember());
-            projectDto.setPartMember(project.getPartMember());
-            result.add(projectDto);
+            if(project.getStatus().equals("ACTIVE")) {
+                AllProjectResponseDto projectDto = new AllProjectResponseDto();
+                projectDto.setUserId(project.getUser().getUserId());
+                projectDto.setNickname(project.getUser().getNickname());
+                projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
+                projectDto.setProjectId(project.getProjectId());
+                projectDto.setCategoryId(project.getCategory().getCategoryId());
+                projectDto.setTitle(project.getTitle());
+                projectDto.setContents(project.getContents());
+                projectDto.setCreatedAt(project.getCreatedAt());
+                projectDto.setLimitedMember(project.getLimitedMember());
+                projectDto.setPartMember(project.getPartMember());
+                result.add(projectDto);
+            }
         }
         return result;
     }
@@ -116,18 +118,20 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> projectList = projectDAO.selectProjectsByCategory(category);
 
         for(Project project : projectList){
-            AllProjectResponseDto projectDto = new AllProjectResponseDto();
-            projectDto.setUserId(project.getUser().getUserId());
-            projectDto.setNickname(project.getUser().getNickname());
-            projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
-            projectDto.setProjectId(project.getProjectId());
-            projectDto.setCategoryId(project.getCategory().getCategoryId());
-            projectDto.setTitle(project.getTitle());
-            projectDto.setContents(project.getContents());
-            projectDto.setCreatedAt(project.getCreatedAt());
-            projectDto.setLimitedMember(project.getLimitedMember());
-            projectDto.setPartMember(project.getPartMember());
-            result.add(projectDto);
+            if(project.getStatus().equals("ACTIVE")) {
+                AllProjectResponseDto projectDto = new AllProjectResponseDto();
+                projectDto.setUserId(project.getUser().getUserId());
+                projectDto.setNickname(project.getUser().getNickname());
+                projectDto.setProfileImageLoc(project.getUser().getProfileImageLoc());
+                projectDto.setProjectId(project.getProjectId());
+                projectDto.setCategoryId(project.getCategory().getCategoryId());
+                projectDto.setTitle(project.getTitle());
+                projectDto.setContents(project.getContents());
+                projectDto.setCreatedAt(project.getCreatedAt());
+                projectDto.setLimitedMember(project.getLimitedMember());
+                projectDto.setPartMember(project.getPartMember());
+                result.add(projectDto);
+            }
         }
         return result;
     }

@@ -40,13 +40,23 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         if(userId != request.getProject().getUser().getUserId())
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
 
+        Project project = request.getProject();
+        if(project.getStatus().equals("CLOSED")) {
+            throw new BaseException(BaseResponseStatus.PROJECT_FULL_MEMBER);
+        }
         ProjectUser pu = new ProjectUser();
-        pu.setProject(request.getProject());
+        pu.setProject(project);
         pu.setUser(request.getUser());
 
         updateRequest(requestId, userId, "APPROVE");
         ProjectUser savedPu = projectUserDAO.createProjectUser(pu);
 
+        project.setPartMember(project.getPartMember() + 1);
+        projectDAO.updateProject(project);
+        if(project.getPartMember() == project.getLimitedMember()){
+            project.setStatus("CLOSED");
+            projectDAO.updateProject(project);
+        }
         return savedPu.getProjectUserId();
     }
 
@@ -75,6 +85,14 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Request request = new Request();
         Project project = projectDAO.selectProjectById(projectUserDto.getProjectId());
         User user = userDAO.selectUserById(projectUserDto.getUserId());
+
+        if(requestDAO.existsByProjectAndUser(project, user, "ACTIVE") ||
+                projectUserDAO.existsByProjectAndUser(project, user))
+            throw new BaseException(BaseResponseStatus.REQUEST_ALREADY_REQUEST);
+
+        if(project.getStatus().equals("CLOSED")) {
+            throw new BaseException(BaseResponseStatus.PROJECT_FULL_MEMBER);
+        }
         request.setProject(project);
         request.setUser(user);
         request.setContents(projectUserDto.getContents());
@@ -118,19 +136,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     public ProfileResponseDto getRequestProfile(long requestId) throws BaseException{
         Request request = requestDAO.selectRequestById(requestId);
         User user = userDAO.selectUserById(request.getUser().getUserId());
-        List<Project> myProject = projectDAO.selectProjectsByUser(user);
         List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
 
-        List<ProfileProjectDto> myProjectList = new ArrayList<>();
         List<ProfileProjectDto> partProjectList = new ArrayList<>();
-        for(Project project : myProject){
-            ProfileProjectDto dto = new ProfileProjectDto();
-            dto.setProjectId(project.getProjectId());
-            dto.setTitle(project.getTitle());
-            dto.setCategoryId(project.getCategory().getCategoryId());
-            dto.setStatus(project.getStatus());
-            myProjectList.add(dto);
-        }
         for(ProjectUser projectUser : partProject){
             long projectId = projectUser.getProject().getProjectId();
             Project project = projectDAO.selectProjectById(projectId);
@@ -158,8 +166,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             availableTime = profile.getAvailableTime();
         }
 
-        ProfileResponseDto result = new ProfileResponseDto(myProjectList, partProjectList,
-                websiteList, tech, availableTime, request.getContents());
+        ProfileResponseDto result = new ProfileResponseDto(partProjectList, websiteList,
+                tech, availableTime, request.getContents());
 
         return result;
     }
