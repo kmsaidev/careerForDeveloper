@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "project")
-public class Project {
+public class Project implements Comparable<Project>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long projectId;
@@ -56,4 +56,9 @@ public class Project {
 
     @Column(length = 20, nullable = false)
     private String status;
+
+    @Override
+    public int compareTo(Project o) {
+        return (int)o.getProjectId() - (int)this.getProjectId();
+    }
 }

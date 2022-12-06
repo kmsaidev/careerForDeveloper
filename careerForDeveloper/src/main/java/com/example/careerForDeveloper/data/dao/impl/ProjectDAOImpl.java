@@ -11,6 +11,7 @@ import com.example.careerForDeveloper.data.entity.User;
 import com.example.careerForDeveloper.data.repository.PostRepository;
 import com.example.careerForDeveloper.data.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -66,6 +67,6 @@ public class ProjectDAOImpl implements ProjectDAO {
 
     @Override
     public List<Project> selectAllProject(){
-        return projectRepository.findAll();
+        return projectRepository.findAll(Sort.by(Sort.Direction.DESC, "projectId"));
     }
 }
