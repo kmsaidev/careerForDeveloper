@@ -56,4 +56,9 @@ public class PostDAOImpl implements PostDAO {
             throw new BaseException(BaseResponseStatus.POSTS_EMPTY_POST_ID);
         }
     }
+
+    @Override
+    public List<Post> selectPostsByUser(User user){
+        return postRepository.findAllByUser(user);
+    }
 }

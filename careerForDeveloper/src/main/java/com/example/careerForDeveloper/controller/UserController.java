@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -101,6 +103,18 @@ public class UserController {
             UserProjectResponseDto dto =
                     userService.getUserProject(userIdByJwt);
             return new BaseResponse<>(dto);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    @GetMapping("/post")
+    public BaseResponse<List<AllPostResponseDto>> getUserPost() throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            List<AllPostResponseDto> dtoList =
+                    userService.getUserPost(userIdByJwt);
+            return new BaseResponse<>(dtoList);
         } catch (BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
