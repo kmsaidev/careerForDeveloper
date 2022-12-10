@@ -29,12 +29,13 @@ public class UserServiceImpl implements UserService {
     private final CommentDAO commentDAO;
     private final ProjectDAO projectDAO;
     private final ProjectUserDAO projectUserDAO;
+    private final RequestDAO requestDAO;
     private final JwtService jwtService;
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, WebsiteDAO websiteDAO, PostDAO postDAO,
                            CommentDAO commentDAO, ProjectDAO projectDAO, ProjectUserDAO projectUserDAO,
-                           JwtService jwtService){
+                           RequestDAO requestDAO, JwtService jwtService){
         this.userDAO = userDAO;
         this.profileDAO = profileDAO;
         this.websiteDAO = websiteDAO;
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
         this.commentDAO = commentDAO;
         this.projectDAO = projectDAO;
         this.projectUserDAO = projectUserDAO;
+        this.requestDAO = requestDAO;
         this.jwtService = jwtService;
     }
 
@@ -285,5 +287,28 @@ public class UserServiceImpl implements UserService {
             result.add(postDto);
         }
         return result;
+    }
+
+    @Override
+    public List<UserRequestResponseDto> getUserRequest(long userId) throws BaseException{
+        User user = userDAO.selectUserById(userId);
+        List<Request> requestList = requestDAO.selectRequestsByUser(user);
+        Collections.sort(requestList);
+        List<UserRequestResponseDto> requestResponse = new ArrayList<>();
+
+        for(Request request : requestList){
+            if(request.getStatus().equals("APPROVE") || request.getStatus().equals("REFUSE"))
+                continue;
+
+            long requestId = request.getRequestId();
+            Project project = request.getProject();
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            requestResponse.add(new UserRequestResponseDto(requestId, dto));
+        }
+        return requestResponse;
     }
 }

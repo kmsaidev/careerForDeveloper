@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "request")
-public class Request {
+public class Request implements Comparable<Request>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long requestId;
@@ -37,4 +37,9 @@ public class Request {
 
     @Column(length = 20, nullable = false)
     private String status;
+
+    @Override
+    public int compareTo(Request o) {
+        return (int)(o.getRequestId() - this.getRequestId());
+    }
 }
