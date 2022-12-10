@@ -93,4 +93,16 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    @GetMapping("/project")
+    public BaseResponse<UserProjectResponseDto> getUserProject() throws BaseException{
+        try{
+            long userIdByJwt = jwtService.getUserId();
+            UserProjectResponseDto dto =
+                    userService.getUserProject(userIdByJwt);
+            return new BaseResponse<>(dto);
+        } catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

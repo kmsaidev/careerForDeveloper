@@ -215,4 +215,47 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public UserProjectResponseDto getUserProject(long userId) throws BaseException{
+        User user = userDAO.selectUserById(userId);
+        List<Project> myProject = projectDAO.selectProjectsByUser(user);
+        List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
+
+        List<ProfileProjectDto> myProjectList = new ArrayList<>();
+        List<ProfileProjectDto> endMyProjectList = new ArrayList<>();
+        List<ProfileProjectDto> partProjectList = new ArrayList<>();
+        List<ProfileProjectDto> endPartProjectList = new ArrayList<>();
+        for(Project project : myProject){
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            if(project.getStatus().equals("END")) {
+                endMyProjectList.add(dto);
+            } else{
+                myProjectList.add(dto);
+            }
+        }
+        for(ProjectUser projectUser : partProject){
+            long projectId = projectUser.getProject().getProjectId();
+            Project project = projectDAO.selectProjectById(projectId);
+            ProfileProjectDto dto = new ProfileProjectDto();
+            dto.setProjectId(project.getProjectId());
+            dto.setTitle(project.getTitle());
+            dto.setCategoryId(project.getCategory().getCategoryId());
+            dto.setStatus(project.getStatus());
+            if(project.getStatus().equals("END")) {
+                endPartProjectList.add(dto);
+            } else{
+                partProjectList.add(dto);
+            }
+        }
+
+        UserProjectResponseDto dto = new UserProjectResponseDto(myProjectList, endMyProjectList,
+                partProjectList, endPartProjectList);
+
+        return dto;
+    }
 }
