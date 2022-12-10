@@ -16,4 +16,6 @@ public interface UserService {
     void updateProfile(UpdateProfileDto updateProfileDto) throws BaseException;
 
     ProfileResponseDto getProfile(long userId) throws BaseException;
+
+    UserProjectResponseDto getUserProject(long userId) throws BaseException;
 }
