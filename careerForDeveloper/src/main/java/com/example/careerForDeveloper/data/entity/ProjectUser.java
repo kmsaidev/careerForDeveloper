@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "project_user")
-public class ProjectUser {
+public class ProjectUser implements Comparable<ProjectUser>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long projectUserId;
@@ -27,4 +27,9 @@ public class ProjectUser {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public int compareTo(ProjectUser o) {
+        return (int)(o.getProject().getProjectId() - this.getProject().getProjectId());
+    }
 }

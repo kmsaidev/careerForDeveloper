@@ -5,6 +5,8 @@ import com.example.careerForDeveloper.data.dto.*;
 import org.hibernate.sql.Update;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface UserService {
     UserResponseDto saveUser(UserDto userDto) throws BaseException;
 
@@ -18,4 +20,6 @@ public interface UserService {
     ProfileResponseDto getProfile(long userId) throws BaseException;
 
     UserProjectResponseDto getUserProject(long userId) throws BaseException;
+
+    List<AllPostResponseDto> getUserPost(long userId) throws BaseException;
 }

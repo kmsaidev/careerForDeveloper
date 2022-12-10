@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "post")
-public class Post {
+public class Post implements Comparable<Post>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postId;
@@ -36,4 +36,9 @@ public class Post {
 
     @Column(nullable = false)
     private Timestamp createdAt;
+
+    @Override
+    public int compareTo(Post o) {
+        return (int)(o.getPostId() - this.getPostId());
+    }
 }

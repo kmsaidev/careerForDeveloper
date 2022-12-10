@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,16 +25,21 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
     private final ProfileDAO profileDAO;
     private final WebsiteDAO websiteDAO;
+    private final PostDAO postDAO;
+    private final CommentDAO commentDAO;
     private final ProjectDAO projectDAO;
     private final ProjectUserDAO projectUserDAO;
     private final JwtService jwtService;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, WebsiteDAO websiteDAO, ProjectDAO projectDAO,
-                           ProjectUserDAO projectUserDAO, JwtService jwtService){
+    public UserServiceImpl(UserDAO userDAO, ProfileDAO profileDAO, WebsiteDAO websiteDAO, PostDAO postDAO,
+                           CommentDAO commentDAO, ProjectDAO projectDAO, ProjectUserDAO projectUserDAO,
+                           JwtService jwtService){
         this.userDAO = userDAO;
         this.profileDAO = profileDAO;
         this.websiteDAO = websiteDAO;
+        this.postDAO = postDAO;
+        this.commentDAO = commentDAO;
         this.projectDAO = projectDAO;
         this.projectUserDAO = projectUserDAO;
         this.jwtService = jwtService;
@@ -221,6 +227,8 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.selectUserById(userId);
         List<Project> myProject = projectDAO.selectProjectsByUser(user);
         List<ProjectUser> partProject = projectUserDAO.selectPUByUser(user);
+        Collections.sort(myProject);
+        Collections.sort(partProject);
 
         List<ProfileProjectDto> myProjectList = new ArrayList<>();
         List<ProfileProjectDto> endMyProjectList = new ArrayList<>();
@@ -257,5 +265,25 @@ public class UserServiceImpl implements UserService {
                 partProjectList, endPartProjectList);
 
         return dto;
+    }
+
+    public List<AllPostResponseDto> getUserPost(long userId) throws BaseException{
+        User user = userDAO.selectUserById(userId);
+        List<AllPostResponseDto> result = new ArrayList<>();
+        List<Post> postList = postDAO.selectPostsByUser(user);
+        Collections.sort(postList);
+
+        for(int i = 0; i < postList.size(); i++){
+            AllPostResponseDto postDto = new AllPostResponseDto();
+            Post post = postList.get(i);
+            postDto.setPostId(post.getPostId());
+            postDto.setTitle(post.getTitle());
+            postDto.setContents(post.getContents());
+            postDto.setNickname(post.getUser().getNickname());
+            long commentCount = commentDAO.countCommentByPost(post);
+            postDto.setCommentCount(commentCount);
+            result.add(postDto);
+        }
+        return result;
     }
 }
