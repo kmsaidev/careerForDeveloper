@@ -1,9 +1,39 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import { setRefreshToken } from "../utils/Cookie";
 import { SET_TOKEN } from "../Store/Auth";
 import { useDispatch, useSelector } from "react-redux";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NavBar from "./NavBar";
+
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="/">
+                CareerForDeveloper
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const theme = createTheme();
+
 
 function Login() {
     const [id, setId] = React.useState("");
@@ -50,20 +80,67 @@ function Login() {
     };
     return (
         <>
-            <h1>LoginComponent</h1>
-            <form onSubmit={LoginFunc}>
-                <label htmlFor="id">ID : </label>
-                <input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} />
-                <br />
-                <label htmlFor="password">PASSWORD : </label>
-                <input type="password" value={password} onChange={(e) => setPassword((e.target.value))}/>
-                <br />
-                <button type="submit">로그인</button>
-                <br />
-            </form>
-            <div>
-                <Link to="/signup">회원가입</Link>
-            </div>
+            <NavBar />
+            <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <Box component="form" onSubmit={LoginFunc} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="이메일"
+                            name="email"
+                            autoComplete="email"
+                            onChange={(e) => setId(e.target.value)}
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="비밀번호"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={(e) => setPassword((e.target.value))}
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            로그인
+                        </Button>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link href="/signup" variant="body2">
+                                    {"계정이 없으신가요? 회원가입"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Box>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </ThemeProvider>
         </>
     );
 }

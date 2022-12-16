@@ -6,6 +6,7 @@ import {Link, useParams} from "react-router-dom";
 import PostHeader from "./PostHeader";
 import CommonTable from "./table/CommonTable";
 import React from "react";
+import BasicCard from "./BasicCard";
 
 function GetData(categoryId) {
     const [data, setData] = react.useState("");
@@ -54,6 +55,7 @@ function Projects() {
 
     return (
         <>
+            <BasicCard />
             <div className="voc-header">
                 <h2 align="left">프로젝트</h2>
                 <Link to="/projects/new">

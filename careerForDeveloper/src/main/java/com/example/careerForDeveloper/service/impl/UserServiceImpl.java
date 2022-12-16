@@ -278,7 +278,7 @@ public class UserServiceImpl implements UserService {
         for(int i = 0; i < postList.size(); i++){
             AllPostResponseDto postDto = new AllPostResponseDto();
             Post post = postList.get(i);
-            postDto.setPostId(post.getPostId());
+            postDto.setId(post.getPostId());
             postDto.setTitle(post.getTitle());
             postDto.setContents(post.getContents());
             postDto.setNickname(post.getUser().getNickname());

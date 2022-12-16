@@ -6,43 +6,75 @@ import CommonTable from "./table/CommonTable";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
 import PostHeader from "./PostHeader";
+import NavBar from "./NavBar";
+
+import { DataGrid } from '@mui/x-data-grid';
+
+
+// export default function DataTable() {
+//     return (
+//         <div style={{ height: 400, width: '100%' }}>
+//             <DataGrid
+//                 rows={rows}
+//                 columns={columns}
+//                 pageSize={5}
+//                 rowsPerPageOptions={[5]}
+//                 checkboxSelection
+//             />
+//         </div>
+//     );
+// }
 
 function GetData() {
-    const [data, setData] = react.useState("");
+    
+
+    return data;
+}
+
+function Posts() {
+    const columns = [
+        { field: 'id', headerName: 'NO', width: 70 },
+        { field: 'title', headerName: '글제목', width: 130 },
+        { field: 'nickname', headerName: '작성자', width: 130 },
+        // {
+        //     field: 'age',
+        //     headerName: 'Age',
+        //     type: 'number',
+        //     width: 90,
+        // },
+        // {
+        //     field: 'fullName',
+        //     headerName: 'Full name',
+        //     description: 'This column has a value getter and is not sortable.',
+        //     sortable: false,
+        //     width: 160,
+        //     valueGetter: (params) =>
+        //         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        // },
+    ];
+
+    const [rows, setRows] = react.useState([]);
 
     useEffect(() => {
         axios.get("/posts")
             .then((res) => {
-                console.log(res.data.result);
-                setData(res.data.result);
+                console.log(res.data);
+                setRows(res.data.result);
             })
     }, []);
 
-    const item = (Object.values(data)).map((item) => (
-        <CommonTableRow key={item.postId}>
-            <CommonTableColumn>{item.postId}</CommonTableColumn>
-            <CommonTableColumn>
-                <Link to={`/posts/${item.postId}`}>
-                    {item.title}
-                </Link>
-            </CommonTableColumn>
-            <CommonTableColumn>{item.nickname}</CommonTableColumn>
-            <CommonTableColumn>{item.commentCount}</CommonTableColumn>
-        </CommonTableRow>
-    ));
-
-    return item;
-}
-
-function Posts() {
-    const item = GetData();
-
     return (
         <>
-            <PostHeader></PostHeader>
-            <CommonTable headersName={['글번호', '글제목', '작성자', '댓글수']}>
-                {item}
-            </CommonTable>
+        <NavBar />
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+            />
+        </div>
         </>
     );
 }

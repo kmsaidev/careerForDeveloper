@@ -1,14 +1,18 @@
 import '../App.css';
+import React, {useEffect} from "react";
+import {getCookieToken} from "../utils/Cookie";
+import axios from "axios";
+import {SET_TOKEN} from "../Store/Auth";
+import {useDispatch} from "react-redux";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Main from "./Main";
 import Login from "./Login";
 import Logout from "./Logout";
 import Signup from "./Signup";
 import DropUser from "./DropUser";
-import Main from "./Main";
 import Update from "./Update";
 import Posts from "./Posts";
 import PostView from "./PostView";
-import React from "react";
 import NewPost from "./NewPost";
 import DeletePost from "./DeletePost";
 import DeleteComment from "./DeleteComment";
@@ -25,6 +29,28 @@ import ProjectRequestView from "./ProjectRequestView";
 import RequestView from "./RequestView";
 
 function App() {
+    const dispatch = useDispatch();
+
+    function initializeUserInfo() {
+        const refreshToken = getCookieToken();
+        if (!refreshToken) return;
+        axios.get("/auth", {
+            headers: {
+                "REFRESH-TOKEN": refreshToken,
+            }
+        }).then((res) => {
+            if (!res.data.isSuccess) {
+                return alert(res.data.message);
+            }
+            axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
+            dispatch(SET_TOKEN(res.data.result.accessToken));
+        })
+
+    }
+
+    useEffect(() => {
+        initializeUserInfo();
+    }, []);
   return (
       <Router>
           <Routes>

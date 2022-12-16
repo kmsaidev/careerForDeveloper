@@ -1,7 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {getCookieToken} from "../utils/Cookie";
+import {getCookieToken, removeCookieToken} from "../utils/Cookie";
 import axios from "axios";
+import {DELETE_TOKEN} from "../Store/Auth";
+import {useEffect} from "react";
 
 function Logout() {
     const { accessToken } = useSelector(state => state.authToken);
@@ -17,15 +19,24 @@ function Logout() {
         }
         axios.get("/auth", {
             headers: {
-                "REFRESTH-TOKEN": refreshToken,
+                "REFRESH-TOKEN": refreshToken,
             }
         }).then((res) => {
-            console.log(res);
+            if (!res.data.isSuccess) {
+                return alert(res.data.message);
+            }
+            dispatch(DELETE_TOKEN());
+            removeCookieToken();
+            return navigate("/");
         })
     }
 
-    return (
-        logout()
+    useEffect( () => {
+        logout();
+    }, [])
+
+    return (<>
+        </>
     );
 }
 
