@@ -24,7 +24,7 @@ public class PostController {
 
     @PostMapping("")
     public BaseResponse<Long> createPost(@RequestPart PostDto postDto,
-                                                    @RequestPart MultipartFile attachedFile){
+                                                    @RequestPart(required = false) MultipartFile attachedFile){
         try{
             long userIdByJwt = jwtService.getUserId();
 

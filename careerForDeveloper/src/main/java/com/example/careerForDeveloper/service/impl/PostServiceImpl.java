@@ -48,10 +48,10 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContents(postDto.getContents());
         post.setUser(userDAO.selectUserById(postDto.getUserId()));
-        String fileName = attachedFile.getOriginalFilename();
+        String fileName = attachedFile != null ? attachedFile.getOriginalFilename() : "null";
         String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
         Path filePath = Paths.get(path + fileName);
-        if(!attachedFile.isEmpty()){
+        if(attachedFile != null && !attachedFile.isEmpty()){
             try{
                 Files.write(filePath, attachedFile.getBytes());
             } catch (Exception e){
