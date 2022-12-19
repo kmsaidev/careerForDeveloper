@@ -143,6 +143,7 @@ public class PostServiceImpl implements PostService {
         result.setNickname(post.getUser().getNickname());
         result.setCreatedAt(post.getCreatedAt());
         result.setProfileImageLoc(post.getUser().getProfileImageLoc());
+        result.setFileLoc(post.getFileLoc());
         long commentCount = 0;
         for(Comment comment : commentList){
             List<CommentAnswer> list = commentAnswerDAO.selectAllCommentAnswerByComment(comment);

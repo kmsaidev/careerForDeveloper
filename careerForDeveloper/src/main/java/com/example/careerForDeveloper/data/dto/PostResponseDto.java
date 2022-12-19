@@ -21,6 +21,7 @@ public class PostResponseDto {
     long userId;
     String nickname;
     String profileImageLoc;
+    String fileLoc;
     Timestamp createdAt;
     List<CommentResponseDto> commentList;
     boolean isMyPost;
