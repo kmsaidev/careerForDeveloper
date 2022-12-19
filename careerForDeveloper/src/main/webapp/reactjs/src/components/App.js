@@ -27,7 +27,6 @@ import Projects from "../pages/Projects";
 import ProjectRequest from "./ProjectRequest";
 import ProjectRequestView from "./ProjectRequestView";
 import RequestView from "../pages/RequestView";
-import MyPage from "../pages/MyPage";
 import UserRequest from "../pages/UserRequest";
 import MyPosts from "../pages/MyPosts";
 import MyProjects from "../pages/MyProjects";

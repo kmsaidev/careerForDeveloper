@@ -20,6 +20,7 @@ function NavBar() {
                         <Nav.Link href="/posts">취업정보</Nav.Link>
                         {!token && <Nav.Link href="/login">로그인</Nav.Link>}
                         {token && <Nav.Link href="/logout">로그아웃</Nav.Link>}
+                        {!token && <Nav.Link href="/signup">회원가입</Nav.Link>}
                         {token &&
                         <NavDropdown title="마이페이지" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/users/projects">프로젝트</NavDropdown.Item>
