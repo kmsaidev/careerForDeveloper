@@ -24,9 +24,12 @@ import ProjectView from "./ProjectView";
 import DeleteProject from "./DeleteProject";
 import UpdateProject from "./UpdateProject";
 import Projects from "./Projects";
-import ProjectRequest from "../ProjectRequest";
+import ProjectRequest from "./ProjectRequest";
 import ProjectRequestView from "./ProjectRequestView";
 import RequestView from "./RequestView";
+import UserPage from "../pages/UserPage";
+import MyPage from "../pages/MyPage";
+import UserRequest from "../pages/UserRequest";
 
 function App() {
     const dispatch = useDispatch();
@@ -76,6 +79,8 @@ function App() {
               <Route path="/projects/request/:projectId" element={<ProjectRequest />}/>
               <Route path="/projects/request/view/:projectId" element={<ProjectRequestView />}/>
               <Route path="/request/view/:requestId" element={<RequestView />}/>
+              <Route path="/users/my-page" element={<MyPage />} />
+              <Route path="/users/requests" element={<UserRequest />} />
           </Routes>
       </Router>
   );

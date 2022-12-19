@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import NavBar from "./NavBar";
+import StickyFooter from "./StickyFooter";
 
 function Copyright(props) {
     return (
@@ -96,7 +97,7 @@ function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        로그인
                     </Typography>
                     <Box component="form" onSubmit={LoginFunc} noValidate sx={{ mt: 1 }}>
                         <TextField
@@ -138,9 +139,9 @@ function Login() {
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
-        </ThemeProvider>
+                <StickyFooter />
+            </ThemeProvider>
         </>
     );
 }

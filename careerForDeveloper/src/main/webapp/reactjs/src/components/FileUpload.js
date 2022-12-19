@@ -1,5 +1,6 @@
 import React from 'react';
 import profile from '../img/profile.png';
+import Button from "@mui/material/Button";
 
 function FileUpload(props) {
     const [imageUrl, setImageUrl] = React.useState(null);
@@ -21,20 +22,20 @@ function FileUpload(props) {
 
     return (
         <React.Fragment>
-            <img src={imageUrl ? imageUrl : profile} width="150"></img>
+            {/*<img src={imageUrl ? imageUrl : profile} width="150"></img>*/}
             <input
                 type="file"
                 ref={imgRef}
                 onChange={onChangeImage}
                 style={{ display: "none" }}
             ></input>
-            <button
+            <Button variant="contained" component="label"
                 onClick={() => {
                     onClickFileBtn();
                 }}
             >
-                이미지 업로드
-            </button>
+                파일 첨부
+            </Button>
             <br />
         </React.Fragment>
     );

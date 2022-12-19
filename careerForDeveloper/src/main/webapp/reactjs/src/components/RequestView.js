@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import CommonTableRow from "./table/CommonTableRow";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTable from "./table/CommonTable";
+import NavBar from "./NavBar";
+import {Chip, Stack, Typography} from "@mui/material";
+import StickyFooter from "./StickyFooter";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
-const HandleConfirm = async({requestId}) => {
+const HandleConfirm = async({requestId, navigate}) => {
     axios.post("/project-users", {}, {
         params: {
             requestId: parseInt(requestId)
@@ -15,11 +23,12 @@ const HandleConfirm = async({requestId}) => {
             console.log(res);
             if (res.data.isSuccess) {
                 alert("승인되었습니다.");
+                navigate(-1);
             }
         })
 }
 
-const HandleReject = async({requestId}) => {
+const HandleReject = async({requestId, navigate}) => {
     axios.put("/project-users/request", {}, {
         params: {
             requestId: parseInt(requestId)
@@ -29,6 +38,7 @@ const HandleReject = async({requestId}) => {
             console.log(res);
             if (res.data.isSuccess) {
                 alert("처리되었습니다.");
+                navigate(-1);
             }
         })
 }
@@ -54,6 +64,7 @@ function RequestView() {
     const [data, setData] = useState('');
     const [projects, setProjects] = useState('');
     const [websites, setWebsites] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get("/project-users/profile", {
@@ -70,39 +81,54 @@ function RequestView() {
     }, [])
 
     return (<>
-        <div className="voc-header">
-            <h2 align="center">지원자 상세정보</h2>
-        </div>
-        <div className="voc-view-wrapper">
-            <h3 align="left">참여 프로젝트</h3>
-            <CommonTable headersName={['프로젝트명', '카테고리', '상태']}>
-                {projects}
-            </CommonTable>
-        </div>
-        <div className="voc-view-wrapper">
-            <h3 align="left">웹사이트</h3>
-            {/*<CommonTable headersName={['사이트명', '링크']}>*/}
-            {/*    <CommonTableRow>*/}
-            {/*        <CommonTableColumn>*/}
-            {/*            {websites.websiteName}*/}
-            {/*        </CommonTableColumn>*/}
-            {/*        <CommonTableColumn>*/}
-            {/*            {websites.website}*/}
-            {/*        </CommonTableColumn>*/}
-            {/*    </CommonTableRow>*/}
-            {/*</CommonTable>*/}
-        </div>
-        <div className="voc-view-wrapper">
-            {data.tech}
-        </div>
-        <div className="voc-view-wrapper">
-            {data.availableTime}
-        </div>
-        <div className="voc-view-wrapper">
-            {data.contents}
-        </div>
-        <button className="voc-view-go-list-btn" onClick={() => HandleConfirm({requestId})}>승인</button>
-        <button className="voc-view-go-list-btn" onClick={() => HandleReject({requestId})}>거절</button>
+        <NavBar />
+        <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                <Typography variant="h4" gutterBottom>
+                    지원자상세정보
+                </Typography>
+            </Stack>
+            <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:4, height:'50vh'}}>
+                <CssBaseline />
+                <Typography variant="h6" gutterBottom>
+                    참여 프로젝트 {projects.length}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    웹사이트
+                </Typography>
+                {websites && <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{mt:2}}>
+                    <Grid item xs={6}>
+                        {websites.websiteName}
+                    </Grid>
+                    <Grid item xs={6}>
+                        {websites.website}
+                    </Grid>
+                </Grid>}
+                {data.techName && <Chip color='primary' label={data.techName}  sx={{mb:1}}/> }
+                <Typography variant="h6" gutterBottom>
+                    가능한 시간대
+                </Typography>
+                <Typography>
+                    {data.availableTime}
+                </Typography>
+                <Typography>
+                    {data.contents}
+                </Typography>
+                <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{mt:2}}>
+                    <Grid item xs={6}>
+                        <Button onClick={() => HandleConfirm({requestId, navigate})} variant="contained" sx={{ width: '100%' }}>
+                            승인
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button onClick={() => HandleReject({requestId, navigate})} variant="contained" sx={{ width: '100%' }}>
+                            거절
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Container>
+        <StickyFooter />
     </>);
 }
 

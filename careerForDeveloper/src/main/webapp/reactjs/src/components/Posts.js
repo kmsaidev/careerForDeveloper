@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
 import react from "react";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import CommonTable from "./table/CommonTable";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
@@ -9,6 +9,21 @@ import PostHeader from "./PostHeader";
 import NavBar from "./NavBar";
 
 import { DataGrid } from '@mui/x-data-grid';
+import {
+    Button,
+    Card,
+    Container,
+    Stack,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TablePagination, TableRow,
+    Typography
+} from "@mui/material";
+import Iconify from "./iconify";
+import Scrollbar from "./scrollbar";
+import StickyFooter from "./StickyFooter";
 
 
 // export default function DataTable() {
@@ -25,16 +40,11 @@ import { DataGrid } from '@mui/x-data-grid';
 //     );
 // }
 
-function GetData() {
-    
-
-    return data;
-}
 
 function Posts() {
     const columns = [
-        { field: 'id', headerName: 'NO', width: 70 },
-        { field: 'title', headerName: '글제목', width: 130 },
+        { field: 'id', headerName: 'NO', width: 40 },
+        { field: 'title', headerName: '글제목', width: 350 },
         { field: 'nickname', headerName: '작성자', width: 130 },
         // {
         //     field: 'age',
@@ -54,6 +64,11 @@ function Posts() {
     ];
 
     const [rows, setRows] = react.useState([]);
+    const navigate = useNavigate();
+
+    const handleRowClick = (params) => {
+        navigate("/posts/" + params.id);
+    };
 
     useEffect(() => {
         axios.get("/posts")
@@ -66,15 +81,31 @@ function Posts() {
     return (
         <>
         <NavBar />
-        <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-            />
-        </div>
+            <Container>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        취업정보 게시판
+                    </Typography>
+                    <Link to={"/posts/new"}>
+                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                        새게시글
+                    </Button>
+                    </Link>
+                </Stack>
+
+                <Card>
+                    <div style={{ height: 600, width: '100%' }}>
+                        <DataGrid
+                            onRowClick={handleRowClick}
+                            rows={rows}
+                            columns={columns}
+                            pageSize={10}
+                            rowsPerPageOptions={[5]}
+                        />
+                    </div>
+                </Card>
+            </Container>
+            <StickyFooter />
         </>
     );
 }

@@ -1,6 +1,11 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import ProjectComp from "./ProjectComp";
+import NavBar from "./NavBar";
+import {Stack, Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import StickyFooter from "./StickyFooter";
+import Container from "@mui/material/Container";
 
 const HandleQuestionSubmit = async({body}) => {
     // console.log(body);
@@ -34,8 +39,18 @@ function NewProject() {
     };
 
     return (<>
-        <h2 align="center">프로젝트 작성</h2>
-        <ProjectComp body={body} HandleQuestionSubmit={HandleQuestionSubmit} />
+        <NavBar />
+        <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                <Typography variant="h4" gutterBottom>
+                    새 프로젝트
+                </Typography>
+            </Stack>
+            <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:2}}>
+                <ProjectComp body={body} HandleQuestionSubmit={HandleQuestionSubmit} />
+            </Box>
+        </Container>
+        <StickyFooter />
         </>)
 }
 

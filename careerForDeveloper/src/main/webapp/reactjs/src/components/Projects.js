@@ -1,17 +1,30 @@
 import react, {useEffect} from "react";
 import axios from "axios";
-import CommonTableRow from "./table/CommonTableRow";
-import CommonTableColumn from "./table/CommonTableColumn";
-import {Link, useParams} from "react-router-dom";
-import PostHeader from "./PostHeader";
-import CommonTable from "./table/CommonTable";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import React from "react";
-import BasicCard from "./BasicCard";
+import ProjectCardDemo from "./ProjectCardDemo";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import {Chip, Stack} from "@mui/material";
+import Container from "@mui/material/Container";
+import NavBar from "./NavBar";
+import Iconify from "./iconify";
+import StickyFooter from "./StickyFooter";
 
-function GetData(categoryId) {
+
+function Projects() {
+    const {categoryId} = useParams();
     const [data, setData] = react.useState("");
+    const [category, setCategory] = react.useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        axios.get("/category").
+        then((res) => {
+            console.log(res.data);
+            setCategory(res.data.result);
+        })
         if (categoryId != 0) {
             axios.get("/projects/category", {
                 params: {
@@ -32,42 +45,50 @@ function GetData(categoryId) {
         }
     }, []);
 
-    const item = (Object.values(data)).map((item) => (
-        <CommonTableRow key={item.projectId}>
-            <CommonTableColumn>{item.projectId}</CommonTableColumn>
-            <CommonTableColumn>
-                <Link to={`/projects/${item.projectId}`}>
-                    {item.title}
-                </Link>
-            </CommonTableColumn>
-            <CommonTableColumn>{item.nickname}</CommonTableColumn>
-            <CommonTableColumn>{item.partMember}</CommonTableColumn>
-            <CommonTableColumn>{item.limitedMember}</CommonTableColumn>
-        </CommonTableRow>
-    ));
+    function handleClick(newCategoryId) {
+        console.info('You clicked the Chip.');
+        navigate(`/projects/category/${newCategoryId}`);
+    }
 
-    return item;
-}
-
-function Projects() {
-    const {categoryId} = useParams();
-    const item = GetData(categoryId);
+    function getColor(id) {
+        console.log(id + " " + Number(categoryId));
+        if (id == categoryId) {
+            return "primary";
+        }
+        return "default";
+    }
 
     return (
         <>
-            <BasicCard />
-            <div className="voc-header">
-                <h2 align="left">프로젝트</h2>
-                <Link to="/projects/new">
-                    <button align="right" className="voc-view-go-list-btn">
-                        새 프로젝트
-                    </button>
-                </Link>
-            </div>
+            <NavBar />
+            <Container>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        프로젝트 목록
+                    </Typography>
+                    <Link to="/projects/new">
+                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                        새프로젝트
+                    </Button>
+                    </Link>
 
-            <CommonTable headersName={['프로젝트번호', '글제목', '작성자', '참여인원', '총인원']}>
-                    {item}
-                </CommonTable>
+                </Stack>
+                {category && <Stack direction="row" spacing={1} sx={{mt:1, mb:3}}>
+                    <Chip label="All" color={getColor(0)} component="a" href="/projects/category/0" clickable />
+                    {(Object.values(category)).map((cate) => (
+                        <Chip label={cate.label} color={getColor(cate.value)} component="a" href={`/projects/category/${cate.value}`} clickable />
+                    ))}
+                </Stack>}
+                <Typography variant="h6" gutterBottom sx={{mb:2}}>
+                    총 {data.length}개의 프로젝트
+                </Typography>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {(Object.values(data)).map((item) => (
+                        <ProjectCardDemo project={item} category={category}/>
+                    ))}
+                </Grid>
+            </Container>
+            <StickyFooter />
         </>
     );
 }

@@ -15,7 +15,8 @@ function Logout() {
 
     function logout() {
         if (!refreshToken) {
-            return alert("refresh token이 존재하지 않습니다.");
+            alert("로그인 되어 있지 않습니다.");
+            navigate("/");
         }
         axios.get("/auth", {
             headers: {
