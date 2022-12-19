@@ -54,4 +54,9 @@ public class RequestDAOImpl implements RequestDAO {
     public boolean existsByProjectAndUser(Project project, User user, String status){
         return requestRepository.existsByProjectAndUserAndStatus(project, user, status);
     }
+
+    @Override
+    public List<Request> selectRequestsByUser(User user){
+        return requestRepository.findAllByUser(user);
+    }
 }

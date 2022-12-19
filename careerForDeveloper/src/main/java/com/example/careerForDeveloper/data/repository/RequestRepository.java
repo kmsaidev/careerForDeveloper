@@ -8,4 +8,5 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findAllByProject(Project project);
     boolean existsByProjectAndUserAndStatus(Project project, User user, String status);
+    List<Request> findAllByUser(User user);
 }

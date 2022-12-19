@@ -22,4 +22,5 @@ public interface UserService {
     UserProjectResponseDto getUserProject(long userId) throws BaseException;
 
     List<AllPostResponseDto> getUserPost(long userId) throws BaseException;
+    List<UserRequestResponseDto> getUserRequest(long userId) throws BaseException;
 }

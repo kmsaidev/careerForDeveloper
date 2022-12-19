@@ -14,4 +14,5 @@ public interface RequestDAO {
     Request selectRequestById(long requestId) throws BaseException;
 
     boolean existsByProjectAndUser(Project project, User user, String status);
+    List<Request> selectRequestsByUser(User user);
 }
