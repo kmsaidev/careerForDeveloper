@@ -1,6 +1,8 @@
-import react from "react";
 import axios from "axios";
 import React from "react";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 
 function EmailValidation(props) {
     const [code, setCode] = React.useState("");
@@ -32,10 +34,26 @@ function EmailValidation(props) {
 
     return (
         <>
-            <label htmlFor="code">인증번호:</label>
-            <input type="text" id="code" value={code} onChange={(e) => setCode(e.target.value)} />
-            <button onClick={validateCode}>인증</button>
-            <br />
+            <Grid item xs={12} sm={9}>
+                <TextField
+                    required
+                    fullWidth
+                    id="code"
+                    label="인증번호"
+                    name="code"
+                    autoComplete="code"
+                    onChange={(e) => setCode(e.target.value)}
+                />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+                <Button
+                    onClick={validateCode}
+                    fullWidth
+                    variant="contained"
+                >
+                    확인
+                </Button>
+            </Grid>
         </>
     )
 }

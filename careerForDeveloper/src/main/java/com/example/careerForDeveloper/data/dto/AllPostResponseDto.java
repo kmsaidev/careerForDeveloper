@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AllPostResponseDto {
-    long postId;
+    long id;
     String title;
     String contents;
     String nickname;

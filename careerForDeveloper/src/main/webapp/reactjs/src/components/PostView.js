@@ -9,6 +9,20 @@ import NewComment from "./NewComment";
 import NewReply from "./NewReply";
 import UpdateComment from "./UpdateComment";
 import UpdateReply from "./UpdateReply";
+import StickyFooter from "./StickyFooter";
+import NavBar from "./NavBar";
+import {ButtonGroup, Divider, Paper, Stack, Typography} from "@mui/material";
+import Container from "@mui/material/Container";
+import {styled} from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import FeaturedPost from "./MainPost";
+import MainPost from "./MainPost";
+import Grid from "@mui/material/Grid";
+import {getCookieToken} from "../utils/Cookie";
+import {SET_TOKEN} from "../Store/Auth";
+import {useDispatch} from "react-redux";
+import CssBaseline from "@mui/material/CssBaseline";
+import Button from "@mui/material/Button";
 
 function GetReplies(repliesList, setSelectedReply, selectedReply) {
 
@@ -18,17 +32,25 @@ function GetReplies(repliesList, setSelectedReply, selectedReply) {
     }
     const replies = (Object.values(repliesList)).map((comment) => (
         <>
-            <CommonTableRow key={comment.commentAnswerId}>
-                <CommonTableColumn>L</CommonTableColumn>
-                <CommonTableColumn>{comment.nickname}</CommonTableColumn>
-                <CommonTableColumn>{comment.contents}</CommonTableColumn>
-                <CommonTableColumn>
-                    {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}>삭제</Link>}
-                </CommonTableColumn>
-                <CommonTableColumn>
-                    <button className="voc-view-go-list-btn" onClick={() => setSelectedReply(comment.commentAnswerId)}>수정</button>
-                </CommonTableColumn>
-            </CommonTableRow>
+            <Grid container spacing={2} sx={{mt:0.5, mb:0.5}}>
+                <Grid item xs={0.5}>
+                    L
+                </Grid>
+                <Grid item xs={1}>
+                    {comment.nickname}
+                    <Divider orientation="vertical" flexItem />
+                </Grid>
+                <Grid item xs={7}>
+                    {comment.contents}
+                </Grid>
+                <Grid item>
+                    <ButtonGroup variant="text" aria-label="text button group">
+                        {comment.myCommentAnswer && <Button onClick={() => setSelectedReply(comment.commentId)}>수정</Button>}
+                        {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}><Button>삭제</Button></Link>}
+                    </ButtonGroup>
+                </Grid>
+            </Grid>
+            <Divider />
             {selectedReply === comment.commentAnswerId && <label>댓글 수정 폼</label> }
             {selectedReply === comment.commentAnswerId && <UpdateReply commentAnswerId={comment.commentAnswerId} contents={comment.contents} />}
         </>
@@ -36,44 +58,33 @@ function GetReplies(repliesList, setSelectedReply, selectedReply) {
     return replies;
 }
 
-function GetComment(postId) {
-    const [commentList, setCommentList] = useState({});
+function GetComment(commentList) {
     const [selectedCommReply, setSelectedCommReply] = useState('');
     const [selectedCommUpdate, setSelectedCommUpdate] = useState('');
     const [selectedReply, setSelectedReply] = useState('');
 
-    useEffect(() => {
-        axios.get("/posts/post", {
-            params: {
-                postId: postId
-            }
-        }).then((res) => {
-            if (!res.data.isSuccess) {
-                alert(res.data.message)
-            }
-            else {
-                setCommentList(res.data.result.commentList);
-            }
-        })
-    }, [])
-
     const comments = (Object.values(commentList)).map((comment) => (
         <>
-            <CommonTableRow key={comment.commentId}>
-                <CommonTableColumn>{comment.commentId}</CommonTableColumn>
-                <CommonTableColumn>{comment.nickname}</CommonTableColumn>
-                <CommonTableColumn>{comment.contents}</CommonTableColumn>
-                <CommonTableColumn>
-                    {comment.myComment && <Link to={`/comments/delete/${comment.commentId}`}>삭제</Link>}
-                </CommonTableColumn>
-                <CommonTableColumn>
-                    {comment.myComment && <button className="voc-view-go-list-btn" onClick={() => setSelectedCommUpdate(comment.commentId)}>수정</button>}
-                </CommonTableColumn>
-                <CommonTableColumn>
-                    <button className="voc-view-go-list-btn" onClick={() => setSelectedCommReply(comment.commentId)}>답글</button>
-                </CommonTableColumn>
-            </CommonTableRow>
+
+            <Grid container spacing={2} sx={{mt:0.5, mb:0.5}}>
+                <Grid item xs={1}>
+                    {comment.nickname}
+                    <Divider orientation="vertical" flexItem />
+
+                </Grid>
+                <Grid item xs={7}>
+                    {comment.contents}
+                </Grid>
+                <Grid item>
+                    <ButtonGroup variant="text" aria-label="text button group">
+                        {comment.myComment && <Button onClick={() => setSelectedCommUpdate(comment.commentId)}>수정</Button>}
+                        {comment.myComment && <Link to={`/comments/delete/${comment.commentId}`}><Button>삭제</Button></Link>}
+                        {comment.myComment && <Button onClick={() => setSelectedCommReply(comment.commentId)}>답글</Button>}
+                    </ButtonGroup>
+                </Grid>
+            </Grid>
             {GetReplies(comment.commentAnswerList, setSelectedReply, selectedReply)}
+            <Divider />
             {selectedCommReply === comment.commentId && <NewReply commentId={comment.commentId}/>}
             {selectedCommUpdate === comment.commentId && <label>댓글 수정 폼</label> }
             {selectedCommUpdate === comment.commentId && <UpdateComment commentId={comment.commentId} contents={comment.contents} />}
@@ -83,73 +94,73 @@ function GetComment(postId) {
 }
 
 function GetData(postId) {
-    const [data, setData] = useState({});
 
-    useEffect(() => {
-        axios.get("/posts/post", {
-            params: {
-                postId: postId
-            }
-        }).then((res) => {
-            if (!res.data.isSuccess) {
-                alert(res.data.message)
-            }
-            else {
-                console.log(res.data.result.commentList);
-                setData(res.data.result);
-            }
-        })
-    }, [])
 
-    const item = (
-        <>
-            <h2 align="center">게시글 상세정보</h2>
-            {data.myPost && <Link to={`/posts/delete/${data.postId}`}>삭제</Link>}
-            {data.myPost && <Link to={`/posts/${data.postId}/update`}>수정</Link>}
-            <div className="voc-view-wrapper">
-                <div className="voc-view-row">
-                    <label>게시글 번호</label>
-                    <label>{ data.postId }</label>
-                </div>
-                <div className="voc-view-row">
-                    <label>제목</label>
-                    <label>{ data.title }</label>
-                </div>
-                <div className="voc-view-row">
-                    <label>작성일</label>
-                    <label>{ data.createdAt }</label>
-                </div>
-                <div className="voc-view-row">
-                    <label>내용</label>
-                    <div>
-                        {
-                            data.contents
-                        }
-                    </div>
-                </div>
-            </div>
-
-        </>)
-
-    return item;
+    return {data, commentList};
 }
 
 function PostView() {
     const {postId} = useParams();
-    const item = GetData(postId);
-    const comments = GetComment(postId);
+    const [data, setData] = useState({});
+    const [commentList, setCommentList] = useState([]);
+    const comments = GetComment(commentList);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const refreshToken = getCookieToken();
+        if (!refreshToken) return;
+        axios.get("/auth", {
+            headers: {
+                "REFRESH-TOKEN": refreshToken,
+            }
+        }).then((res) => {
+            console.log(res.data);
+            if (!res.data.isSuccess) {
+                return alert(res.data.message);
+            }
+            axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
+            dispatch(SET_TOKEN(res.data.result.accessToken));
+            axios.get("/posts/post", {
+                params: {
+                    postId: postId
+                }
+            }).then((res) => {
+                if (!res.data.isSuccess) {
+                    alert(res.data.message)
+                } else {
+                    console.log(res.data.result);
+                    setData(res.data.result);
+                    setCommentList(res.data.result.commentList);
+                }
+            })
+        })
+    }, [])
 
     return (<>
-        <div>
-            {item}
-        </div>
-        <div className="voc-view-row">
-            <CommonTable headersName={['댓글번호', '작성자', '댓글내용']}>
-                {comments}
-            </CommonTable>
-        </div>
-        <NewComment postId={postId}/>
-        </>);
+        <NavBar />
+        <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                <Typography variant="h4" gutterBottom>
+                    게시글
+                </Typography>
+            </Stack>
+            <MainPost post={data} />
+
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1} mb={1}>
+                <Typography variant="h6" gutterBottom>
+                    댓글 {commentList.length}
+                </Typography>
+            </Stack>
+            <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:4}}>
+                <CssBaseline />
+                <Stack>
+                    {comments}
+                </Stack>
+                <NewComment postId={postId}/>
+            </Box>
+        </Container>
+        <StickyFooter />
+    </>);
 }
 
 export default PostView;

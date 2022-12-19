@@ -4,7 +4,13 @@ import axios from "axios";
 import CommonTableRow from "./table/CommonTableRow";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTable from "./table/CommonTable";
-
+import NavBar from "./NavBar";
+import {Stack, Typography} from "@mui/material";
+import Container from "@mui/material/Container";
+import StickyFooter from "./StickyFooter";
+import * as PropTypes from "prop-types";
+import ProjectRequestCard from "./ProjectReqeustCard";
+import Grid from "@mui/material/Grid";
 
 function GetRequests(requestList) {
     console.log(requestList);
@@ -12,18 +18,21 @@ function GetRequests(requestList) {
         console.log("지원자가 없습니다.");
         return (<></>);
     }
-    const requests = (Object.values(requestList)).map((request) => (
+    const requests = (<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        {(Object.values(requestList)).map((request) => (
        <>
-           <CommonTableRow key={request.requestId}>
-               <CommonTableColumn>
-                   <Link to={`/request/view/${request.requestId}`}>
-                       {request.nickname}
-                   </Link>
-               </CommonTableColumn>
-               <CommonTableColumn>{request.tech}</CommonTableColumn>
-           </CommonTableRow>
-       </>
-    ));
+           {/*<CommonTableRow key={request.requestId}>*/}
+           {/*    <CommonTableColumn>*/}
+           {/*        <Link to={`/request/view/${request.requestId}`}>*/}
+           {/*            {request.nickname}*/}
+           {/*        </Link>*/}
+           {/*    </CommonTableColumn>*/}
+           {/*    <CommonTableColumn>{request.tech}</CommonTableColumn>*/}
+           {/*</CommonTableRow>*/}
+            <ProjectRequestCard request={request} />
+       </>))}
+        </Grid>
+    );
     return requests;
 }
 
@@ -48,15 +57,19 @@ function ProjectRequestView() {
             })
     }, [])
     return (<>
-        <div className="voc-header">
-            <h2 align="center">지원현황</h2>
-            <label>총 {data.requestCount}명의 지원자가 있습니다.</label>
-        </div>
-        <div className="voc-view-wrapper">
-            <CommonTable headersName={['닉네임', '기술']}>
-                {requests}
-            </CommonTable>
-        </div>
+        <NavBar />
+        <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={1}>
+                <Typography variant="h4" gutterBottom>
+                    지원현황
+                </Typography>
+            </Stack>
+            <Typography sx={{mb:2}}>
+                총 {data.requestCount}명의 지원자가 있습니다.
+            </Typography>
+            {requests}
+        </Container>
+        <StickyFooter />
         </>)
 }
 

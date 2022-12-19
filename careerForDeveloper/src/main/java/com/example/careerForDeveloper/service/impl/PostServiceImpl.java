@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -48,16 +49,18 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContents(postDto.getContents());
         post.setUser(userDAO.selectUserById(postDto.getUserId()));
-        String fileName = attachedFile.getOriginalFilename();
-        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = attachedFile != null ? uuid.toString() + attachedFile.getOriginalFilename() : "null";
+        String path = "/Users/gyeonghyun/upload/";
         Path filePath = Paths.get(path + fileName);
-        if(!attachedFile.isEmpty()){
+
+        if(attachedFile != null && !attachedFile.isEmpty()){
             try{
                 Files.write(filePath, attachedFile.getBytes());
             } catch (Exception e){
                 throw new BaseException(BaseResponseStatus.POST_FAILED_STORE_ATTACHED_FILE);
             }
-            post.setFileLoc(path + fileName);
+            post.setFileLoc(fileName);
         }
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
@@ -73,8 +76,9 @@ public class PostServiceImpl implements PostService {
 
         post.setTitle(updatePostDto.getTitle());
         post.setContents(updatePostDto.getContents());
-        String fileName = attachedFile.getOriginalFilename();
-        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString() + attachedFile.getOriginalFilename();
+        String path = "/Users/gyeonghyun/upload/";
         Path filePath = Paths.get(path + fileName);
         if(!attachedFile.isEmpty()){
             try{
@@ -82,7 +86,7 @@ public class PostServiceImpl implements PostService {
             } catch (Exception e){
                 throw new BaseException(BaseResponseStatus.POST_FAILED_STORE_ATTACHED_FILE);
             }
-            post.setFileLoc(path + fileName);
+            post.setFileLoc(fileName);
         } else{
             post.setFileLoc(null);
         }
@@ -114,7 +118,7 @@ public class PostServiceImpl implements PostService {
         for(int i = 0; i < postList.size(); i++){
             AllPostResponseDto postDto = new AllPostResponseDto();
             Post post = postList.get(i);
-            postDto.setPostId(post.getPostId());
+            postDto.setId(post.getPostId());
             postDto.setTitle(post.getTitle());
             postDto.setContents(post.getContents());
             postDto.setNickname(post.getUser().getNickname());
@@ -139,6 +143,7 @@ public class PostServiceImpl implements PostService {
         result.setNickname(post.getUser().getNickname());
         result.setCreatedAt(post.getCreatedAt());
         result.setProfileImageLoc(post.getUser().getProfileImageLoc());
+        result.setFileLoc(post.getFileLoc());
         long commentCount = 0;
         for(Comment comment : commentList){
             List<CommentAnswer> list = commentAnswerDAO.selectAllCommentAnswerByComment(comment);

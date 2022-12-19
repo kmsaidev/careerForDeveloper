@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -139,8 +140,9 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
         }
-        String fileName = profileImage.getOriginalFilename();
-        String path = "C:/spring/image/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString() + profileImage.getOriginalFilename();
+        String path = "/Users/gyeonghyun/upload/";
         Path imagePath = Paths.get(path + fileName);
         try{
             Files.write(imagePath, profileImage.getBytes());
@@ -149,7 +151,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User findUser = userDAO.selectUserById(userId);
-        findUser.setProfileImageLoc(path + fileName);
+        findUser.setProfileImageLoc(fileName);
         findUser.setNickname(updateUserDto.getNickname());
         findUser.setPwd(encryptPwd);
         userDAO.updateUser(findUser);
@@ -278,7 +280,7 @@ public class UserServiceImpl implements UserService {
         for(int i = 0; i < postList.size(); i++){
             AllPostResponseDto postDto = new AllPostResponseDto();
             Post post = postList.get(i);
-            postDto.setPostId(post.getPostId());
+            postDto.setId(post.getPostId());
             postDto.setTitle(post.getTitle());
             postDto.setContents(post.getContents());
             postDto.setNickname(post.getUser().getNickname());
