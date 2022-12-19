@@ -4,16 +4,16 @@ import {Link, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {getCookieToken} from "../utils/Cookie";
 import {SET_TOKEN} from "../Store/Auth";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 import {Chip, Divider, Stack, Typography} from "@mui/material";
 import Container from "@mui/material/Container";
-import StickyFooter from "./StickyFooter";
+import StickyFooter from "../components/StickyFooter";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Iconify from "./iconify";
+import Iconify from "../components/iconify";
 
 function projectView({data, category}) {
     const colors = [

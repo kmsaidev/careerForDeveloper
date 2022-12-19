@@ -28,7 +28,7 @@ function UserRequest() {
             axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
             dispatch(SET_TOKEN(res.data.result.accessToken));
 
-            axios.get("/users/request")
+            axios.get("/project-users/request")
                 .then((res) => {
                     if (!res.data.isSuccess) {
                         alert(res.data.message)

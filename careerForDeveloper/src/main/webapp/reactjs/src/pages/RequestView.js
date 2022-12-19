@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
-import CommonTableRow from "./table/CommonTableRow";
-import CommonTableColumn from "./table/CommonTableColumn";
-import CommonTable from "./table/CommonTable";
-import NavBar from "./NavBar";
+import CommonTableRow from "../components/table/CommonTableRow";
+import CommonTableColumn from "../components/table/CommonTableColumn";
+import CommonTable from "../components/table/CommonTable";
+import NavBar from "../components/NavBar";
 import {Chip, Stack, Typography} from "@mui/material";
-import StickyFooter from "./StickyFooter";
+import StickyFooter from "../components/StickyFooter";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";

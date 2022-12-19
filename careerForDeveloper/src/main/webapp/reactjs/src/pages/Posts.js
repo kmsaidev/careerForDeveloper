@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import axios from 'axios';
 import react from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import CommonTable from "./table/CommonTable";
-import CommonTableColumn from "./table/CommonTableColumn";
-import CommonTableRow from "./table/CommonTableRow";
-import PostHeader from "./PostHeader";
-import NavBar from "./NavBar";
+import CommonTable from "../components/table/CommonTable";
+import CommonTableColumn from "../components/table/CommonTableColumn";
+import CommonTableRow from "../components/table/CommonTableRow";
+import PostHeader from "../components/PostHeader";
+import NavBar from "../components/NavBar";
 
 import { DataGrid } from '@mui/x-data-grid';
 import {
@@ -21,9 +21,9 @@ import {
     TablePagination, TableRow,
     Typography
 } from "@mui/material";
-import Iconify from "./iconify";
-import Scrollbar from "./scrollbar";
-import StickyFooter from "./StickyFooter";
+import Iconify from "../components/iconify";
+import Scrollbar from "../components/scrollbar";
+import StickyFooter from "../components/StickyFooter";
 
 
 // export default function DataTable() {

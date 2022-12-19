@@ -2,15 +2,15 @@ import react, {useEffect} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import React from "react";
-import ProjectCardDemo from "./ProjectCardDemo";
+import ProjectCardDemo from "../components/ProjectCardDemo";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import {Chip, Stack} from "@mui/material";
 import Container from "@mui/material/Container";
-import NavBar from "./NavBar";
-import Iconify from "./iconify";
-import StickyFooter from "./StickyFooter";
+import NavBar from "../components/NavBar";
+import Iconify from "../components/iconify";
+import StickyFooter from "../components/StickyFooter";
 
 
 function Projects() {
@@ -45,11 +45,6 @@ function Projects() {
         }
     }, []);
 
-    function handleClick(newCategoryId) {
-        console.info('You clicked the Chip.');
-        navigate(`/projects/category/${newCategoryId}`);
-    }
-
     function getColor(id) {
         console.log(id + " " + Number(categoryId));
         if (id == categoryId) {
@@ -76,7 +71,8 @@ function Projects() {
                 {category && <Stack direction="row" spacing={1} sx={{mt:1, mb:3}}>
                     <Chip label="All" color={getColor(0)} component="a" href="/projects/category/0" clickable />
                     {(Object.values(category)).map((cate) => (
-                        <Chip label={cate.label} color={getColor(cate.value)} component="a" href={`/projects/category/${cate.value}`} clickable />
+                        <Chip label={cate.label} color={getColor(cate.value)}
+                              component="a" href={`/projects/category/${cate.value}`} clickable />
                     ))}
                 </Stack>}
                 <Typography variant="h6" gutterBottom sx={{mb:2}}>
