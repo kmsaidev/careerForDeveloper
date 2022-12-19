@@ -20,17 +20,18 @@ function NavBar() {
                         <Nav.Link href="/posts">취업정보</Nav.Link>
                         {!token && <Nav.Link href="/login">로그인</Nav.Link>}
                         {token && <Nav.Link href="/logout">로그아웃</Nav.Link>}
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
+                        {token &&
+                        <NavDropdown title="마이페이지" id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/users/projects">프로젝트</NavDropdown.Item>
+                            <NavDropdown.Item href="/users/posts">
+                                게시글
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
+                            <NavDropdown.Item href="/users/requests">지원현황</NavDropdown.Item>
+                            {/*<NavDropdown.Divider />*/}
+                            {/*<NavDropdown.Item href="#action/3.4">*/}
+                            {/*    Separated link*/}
+                            {/*</NavDropdown.Item>*/}
+                        </NavDropdown>}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

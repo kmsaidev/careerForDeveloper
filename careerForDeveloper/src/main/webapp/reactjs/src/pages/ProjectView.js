@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {getCookieToken} from "../utils/Cookie";
 import {SET_TOKEN} from "../Store/Auth";
@@ -13,7 +13,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Iconify from "../components/iconify";
 
 function projectView({data, category}) {
     const colors = [
@@ -26,7 +25,8 @@ function projectView({data, category}) {
                 <Grid item xs={8}>
                     <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'20px', mt: 1, p:5}}>
                         <CssBaseline />
-                        {data.categoryId && <Chip color={colors[data.categoryId]} label={category.find(v => v.value === data.categoryId).label}  sx={{mb:1}}/>}
+                        {category && data.categoryId && <Chip color={colors[data.categoryId]}
+                                                  label={category.find(v => v.value === data.categoryId).label}  sx={{mb:1}}/>}
                         <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{mt:2}}>
                             <Grid item xs={6}>
                                 <Typography variant="h3">
@@ -68,10 +68,6 @@ function projectView({data, category}) {
                         }}>
                             {data.contents}
                         </Box>
-                        {/*<Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">*/}
-                        {/*    */}
-                        {/*</Container>*/}
-
                     </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -129,8 +125,7 @@ function ProjectView() {
     const dispatch = useDispatch();
     const [category, setCategory] = useState([]);
     const view = projectView({data, category});
-
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const refreshToken = getCookieToken();

@@ -86,7 +86,7 @@ public class PostServiceImpl implements PostService {
             } catch (Exception e){
                 throw new BaseException(BaseResponseStatus.POST_FAILED_STORE_ATTACHED_FILE);
             }
-            post.setFileLoc(path + fileName);
+            post.setFileLoc(fileName);
         } else{
             post.setFileLoc(null);
         }

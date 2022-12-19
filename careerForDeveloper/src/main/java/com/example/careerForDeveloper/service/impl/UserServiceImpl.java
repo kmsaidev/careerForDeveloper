@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User findUser = userDAO.selectUserById(userId);
-        findUser.setProfileImageLoc(path + fileName);
+        findUser.setProfileImageLoc(fileName);
         findUser.setNickname(updateUserDto.getNickname());
         findUser.setPwd(encryptPwd);
         userDAO.updateUser(findUser);

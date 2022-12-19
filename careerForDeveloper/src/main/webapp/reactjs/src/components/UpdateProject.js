@@ -1,7 +1,11 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import ProjectComp from "./ProjectComp";
+import NavBar from "./NavBar";
+import Container from "@mui/material/Container";
+import {Stack, Typography} from "@mui/material";
+import StickyFooter from "./StickyFooter";
 
 const HandleQuestionSubmit = async({body}) => {
     console.log('update에서 호출 : ');
@@ -64,8 +68,16 @@ function UpdateProject() {
     };
 
     return (<>
-        <h2 align="center">프로젝트 수정</h2>
-        <ProjectComp body={body} HandleQuestionSubmit={HandleQuestionSubmit} />
+        <NavBar />
+        <Container sx={{}}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mt={5} mb={5}>
+                <Typography variant="h4" gutterBottom>
+                    프로젝트 수정
+                </Typography>
+            </Stack>
+            <ProjectComp body={body} HandleQuestionSubmit={HandleQuestionSubmit} />
+        </Container>
+        <StickyFooter />
     </>)
 }
 

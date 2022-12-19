@@ -35,17 +35,17 @@ export const ProjectCardDemo = React.memo(function ProjectCard(props) {
             <Link href={`/projects/${project.projectId}`} underline="none" color="inherit">
 
             <Card className={cx(cardStyles.root, shadowStyles.root)} sx={{ position: 'relative' }}>
-        {/*<StyledCardMedia>*/}
             <CardHeader
                 avatar={
-                    <Avatar image={project.profileImageLoc}>
+                    <Avatar image={"http://localhost:8080/image/" + project.profileImageLoc}>
                     </Avatar>
                 }
                 title={project.nickname}
                 subheader={project.createdAt.substring(0,10)}
             />
             <CardContent sx={{pt: 4}}>
-                <Chip size="small" color={colors[project.categoryId]} label={category.find(v => v.value === project.categoryId).label}  sx={{mb:1}}/>
+                <Chip size="small" color={colors[project.categoryId]}
+                      label={category.find(v => v.value === project.categoryId).label}  sx={{mb:1}}/>
                     <Typography gutterBottom variant="h5" component="div">
                     {project.title}
                 </Typography>
@@ -54,12 +54,12 @@ export const ProjectCardDemo = React.memo(function ProjectCard(props) {
                     {project.contents}
                 </Typography>
                 <Box display="flex" justifyContent="flex-end">
-                    <Chip label = {"인원 " + project.partMember + "/" + project.limitedMember} variant="outlined">
+                    <Chip label = {"인원 " + project.partMember + "/" + project.limitedMember}
+                          variant="outlined">
                     </Chip>
                 </Box>
 
             </CardContent>
-        {/*</StyledCardMedia>*/}
         </Card>
             </Link>
         </Grid>

@@ -19,7 +19,7 @@ function MyProjectCard(props) {
                             <Typography gutterBottom variant="h6" component="div">
                                 {project.title}
                             </Typography>
-                            <Chip size="small" color={colors[project.categoryId]} label={category.find(v => v.value === project.categoryId).label}  sx={{mb:1}}/>
+                            {category && <Chip size="small" color={colors[project.categoryId]} label={category.find(v => v.value === project.categoryId).label}  sx={{mb:1}}/>}
                         </CardContent>
                     </Card>
                 </Link>

@@ -51,17 +51,6 @@ function GetReplies(repliesList, setSelectedReply, selectedReply) {
                 </Grid>
             </Grid>
             <Divider />
-            {/*<CommonTableRow key={comment.commentAnswerId}>*/}
-            {/*    <CommonTableColumn>L</CommonTableColumn>*/}
-            {/*    <CommonTableColumn>{comment.nickname}</CommonTableColumn>*/}
-            {/*    <CommonTableColumn>{comment.contents}</CommonTableColumn>*/}
-            {/*    <CommonTableColumn>*/}
-            {/*        {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}>삭제</Link>}*/}
-            {/*    </CommonTableColumn>*/}
-            {/*    <CommonTableColumn>*/}
-            {/*        <button className="voc-view-go-list-btn" onClick={() => setSelectedReply(comment.commentAnswerId)}>수정</button>*/}
-            {/*    </CommonTableColumn>*/}
-            {/*</CommonTableRow>*/}
             {selectedReply === comment.commentAnswerId && <label>댓글 수정 폼</label> }
             {selectedReply === comment.commentAnswerId && <UpdateReply commentAnswerId={comment.commentAnswerId} contents={comment.contents} />}
         </>
@@ -90,7 +79,7 @@ function GetComment(commentList) {
                     <ButtonGroup variant="text" aria-label="text button group">
                         {comment.myComment && <Button onClick={() => setSelectedCommUpdate(comment.commentId)}>수정</Button>}
                         {comment.myComment && <Link to={`/comments/delete/${comment.commentId}`}><Button>삭제</Button></Link>}
-                        {!comment.myComment && <Button onClick={() => setSelectedCommReply(comment.commentId)}>답글</Button>}
+                        {comment.myComment && <Button onClick={() => setSelectedCommReply(comment.commentId)}>답글</Button>}
                     </ButtonGroup>
                 </Grid>
             </Grid>
@@ -156,6 +145,7 @@ function PostView() {
                 </Typography>
             </Stack>
             <MainPost post={data} />
+
             <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1} mb={1}>
                 <Typography variant="h6" gutterBottom>
                     댓글 {commentList.length}

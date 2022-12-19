@@ -6,12 +6,13 @@ import Box from "@mui/material/Box";
 import {Divider} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {Image} from "react-bootstrap";
+import Link from "@mui/material/Link";
 
 function MainPost(props) {
     const { post } = props;
 
     return (
-        <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:4, height:'50vh'}}>
+        <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:4, minHeight:'50vh'}}>
             <CssBaseline />
             <Grid container spacing={2}>
                 <Grid item xs={1}>
@@ -31,6 +32,16 @@ function MainPost(props) {
                 </Grid>
             </Grid>
             <Divider />
+            <Grid container justifyContent="flex-end">
+                <Grid item>
+                    <Link href={`/posts/delete/${post.postId}`} variant="body2">
+                        삭제
+                    </Link>
+                    <Link href={`/posts/update/${post.postId}`} variant="body2">
+                        수정
+                    </Link>
+                </Grid>
+            </Grid>
             <Box maxWidth="sm" sx={{mt:3}}>
                 {post.fileLoc &&
                     <Image
