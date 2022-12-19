@@ -20,11 +20,11 @@ public class ProjectUser implements Comparable<ProjectUser>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long projectUserId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
 
