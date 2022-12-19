@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -139,8 +140,9 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR);
         }
-        String fileName = profileImage.getOriginalFilename();
-        String path = "C:/spring/image/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString() + profileImage.getOriginalFilename();
+        String path = "/Users/gyeonghyun/upload/";
         Path imagePath = Paths.get(path + fileName);
         try{
             Files.write(imagePath, profileImage.getBytes());

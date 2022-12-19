@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -48,16 +49,18 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setContents(postDto.getContents());
         post.setUser(userDAO.selectUserById(postDto.getUserId()));
-        String fileName = attachedFile != null ? attachedFile.getOriginalFilename() : "null";
-        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = attachedFile != null ? uuid.toString() + attachedFile.getOriginalFilename() : "null";
+        String path = "/Users/gyeonghyun/upload/";
         Path filePath = Paths.get(path + fileName);
+
         if(attachedFile != null && !attachedFile.isEmpty()){
             try{
                 Files.write(filePath, attachedFile.getBytes());
             } catch (Exception e){
                 throw new BaseException(BaseResponseStatus.POST_FAILED_STORE_ATTACHED_FILE);
             }
-            post.setFileLoc(path + fileName);
+            post.setFileLoc(fileName);
         }
         post.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
@@ -73,8 +76,9 @@ public class PostServiceImpl implements PostService {
 
         post.setTitle(updatePostDto.getTitle());
         post.setContents(updatePostDto.getContents());
-        String fileName = attachedFile.getOriginalFilename();
-        String path = "/Users/gyeonghyun/Project/careerForDeveloper/resource/";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString() + attachedFile.getOriginalFilename();
+        String path = "/Users/gyeonghyun/upload/";
         Path filePath = Paths.get(path + fileName);
         if(!attachedFile.isEmpty()){
             try{
