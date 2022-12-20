@@ -16,4 +16,5 @@ public class ProfileResponseDto {
     List<WebsiteDto> websites;
     String tech;
     String availableTime;
+    String nickname;
 }
