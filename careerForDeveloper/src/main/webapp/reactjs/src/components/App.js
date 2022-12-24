@@ -30,6 +30,7 @@ import RequestView from "../pages/RequestView";
 import UserRequest from "../pages/UserRequest";
 import MyPosts from "../pages/MyPosts";
 import MyProjects from "../pages/MyProjects";
+import UpdateProfile from "../pages/UpdateProfile";
 
 function App() {
     const dispatch = useDispatch();
@@ -82,6 +83,7 @@ function App() {
               <Route path="/users/projects" element={<MyProjects />} />
               <Route path="/users/requests" element={<UserRequest />} />
               <Route path="/users/posts" element={<MyPosts />} />
+              <Route path="/users/profile/update" element={<UpdateProfile />}/>
           </Routes>
       </Router>
   );

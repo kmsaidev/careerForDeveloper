@@ -18,7 +18,7 @@ function PostComp(props) {
 
     return (
         <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'16px', mt: 1, p:2}}>
-            {props.body.title && <TextField
+            {props.body && <TextField
                 variant="standard"
                 margin="normal"
                 required
@@ -32,7 +32,7 @@ function PostComp(props) {
                 autoFocus
             />}
             <FileUpload sendImgUrl={setImgData}/>
-            { props.body.contents &&
+            { props.body &&
                 <TextField
                 margin="normal"
                 required

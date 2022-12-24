@@ -129,7 +129,10 @@ function ProjectView() {
 
     useEffect(() => {
         const refreshToken = getCookieToken();
-        if (!refreshToken) return;
+        if (!refreshToken) {
+            alert("로그인이 필요합니다");
+            return navigate("/login");
+        }
         axios.get("/auth", {
             headers: {
                 "REFRESH-TOKEN": refreshToken,

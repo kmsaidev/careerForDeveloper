@@ -9,6 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import {Chip} from "@mui/material";
+import Box from "@mui/material/Box";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -32,7 +33,7 @@ export const ProjectRequestCard = React.memo(function ProjectRequestCard(props) 
         <Grid item xs={12} sm={6} md={3}>
             <Link href={`/request/view/${request.requestId}`} underline="none" color="inherit">
 
-                <Card className={cx(cardStyles.root, shadowStyles.root)} sx={{ position: 'relative', height:100 }}>
+                <Card className={cx(cardStyles.root, shadowStyles.root)} sx={{ position: 'relative', height:100}}>
                     {/*<CardHeader*/}
                     {/*    avatar={*/}
                     {/*        <Avatar image={project.profileImageLoc}>*/}
@@ -41,13 +42,26 @@ export const ProjectRequestCard = React.memo(function ProjectRequestCard(props) 
                     {/*    title={project.nickname}*/}
                     {/*    subheader={project.createdAt.substring(0,10)}*/}
                     {/*/>*/}
-                    <CardContent sx={{pt: 4, padding: 2}}>
-                        <Avatar image={request.profileImageLoc}>
-                        </Avatar>
-                        <Typography component="div">
-                            {request.nickname}
-                        </Typography>
-                        {request.tech && <Chip size="small" color={colors[0]} label={request.tech}  sx={{mb:1}}/>}
+                    <CardContent sx={{pt: 4, padding: 1 }}>
+                        <Grid sx={{mt:1, mb:1}}
+                            container
+                            spacing={1}
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center">
+                            <Grid item>
+                                <Avatar image={request.profileImageLoc}>
+                                </Avatar>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="h6" component="div">
+                                    {request.nickname}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                {request.tech && <Chip size="small" color={colors[0]} label={request.tech}  sx={{mb:1}}/>}
+                            </Grid>
+                        </Grid>
                     </CardContent>
                     {/*</StyledCardMedia>*/}
                 </Card>

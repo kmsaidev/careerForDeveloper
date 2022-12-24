@@ -1,7 +1,7 @@
 import './PostView.css';
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import CommonTableColumn from "./table/CommonTableColumn";
 import CommonTableRow from "./table/CommonTableRow";
 import CommonTable from "./table/CommonTable";
@@ -45,7 +45,7 @@ function GetReplies(repliesList, setSelectedReply, selectedReply) {
                 </Grid>
                 <Grid item>
                     <ButtonGroup variant="text" aria-label="text button group">
-                        {comment.myCommentAnswer && <Button onClick={() => setSelectedReply(comment.commentId)}>수정</Button>}
+                        {comment.myCommentAnswer && <Button onClick={() => setSelectedReply(comment.commentAnswerId)}>수정</Button>}
                         {comment.myCommentAnswer && <Link to={`/reply/delete/${comment.commentAnswerId}`}><Button>삭제</Button></Link>}
                     </ButtonGroup>
                 </Grid>
@@ -106,9 +106,13 @@ function PostView() {
     const comments = GetComment(commentList);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
         const refreshToken = getCookieToken();
-        if (!refreshToken) return;
+        if (!refreshToken) {
+            alert("로그인이 필요합니다");
+            return navigate("/login");
+        }
         axios.get("/auth", {
             headers: {
                 "REFRESH-TOKEN": refreshToken,

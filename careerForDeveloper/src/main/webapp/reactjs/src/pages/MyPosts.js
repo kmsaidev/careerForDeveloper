@@ -38,6 +38,16 @@ function MyPosts() {
             }
             axios.defaults.headers.common['X-ACCESS-TOKEN'] = res.data.result.accessToken;
             dispatch(SET_TOKEN(res.data.result.accessToken));
+            axios.get("/users/profile")
+                .then((res) => {
+                    if (!res.data.isSuccess) {
+                        alert(res.data.message)
+                    } else {
+                        console.log("profile");
+                        console.log(res.data.result);
+                        setProfile(res.data.result);
+                    }
+                })
             axios.get("/users/post")
                 .then((res) => {
                     if (!res.data.isSuccess) {
@@ -55,7 +65,7 @@ function MyPosts() {
         <>
             <NavBar />
             <Container>
-                <MyPage />
+                <MyPage profile={profile}/>
                 <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'20px', mt: 1, p:5}}>
                     <Typography variant="h5" gutterBottom sx={{mb:2}}>
                         작성한 게시글 {posts.length}

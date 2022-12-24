@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
-import { setRefreshToken } from "../utils/Cookie";
+import {getCookieToken, setRefreshToken} from "../utils/Cookie";
 import { SET_TOKEN } from "../Store/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from '@mui/material/Avatar';
@@ -41,7 +41,7 @@ function Login() {
     const [password, setPassword] = React.useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const token = useSelector(state => state.authToken);
+    // const token = useSelector(state => state.authToken);
 
     const isEmail = (email) => {
         const emailRegex =
@@ -50,6 +50,13 @@ function Login() {
         return emailRegex.test(email);
     };
 
+    useEffect(() => {
+        const refreshToken = getCookieToken();
+        if (refreshToken) {
+            alert("로그인 된 상태입니다");
+            navigate("/");
+        }
+    }, []);
     const LoginFunc = (e) => {
         e.preventDefault();
         if (!id) {
