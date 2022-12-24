@@ -1,23 +1,13 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ProjectComp from "./ProjectComp";
 import NavBar from "./NavBar";
 import Container from "@mui/material/Container";
 import {Stack, Typography} from "@mui/material";
 import StickyFooter from "./StickyFooter";
 
-const HandleQuestionSubmit = async({body}) => {
-    console.log('update에서 호출 : ');
-    console.log(body);
-    axios.put('/projects', body)
-        .then((res) => {
-            console.log(res);
-            if (!res.data.isSuccess) {
-                alert(res.data.message);
-            }
-        });
-}
+
 
 function UpdateProject() {
     const {projectId} = useParams();
@@ -28,6 +18,21 @@ function UpdateProject() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [contents, setContents] = useState('');
+    const navigate = useNavigate();
+
+    const HandleQuestionSubmit = async({body}) => {
+        console.log('update에서 호출 : ');
+        console.log(body);
+        axios.put('/projects', body)
+            .then((res) => {
+                console.log(res);
+                if (!res.data.isSuccess) {
+                    return alert(res.data.message);
+                }
+                alert("수정했습니다");
+                navigate(-1);
+            });
+    }
 
     useEffect(() => {
         axios.get("/projects/project", {

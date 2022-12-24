@@ -30,7 +30,7 @@ function MyProjects() {
         const refreshToken = getCookieToken();
         if (!refreshToken) {
             alert("로그인이 필요합니다.");
-            navigate("/login");
+            return navigate("/login");
         }
         axios.get("/auth", {
             headers: {
@@ -69,7 +69,7 @@ function MyProjects() {
     return (<>
         <NavBar />
         <Container>
-            <MyPage />
+            <MyPage profile={profile}/>
             <Box sx={{ boxShadow: 2, borderColor: 'grey.500', borderRadius:'20px', mt: 1, p:5}}>
                 <CssBaseline />
                 {projects.myProjectList &&

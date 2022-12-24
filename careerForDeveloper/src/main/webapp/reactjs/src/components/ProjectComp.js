@@ -71,6 +71,14 @@ function ProjectComp(props) {
                 key={props.body.title}
                 onChange={(e) => setTitle((e.target.value))}
             />}
+            {!props.body.title &&<TextField
+                margin="normal"
+                required
+                name="title"
+                label="프로젝트명"
+                id="project_title"
+                onChange={(e) => setTitle((e.target.value))}
+            />}
             <Box sx={{width: '40ch'}}>
                 <Select
                     onChange={(e) => setCategoryId(e.value)}
@@ -93,6 +101,14 @@ function ProjectComp(props) {
                 id="project_tech"
                 defaultValue={props.body.techName}
                 key={props.body.techName}
+                onChange={(e) => setTechName((e.target.value))}
+            />}
+            {!props.body.techName && <TextField
+                margin="normal"
+                required
+                name="tech"
+                label="사용기술"
+                id="project_tech"
                 onChange={(e) => setTechName((e.target.value))}
             />}
             <Box sx={{width: '40ch'}}>

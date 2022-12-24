@@ -10,8 +10,8 @@ const HandleCommentUpdate = async({body, navigate}) => {
             if (!res.data.isSuccess) {
                 alert(res.data.message);
             } else {
-                alert("댓글 수정이 완료되었습니다!");
-                navigate(-1);
+                alert("답글 수정이 완료되었습니다!");
+                navigate(0);
             }
         });
 }

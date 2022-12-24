@@ -221,7 +221,7 @@ public class UserServiceImpl implements UserService {
             availableTime = profile.getAvailableTime();
         }
         ProfileResponseDto result = new ProfileResponseDto(partProjectList, websiteList,
-                tech, availableTime);
+                tech, availableTime, user.getNickname());
 
         return result;
     }
